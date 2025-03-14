@@ -1,0 +1,81 @@
+:root{
+    margin: 0;
+    padding: 0;
+}
+
+.background {
+    background-color: gray;
+    border-radius: 2.5em;
+    width: 80em;
+    height: 100vh;
+    
+}
+
+@media screen and (min-width: 480px) { 
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .background {
+        align-items: center;
+        justify-content: center;
+        
+        display: grid;
+    /* grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr; */
+    grid-template-areas: "header photo"
+                            "email photo"
+                            "password photo"
+                            "button photo";
+
+    background-color: green;
+
+    }
+
+    .welcome {
+        grid-area: header;
+    }
+
+    #qu {
+        grid-area: photo;
+        width: 30em;
+        height: 40em;
+        border-radius: 4em;
+        align-self: center;
+    }
+    
+    #email {
+        grid-area: email;
+    }
+
+    #password {
+        grid-area: password;
+    }
+
+    #login {
+        grid-area: button;
+    }
+
+    .inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
+
+
+}
+
+/* main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#qu {
+    width: 50em;
+    height: 80em;
+}
+ */
