@@ -1,17 +1,99 @@
 :root{
     margin: 0;
     padding: 0;
+    --color-bg: #F5F5F2;  
+    --color-text: #333333;
+    --color-accent: #5BC8CE;
+}
+
+body {
+    background-color: var(--color-accent);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../images/Imagejpg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .background {
-    background-color: gray;
-    border-radius: 2.5em;
-    width: 80em;
-    height: 100vh;
     
+    background-color: var(--color-bg);
+    border-radius: 2.5em;
+    width: 98%;
+    max-width: 1200px;
+    padding: 2em 2em 1em 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        "header header"
+        "inputs photo";
+    gap: 2em;
+    margin: auto;
 }
 
-@media screen and (min-width: 480px) { 
+.welcome {
+    grid-area: header;
+    text-align: center;
+    color: var(--color-text);
+}
+
+.inputs {
+    grid-area: inputs;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#qu {
+    grid-area: photo;
+    width: 100%;
+    max-width: 500px;
+    height: 95%;
+    border-radius: 2em;
+    justify-self: flex-start;
+    margin: 0;
+    padding: 0;
+}
+
+#email, #password {
+    width: 23em;
+    height: 2.5em;
+    max-width: 100%;
+    border-radius: 0.9em;
+    border: none;
+}
+
+#login {
+    width: 20.5em;
+    height: 2.5em;
+    max-width: 100%;
+    border-radius: 1em;
+    border: none;
+    margin-top: 2em;
+}
+
+#login:hover {
+    width: 20.5em;
+    height: 2.5em;
+    max-width: 100%;
+    border-radius: 1em;
+    border: none;
+    margin-top: 2em;
+    cursor: pointer;
+}
+
+#form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width: 768px) { 
 
     body {
         display: flex;
@@ -20,73 +102,63 @@
     }
 
     .background {
-    
-    padding: 1em;
-    align-items: center;
-    justify-content: center;
-        
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    grid-template-areas: "header photo"
-                            "email photo"
-                            "password photo"
-                            "button photo";
-
-    background-color: green;
-
+        padding: 1em;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas: "header"
+                             "inputs"
+                             "photo";
+        background-color: #f7f7f7;
+        width: 90%;
+        margin: 0 auto;
+        height: auto;
     }
 
     .welcome {
         grid-area: header;
+        text-align: center;
+    }
+
+    .inputs {
+        grid-area: inputs;
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
+        margin-top: 2em;
+        margin-bottom: 2em;
+        align-items: center;
+        justify-content: center;
     }
 
     #qu {
         grid-area: photo;
-        width: 30em;
-        height: 40em;
-        border-radius: 4em;
+        width: 100%;
+        max-width: 30em;
+        height: 90vh;
+        border-radius: 2em;
         align-self: center;
+        justify-self: center;
+        margin-top: 1em;
     }
     
     #email {
-        grid-area: email;
         width: 20em;
         height: 2.5em;
+        max-width: 100%;
     }
 
     #password {
-        grid-area: password;
         width: 20em;
         height: 2.5em;
+        max-width: 100%;
     }
 
     #login {
-        grid-area: button;
         width: 20.5em;
         height: 2.5em;
-    }
-
-    .inputs {
-        display: flex;
-        flex-direction: column;
-        gap: 2em;
-        margin-top: 5em;
-        align-items: center;
-        justify-content: center; /* Center within the grid area */
+        max-width: 100%;
     }
 
 
 }
-
-/* main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#qu {
-    width: 50em;
-    height: 80em;
-}
- */
