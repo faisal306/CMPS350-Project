@@ -20,12 +20,14 @@
     }
 
     .background {
-        align-items: center;
-        justify-content: center;
+    
+    padding: 1em;
+    align-items: center;
+    justify-content: center;
         
-        display: grid;
-    /* grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr; */
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-areas: "header photo"
                             "email photo"
                             "password photo"
@@ -49,20 +51,29 @@
     
     #email {
         grid-area: email;
+        width: 20em;
+        height: 2.5em;
     }
 
     #password {
         grid-area: password;
+        width: 20em;
+        height: 2.5em;
     }
 
     #login {
         grid-area: button;
+        width: 20.5em;
+        height: 2.5em;
     }
 
     .inputs {
         display: flex;
         flex-direction: column;
-        gap: 1em;
+        gap: 2em;
+        margin-top: 5em;
+        align-items: center;
+        justify-content: center; /* Center within the grid area */
     }
 
 
