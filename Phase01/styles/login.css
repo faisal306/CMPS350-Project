@@ -9,28 +9,30 @@
 body {
     background-color: var(--color-accent);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url('../images/Imagejpg.jpg');
+    background-image: url('../images/bg2.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
+header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .background {
-    
     background-color: var(--color-bg);
     border-radius: 2.5em;
-    width: 98%;
-    max-width: 1200px;
     padding: 2em 2em 1em 1em;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas: 
         "header header"
         "inputs photo";
-    gap: 2em;
-    margin: auto;
 }
 
 .welcome {
@@ -53,7 +55,6 @@ body {
     grid-area: photo;
     width: 100%;
     max-width: 500px;
-    height: 95%;
     border-radius: 2em;
     justify-self: flex-start;
     margin: 0;
@@ -63,27 +64,33 @@ body {
 #email, #password {
     width: 23em;
     height: 2.5em;
+    padding: 5px;
     max-width: 100%;
     border-radius: 0.9em;
     border: none;
 }
 
+.inputs div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 22em;
+    height: 4em;
+}
+
 #login {
     width: 20.5em;
     height: 2.5em;
-    max-width: 100%;
     border-radius: 1em;
     border: none;
     margin-top: 2em;
+    font-weight: bold;
 }
 
 #login:hover {
-    width: 20.5em;
-    height: 2.5em;
-    max-width: 100%;
+    width: 21em;
+    height: 2.8em;
     border-radius: 1em;
-    border: none;
-    margin-top: 2em;
     cursor: pointer;
 }
 
