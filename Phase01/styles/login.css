@@ -4,6 +4,7 @@
     --color-bg: #F5F5F2;  
     --color-text: #333333;
     --color-accent: #5BC8CE;
+    box-sizing: border-box;
 }
 
 body {
