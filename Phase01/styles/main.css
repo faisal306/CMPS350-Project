@@ -7,13 +7,8 @@ body, html {
     height: 100vh;
 }
 
-.container-2 {
-    background-color: gray;
-}
-
-.gpa, .ch, .major, .info, .learning {
-    background-color: lightgreen;
-    border-radius: 0.2em;
+#header {
+    display: flex;
 }
 
 .qu-logo {
@@ -21,18 +16,64 @@ body, html {
     height: 3.5em;
 }
 
-
-.title {
-    margin-left: 5em;
-}
-
 .container-1 {
     padding: 1.5em;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 #student-profile {
     background-color: rgb(252, 252, 152);
+}
+
+.side-2 {
+    margin-left: 7em;
+}
+
+.course-search-btn {
+    margin-top: 3em;
+}
+
+.container-2 {
+    background-color: gray;
     display: flex;
+    flex-direction: column;
+}
+
+.search-btn {
+    text-align: center;
+    width: 10em;
+}
+
+@media screen and (max-width: 768px) {
+
+    #header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container-1 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container-2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container-3 {
+        background-color: gray;
+    }
+
+}
+
+.container-3 {
+    background-color: gray;
 }
