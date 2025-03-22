@@ -11,22 +11,105 @@ View learning path (completed, in-progress, and pending courses) -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Profile</title>
+    <link rel="stylesheet" href="styles/main.css">
 </head>
     <body>
         
         <header>
 
-            <section>
+            <section id="title">
 
-                 <!--<img> -->
+                 <img src="../Phase01/styles/icons/qu-logo.png" class="qu-logo" alt="Qu Logo">
+                 <p>Student Registration Course Sytsem</p>
 
             </section>
-
 
         </header>
 
 
-        <main></main>
+        <main>
+
+
+            <section id="student-profile">
+
+                <p>Student Profile</p>
+
+                <div class="container-1">
+
+                    <div class="gpa">
+
+                        <p>GPA: </p>
+
+                    </div>
+
+                    <div class="ch">
+
+                        <p>Credit hours completed: </p>
+
+                    </div>
+
+                    <div class="major">
+
+                    </div>
+
+                    <div class="info">
+
+                    </div>
+
+
+                    <div class="learning">
+
+                        <p>learning Path</p>
+
+                            <div class="completed-courses">
+                                <!--Table-->
+                            </div>
+
+                            <div class="courses-in-progress">
+                                <!--Table-->
+                            </div>
+
+                            <div class="remaining-courses">
+                                <!--Table-->
+                            </div>
+
+                    </div>
+
+
+                    <button id="course-search-btn">Search and Register for a Course</button>
+
+
+                </div>
+
+            </section>
+
+            <section id="search-course">
+
+                <div class="container-2">
+
+                    <label>Semester</label>
+                    <input type="text">
+
+                    <label>Major</label>
+                    <input type="text">
+
+                    <label>Course Name</label>
+                    <input type="text">
+
+                    <div class="search-btn">Search</div>
+
+                </div>
+
+            </section>
+
+            <section id="sem-table">
+
+                <!--Table that include weekly schedule for a semester-->
+
+            </section>
+
+        </main>
+
         <footer></footer>
 
     </body>

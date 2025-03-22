@@ -1,0 +1,13 @@
+:root {
+    margin: 0;
+    padding: 0;
+}
+
+.container-1, .container-2 {
+    background-color: gray;
+}
+
+.gpa, .ch, .major, .info, .learning {
+    background-color: lightgreen;
+    border-radius: 0.2em;
+}
