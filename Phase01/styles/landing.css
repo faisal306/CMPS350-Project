@@ -9,8 +9,20 @@ body, html {
 }
 
 .qu-logo {
-    width: 14em;
+    width: 15em;
     height: 4em;
+}
+
+.navbar p {
+    display: inline;
+    text-decoration: none;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: black;
+    font-size: 1.5em;
+    margin-left: 1em;
 }
 
 #first {
@@ -22,7 +34,7 @@ body, html {
 #second {
     display: flex;
     justify-content: flex-start;
-    gap: 37em;
+    gap: 45em;
     margin-bottom: 3em;
     align-items: center;
 }
@@ -74,18 +86,33 @@ body, html {
 
 .devider {
     display: flex;
-    justify-content: center;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
 .links {
     list-style-type: none;
     display: flex;
-    
 }
 
 .links img {
     width: 1.8em;
     height: 1.8em;
+    gap: 0.5em;
+}
+
+.links li {
+    margin-left: 0.7em;
+}
+
+.right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 760px){
+    
+    
+
 }
