@@ -7,3 +7,85 @@
 body, html {
     height: 100vh;
 }
+
+.qu-logo {
+    width: 14em;
+    height: 4em;
+}
+
+#first {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3em;
+}
+
+#second {
+    display: flex;
+    justify-content: flex-start;
+    gap: 37em;
+    margin-bottom: 3em;
+    align-items: center;
+}
+
+#third {
+    margin-bottom: 3em;
+    background-color: gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+}
+
+.qu-header {
+    border-radius: 1.5em;
+    margin-right: 1em;
+    height: 23em;
+}
+
+.reg-btn {
+    justify-content: center;
+    padding: 1.7em;
+    text-align: center;
+    align-content: center;
+    font-size: large;
+    border-radius: 1em;
+    border: none;
+    margin-left: 8em;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.hist-mission {
+    width: 55em;
+}
+
+.intro-video {
+    border-radius: 0.8em;
+}
+
+.container-footer {
+    display: flex;
+    flex-direction: column;
+}
+
+.devider {
+    display: flex;
+    justify-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.links {
+    list-style-type: none;
+    display: flex;
+    
+}
+
+.links img {
+    width: 1.8em;
+    height: 1.8em;
+}
