@@ -12,11 +12,19 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-content: space-between;
     align-items: center;
-    background-image: url('../images/bg2.jpg');
+    background-image: url('/images/bg2.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 header{
@@ -28,60 +36,47 @@ header{
 .background {
     background-color: var(--color-bg);
     border-radius: 2.5em;
-    padding: 2em 2em 1em 1em;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: 
-        "header header"
-        "inputs photo";
+    padding: 3em 3em 2em 2em;
+    gap: 2em;
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    width: 65%;
 }
 
 .welcome {
-    grid-area: header;
     text-align: center;
     color: var(--color-text);
 }
 
 .inputs {
-    grid-area: inputs;
     display: flex;
     flex-direction: column;
     gap: 2em;
     justify-content: center;
     align-items: center;
-
+    width: 100%;
 }
 
-#qu {
-    grid-area: photo;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 2em;
-    justify-self: flex-start;
-    margin: 0;
-    padding: 0;
+#form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35%;
 }
 
 #email, #password {
-    width: 23em;
-    height: 2.5em;
+    width: 100%;
+    height: 2.5rem;
     padding: 5px;
     max-width: 100%;
     border-radius: 0.9em;
     border: none;
 }
 
-.inputs div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 22em;
-    height: 4em;
-}
-
 #login {
-    width: 20.5em;
-    height: 2.5em;
+    width: 80%;
+    height: 2.5rem;
     border-radius: 1em;
     border: none;
     margin-top: 2em;
@@ -89,47 +84,43 @@ header{
 }
 
 #login:hover {
-    width: 21em;
-    height: 2.8em;
-    border-radius: 1em;
     cursor: pointer;
 }
 
-#form {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+#qu {
+    width: 50%;
+    border-radius: 2em;
+    justify-self: flex-start;
 }
 
 @media screen and (max-width: 768px) { 
 
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
     .background {
-        padding: 1em;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
-        grid-template-areas: "header"
-                             "inputs"
-                             "photo";
-        background-color: #f7f7f7;
-        width: 90%;
-        margin: 0 auto;
-        height: auto;
+        background-color: var(--color-bg);
+        border-radius: 2.5em;
+        padding: 3em 3em 2em 2em;
+        gap: 2em;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-evenly;
+        align-content: center;
+        width: 65%;
     }
 
-    .welcome {
-        grid-area: header;
-        text-align: center;
+    #form{
+        width: 100%;
+    }
+
+    #qu {
+        height:25%;
+        max-height: 50%;
+        border-radius: 2em;
+        align-self: center;
+        justify-self: center;
     }
 
     .inputs {
-        grid-area: inputs;
         display: flex;
         flex-direction: column;
         gap: 2em;
@@ -137,35 +128,8 @@ header{
         margin-bottom: 2em;
         align-items: center;
         justify-content: center;
+        width: 75%;
     }
 
-    #qu {
-        grid-area: photo;
-        width: 100%;
-        max-width: 30em;
-        height: 90vh;
-        border-radius: 2em;
-        align-self: center;
-        justify-self: center;
-        margin-top: 1em;
-    }
-    
-    #email {
-        width: 20em;
-        height: 2.5em;
-        max-width: 100%;
-    }
-
-    #password {
-        width: 20em;
-        height: 2.5em;
-        max-width: 100%;
-    }
-
-    #login {
-        width: 20.5em;
-        height: 2.5em;
-        max-width: 100%;
-    }
 
 }
