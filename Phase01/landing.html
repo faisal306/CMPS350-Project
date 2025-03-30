@@ -12,53 +12,27 @@
         
         <header>
 
-            <section id="first">
-
-                <a href="./landing.html"><img src="./images/qulogo.png" alt="Qu Logo" class="qu-logo"></a>
-
-                <p id="student-email">
-                    name@qu.edu.qa
-                </p>
-
-            </section>
-
-            <section id="second">
-                
-                <div class="lang">
-
-                    <label class="choose-lang">Language: </label>
-
-                    <select id="lang-select">
-                        <option value="Arabic">Arabic</option>
-                        <option value="English">English</option>
-                    </select>
-
+            <nav>
+                <div>
+                    <a href="./landing.html"><img src="./images/qulogo.png" alt="Qu Logo" class="qu-logo"></a>
+                    <p id="student-email">
+                        <!-- Should contain the email of the currently logged in user-->
+                        Current User:
+                    </p>
                 </div>
 
-                <div class="navbar">
-
-                    <p><a href="./landing.html">Home</a></p>
-                    <p><a href="./login.html">Login</a></p>
-
-
-                </div>
-
-            </section>
-
-            <section id="third">
-
-
-                    <button type="button" class="reg-btn">Register Now!</button>
-
-                    <img src="./images/qu-header.jpg" alt="QU Picture" class="qu-header">
-
-
-            </section>
+            </nav>
 
         </header>
 
         <main>
 
+            <section id="top-bar">
+                <img src="./images/qu-header.jpg" alt="QU Picture" id="top-img">
+                <div class="btns">
+                    <a href="/login.html"><button type="button" id="lgn-btn">Login</button></a>
+                </div>
+            </section>
 
             <section id="home">
 
@@ -69,44 +43,41 @@
 
             <section id="about">
 
-                <div class="container">
+                <div class="video">
+                    <iframe class="intro-video" width="560" height="315" src="https://www.youtube.com/embed/wBoVS5hlhHc?si=hEq-KpwRcfECzVcK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                    </div>
+                </div>
+                
+                <div class="hist-mission">
 
-                    <div class="video">
+                    <div class="hist">
 
-                        <iframe class="intro-video" width="560" height="315" src="https://www.youtube.com/embed/wBoVS5hlhHc?si=hEq-KpwRcfECzVcK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                    </div>
-                    
-                    <div class="hist-mission">
+                        <h3 class="overview-title">Overview</h3>
 
-                        <div class="hist">
+                        <p class="overview">Qatar University (QU), established in 1977, is Qatar’s leading higher education institution, known for academic 
+                        and research excellence. It offers high-quality education aligned with international standards, earning multiple
+                            accreditations. QU comprises 12 colleges, including Arts and Sciences, Business, Engineering, Medicine, and Law,
+                            and provides 51 bachelor’s and 53 master’s programs tailored to national needs. Research is a key focus, supported by
+                            a state-of-the-art Research Complex and 18 research centers, with over 500 projects in 130+ countries.
+                            The university emphasizes community engagement, student development, and leadership while fostering partnerships
+                                with industry, government, and academia to drive Qatar’s economic and social progress.</p>
 
-                            <h3 class="overview-title">Overview</h3>
-
-                            <p class="overview">Qatar University (QU), established in 1977, is Qatar’s leading higher education institution, known for academic 
-                            and research excellence. It offers high-quality education aligned with international standards, earning multiple
-                             accreditations. QU comprises 12 colleges, including Arts and Sciences, Business, Engineering, Medicine, and Law,
-                              and provides 51 bachelor’s and 53 master’s programs tailored to national needs. Research is a key focus, supported by
-                               a state-of-the-art Research Complex and 18 research centers, with over 500 projects in 130+ countries.
-                                The university emphasizes community engagement, student development, and leadership while fostering partnerships
-                                 with industry, government, and academia to drive Qatar’s economic and social progress.</p>
-
-                        </div>
-
-                        <div class="mission">
-
-                            <h3 class="mission-title">Mission</h3>
-
-                            <p class="mission-title">
-                                Qatar University is a beacon of thought and creativity, with an Arabic-Islamic identity and a global outlook.
-                             The University aims to cultivate a conscious, influential generation that aspires to have a constructive impact.
-                              It is a center for innovation and for the development of knowledge-based solutions that respond to major national
-                               challenges in support of the sustainable human, social, economic, and environmental development of the State of Qatar.
-                            </p>
-
-                        </div>
-                                 
                     </div>
 
+                    <div class="mission">
+
+                        <h3 class="mission-title">Mission</h3>
+
+                        <p class="mission-title">
+                            Qatar University is a beacon of thought and creativity, with an Arabic-Islamic identity and a global outlook.
+                            The University aims to cultivate a conscious, influential generation that aspires to have a constructive impact.
+                            It is a center for innovation and for the development of knowledge-based solutions that respond to major national
+                            challenges in support of the sustainable human, social, economic, and environmental development of the State of Qatar.
+                        </p>
+
+                    </div>
+                                 
                 </div>
+
 
             </section>
 
@@ -130,44 +101,48 @@
 
         <footer>
 
-            <div class="container-footer">
+            <section class="info">
+                <div class="contact">
 
-                <div class="devider">
+                    <p class="phone">Phone: (+974)​​ 4403​-3333</p>
 
-                    <div class="contatct">
+                    <p class="box">P.O. Box: 2713 - Doha</p>
 
-                        <p class="phone">Phone: (+974)​​ 4403​-3333</p>
-        
-                        <p class="box">P.O. Box: 2713 - Doha</p>
-        
-                        <p class="email">Email: QUMCC@qu.edu.qa</p>
-        
-                    </div>
-    
-        
-                    <div class="social">
-        
-                        <ul class="links">
-        
-                            <li><a href="https://www.facebook.com/qataruniversity/"><img src="./images/brand-facebook.svg" alt="Facebook Logo"></a></li>
-                            <li><a href="https://x.com/qataruniversity"></a><img src="./images/brand-x.svg" alt="X Logo"></a></li>
-                            <li><a href="https://www.instagram.com/qataruniversity"></a><img src="./images/brand-instagram.svg" alt="Instagram Logo"></a></li>
-                            <li><a href="https://www.youtube.com/qataruniversity"></a><img src="./images/brand-youtube.svg" alt="Youtube Logo"></a></li>
-                            <li><a href="https://www.snapchat.com/add/qataruni"></a><img src="./images/brand-snapchat.svg" alt="Snapchat Logo"></a></li>
-                            <li><a href="https://www.linkedin.com/uas/login?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Fcompany%2F43068"></a><img src="./images/brand-linkedin.svg" alt="Linkedin Logo"></li>
-        
-                        </ul>
-        
-                    </div>
+                    <p class="email">Email: QUMCC@qu.edu.qa</p>
 
                 </div>
 
-                
-                <div class="right">
-                    <p>​&#169; 2025 Qatar University, All Rights Reserved</p>
-                </div>                
+        
+                <div class="social">
 
-            </div>
+                    <ul class="links">
+
+                        <li><a href="https://www.facebook.com/qataruniversity/"><img src="./images/brand-facebook.svg" alt="Facebook Logo"></a></li>
+                        <li><a href="https://x.com/qataruniversity"></a><img src="./images/brand-x.svg" alt="X Logo"></a></li>
+                        <li><a href="https://www.instagram.com/qataruniversity"></a><img src="./images/brand-instagram.svg" alt="Instagram Logo"></a></li>
+                        <li><a href="https://www.youtube.com/qataruniversity"></a><img src="./images/brand-youtube.svg" alt="Youtube Logo"></a></li>
+                        <li><a href="https://www.snapchat.com/add/qataruni"></a><img src="./images/brand-snapchat.svg" alt="Snapchat Logo"></a></li>
+                        <li><a href="https://www.linkedin.com/uas/login?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Fcompany%2F43068"></a><img src="./images/brand-linkedin.svg" alt="Linkedin Logo"></li>
+
+                    </ul>
+
+                </div>
+            </section>
+
+            <section>
+                <form class="lang">
+
+                    <label class="choose-lang">Language: </label>
+
+                    <select id="lang-select">
+                        <option value="Arabic">Arabic</option>
+                        <option value="English">English</option>
+                    </select>
+
+                </form>
+
+                <p>​&#169; 2025 Qatar University, All Rights Reserved</p>
+            </section>
 
             
 
