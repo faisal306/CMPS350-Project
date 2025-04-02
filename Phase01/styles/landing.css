@@ -59,7 +59,7 @@ main {
     gap: 50px;
 }
 
-#top-bar{
+#top-bar {
     padding: 20px;
     background-color:aliceblue;
 }
@@ -70,7 +70,7 @@ main {
     height: 23em;
 }
 
-#lgn-btn{
+#lgn-btn {
     padding: 2.0rem;
     text-align: center;
     font-size: large;
@@ -78,22 +78,48 @@ main {
     border: none;
     height: 100px;
     width: 150px;
+    cursor: pointer;
+    background-color: rgb(164, 163, 163);
 }
 
-section{
+#lgn-btn:hover {
+    padding: 2.0rem;
+    text-align: center;
+    font-size: large;
+    border-radius: 1em;
+    border: none;
+    height: 100px;
+    width: 150px;
+    cursor: pointer;
+    background-color: rgb(143, 141, 141);
+}
+
+#lgn-btn:active {
+    padding: 2.0rem;
+    text-align: center;
+    font-size: large;
+    border-radius: 1em;
+    border: none;
+    height: 100px;
+    width: 150px;
+    cursor: pointer;
+    background-color: rgb(126, 125, 125);
+}
+
+section {
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 100%;
 }
 
-section div{
+section div {
     display: flex;
     justify-content: space-between;
 
 }
 
-.btns{
+.btns {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -110,6 +136,14 @@ section div{
 
 .hist-mission {
     width: 55em;
+    display: flex;
+}
+
+.hist, .mission {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .intro-video {
@@ -136,6 +170,80 @@ section div{
 
 @media screen and (max-width: 760px){
     
+ 
     
 
+}
+
+.choose-lang {
+    color: black !important;
+    text-decoration: none !important;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide {
+    width: 100%;
+    display: none;
+    height: 40em;
+}
+
+
+.displaySlide {
+    display: block;
+    
+}
+
+.slider button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    background-color: hsla(0, 0%, 0%, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 0.3em;
+}
+
+.slider button:hover {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    background-color: hsla(0, 4%, 17%, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 0.3em;
+}
+
+.slider button:active {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    background-color: hsla(0, 0%, 0%, 0.753);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 0.3em;
+}
+
+/* to align it to the left */
+.prev {
+    left: 0;
+}
+
+/* to align it to the right */
+.next {
+    right: 0;
 }
