@@ -1,0 +1,17 @@
+
+[
+    {
+        "id": "CMPS151",
+        "name": "Programming Concepts",
+        "description": "Learn and understand the basic concepts of programming",
+        "instructor": "Dr. Mohammed Mohammed",
+        "schedule": "MW 10:00AM - 10:50AM"
+    },
+    {
+        "id": "CMPS303",
+        "name": "Data Structures",
+        "description": "Learn about linked lists, trees, and graphs.",
+        "instructor": "Dr. Saleh Al-Hazbi",
+        "schedule": "STT 8:00AM - 9:15AM"
+    }
+]
