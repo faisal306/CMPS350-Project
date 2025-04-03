@@ -14,25 +14,27 @@ document.getElementById("form").addEventListener("submit", async function(e) {
     const response = await fetch('data/users.json');
     const users = await response.json();
 
+
+    console.log("login.js is loaded"); // Debugging
+
+
     // find the exact user by his email, find will return the first item
-    const user = users.find(u => {
-        u.email === email && u.password === password
-    });
+    const user = users.find(u => u.email === email && u.password === password);
 
 
     // if the user has been found
     if (user) {
 
         if (user.role === "student") {
-            window.location.href = "../dashboard.html";
+            window.location.href = "dashboard.html";
         }
 
         else if (user.role === "instructor") {
-            window.location.href = "../university.html";
+            window.location.href = "university.html";
         }
 
         else if (user.role === "admin") {
-            window.location.href = "../university.html";
+            window.location.href = "university.html";
         }
 
     }
