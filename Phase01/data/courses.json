@@ -5,6 +5,10 @@
         "category": "Programming",
         "description": "Learn and understand the basic concepts of programming",
         "instructor": "Dr. Mohammed Mohammed",
+        "prerequisites": [],
+        "openForRegistration": false,
+        "admin_approved": false,
+        "availableSeats": 45,
         "schedule": "MW 10:00AM - 10:50AM"
     },
     {
@@ -13,6 +17,10 @@
         "category": "Programming",
         "description": "Learn about linked lists, trees, and graphs.",
         "instructor": "Dr. Saleh Al-Hazbi",
+        "prerequisites": [],
+        "openForRegistration": false,
+        "admin_approved": false,
+        "availableSeats": 50,
         "schedule": "STT 8:00AM - 9:15AM"
     },
     {
@@ -21,6 +29,10 @@
         "category": "Databases",
         "description": "Overview of relational databases and SQL.",
         "instructor": "Dr. Rehab Duwairi",
+        "prerequisites": [],
+        "openForRegistration": false,
+        "admin_approved": false,
+        "availableSeats": 45,
         "schedule": "MW 11:00AM - 12:15PM"
       }
 ]
