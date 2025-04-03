@@ -4,3 +4,10 @@ header {
     justify-content: center;
     align-items: center;
 }
+
+#course-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

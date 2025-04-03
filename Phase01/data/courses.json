@@ -1,4 +1,3 @@
-
 [
     {
         "id": "CMPS151",
@@ -13,5 +12,13 @@
         "description": "Learn about linked lists, trees, and graphs.",
         "instructor": "Dr. Saleh Al-Hazbi",
         "schedule": "STT 8:00AM - 9:15AM"
-    }
+    },
+    {
+        "id": "CMPS351",
+        "name": "Fundamentals of Databases",
+        "category": "Databases",
+        "description": "Overview of relational databases and SQL.",
+        "instructor": "Dr. Alice Smith",
+        "schedule": "TR 11:00AM - 12:15PM"
+      }
 ]
