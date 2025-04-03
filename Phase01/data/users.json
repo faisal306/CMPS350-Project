@@ -1,0 +1,18 @@
+[
+    {
+      "email": "student@qu.edu.qa",
+      "password": "student123",
+      "role": "student"
+    },
+    {
+      "email": "instructor@qu.edu.qa",
+      "password": "instructor123",
+      "role": "instructor"
+    },
+    {
+      "email": "admin@qu.edu.qa",
+      "password": "admin123",
+      "role": "admin"
+    }
+  ]
+  

@@ -10,7 +10,8 @@
 | Yazan Jumaa       | 202110319 |
 
 
-## Notes
+## Notes regarding the project
+
 1. Course.json file
    1. This is just a simple array that will contain in it items objects.
    2. Each object will be course with it details.
