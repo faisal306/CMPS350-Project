@@ -14,9 +14,7 @@ View learning path (completed, in-progress, and pending courses) -->
     <link rel="stylesheet" href="styles/dashboard.css">
 </head>
     <body>
-        
         <header>
-
             <nav>
                 <div>
                     <a href="./landing.html"><img src="./images/qulogo.png" alt="Qu Logo" class="qu-logo"></a>
@@ -32,65 +30,43 @@ View learning path (completed, in-progress, and pending courses) -->
                 </div>
 
             </nav>
-
         </header>
 
         <main>
 
-            <p>Student Profile</p>
-
             <section id="student-profile">
 
+                <p>Student Profile</p>
             
                 <div class="container-1">
 
-                    <div class="side-1">
+                    <p id="gpa">GPA</p>
 
-                        <div class="gpa">
+                    <p id="credit">Credit hours completed</p>
 
-                            <p>GPA</p>
+                    <p id="major">Major</p>
 
-                        </div>
+                    <p id="info">Personal Information</p>
 
-                        <div class="ch">
-
-                            <p>Credit hours completed</p>
-
-                        </div>
-
-                        <div class="major">
-
-                            <p>Major</p>
-
-                        </div>
-
-                        <div class="info">
-
-                            <p>Personal Information</p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="side-2">
+                    <div id="learning-path">
 
                         <p>learning Path</p>
     
-                        <div class="completed-courses">
+                        <div id="completed-courses">
                                 <!--Table-->
                         </div>
     
-                        <div class="courses-in-progress">
+                        <div id="courses-in-progress">
                                 <!--Table-->
                         </div>
     
-                        <div class="remaining-courses">
+                        <div id="remaining-courses">
                                 <!--Table-->
                         </div>
-    
-                        <button class="course-search-btn">Search and Register for a Course</button>
 
                     </div>
+
+                    <button id="course-search-btn">Search and Register for a Course</button>
 
                 </div>
 
@@ -101,26 +77,18 @@ View learning path (completed, in-progress, and pending courses) -->
                 
                 <p>Search a Course</p>
 
-                <div class="container-2">
+                <form id="search" method="POST">
+                    <label for="semester">Semester</label>
+                    <input type="text" type="semester" id="semester">
 
-                    <div class="sem">
-                        <label>Semester</label>
-                        <input type="text">
-                    </div>
-                    
-                    <div class="major">
-                        <label>Major</label>
-                        <input type="text">
-                    </div>
-                    
-                    <div class="c-name">
-                        <label>Course Name</label>
-                        <input type="text">
-                    </div>
-                    
-                    <button class="search-btn">Search</button>
+                    <label for="major">Major</label>
+                    <input type="text" type="major" id="major">
 
-                </div>
+                    <label for="course">Course Name</label>
+                    <input type="text" type="course" id="course">
+
+                    <button type="submit" id="search">Search</button>
+                </form>
 
             </section>
 
@@ -130,18 +98,17 @@ View learning path (completed, in-progress, and pending courses) -->
 
                 <!--Table that include weekly schedule for a semester-->
 
-                <div class="container-3">
-
-                    <p>Table that include weekly schedule for a semester</p>
-
-
+                <div class="course-container">
+                    <!-- Put the courses here -->
                 </div>
 
             </section>
 
         </main>
 
-        <footer></footer>
+        <footer>
+            <p>​&#169; 2025 Qatar University, All Rights Reserved</p>
+        </footer>
 
     </body>
 
