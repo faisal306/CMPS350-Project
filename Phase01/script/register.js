@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // Check if the there is seats for registration
-        if(!course.availableSeats <= 0) {
+        if(course.availableSeats <= 0) {
             alert("No available seats for this course.");
             return;
         }

@@ -24,6 +24,8 @@ function displayCourses(courses) {
 
     // courseList will work as a container for the courses
     let courseList = document.getElementById("course-list");
+
+    // To show only the latest version
     courseList.innerHTML = '';
 
     courses.forEach(course => {
@@ -35,6 +37,7 @@ function displayCourses(courses) {
             <p><strong>Category:</strong> ${course.category}</p>
             <p><strong>Instructor:</strong> ${course.instructor}</p>
             <p><strong>Schedule:</strong> ${course.schedule}</p>
+            <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
             <button onclick="registerSucc('${course.id}')">Register Course</button>
         `;
 

@@ -29,3 +29,7 @@
       3. Course must be open for registration (openForRegistration: true).
       4. Student must have passed all prerequisites.
       5. Course must have available seats.
+4. Admin page
+   1. When the user (stduent / admin) login in the login.html page it should redirect him to the correct page
+      1. Student -> dashboard.html (main page), in this page the student will see his email at the top left corner. And, will see GPA, completed hours... and on the bottom will see his registerd courses and at the last section the available courses that the stduent can register.
+      2. Admin -> admin.html , where the admin will see the courses that are ready to be approved.

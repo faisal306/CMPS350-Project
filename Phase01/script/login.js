@@ -21,7 +21,10 @@ form.addEventListener("submit", async function(e) {
 
     // if the user has been found
     if (user) {
-        localStorage.uid = user.id;
+
+        localStorage.setItem("uid", user.id);
+        localStorage.setItem("currentUserEmail", user.email);
+        localStorage.setItem("userRole", user.role);
 
         if (user.role === "student") {
             window.location.href = "dashboard.html";
@@ -32,7 +35,7 @@ form.addEventListener("submit", async function(e) {
         }
 
         else if (user.role === "admin") {
-            window.location.href = "university.html";
+            window.location.href = "admin.html";
         }
 
     }
