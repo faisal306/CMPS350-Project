@@ -4,7 +4,7 @@ form.addEventListener("submit", async function(e) {
     // preventDefault method will prevent the page from refreshing after cliking "login" if i did not 
     // added the page will refresh and will not execute  
     e.preventDefault();
-    console.log("Login button clicked!");
+
 
     const email = document.querySelector("#email").value;
     const password = document.querySelector("#password").value;
@@ -13,8 +13,6 @@ form.addEventListener("submit", async function(e) {
     const response = await fetch('data/users.json');
     const users = await response.json();
 
-
-    console.log("login.js is loaded"); // Debugging
 
 
     // find the exact user by his email, find will return the first item
