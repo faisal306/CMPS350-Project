@@ -1,7 +1,6 @@
-                            // The event listener here if the user click on enter 
+const form = document.getElementById("form");
 
-
-document.getElementById("form").addEventListener("submit", async function(e) {
+form.addEventListener("submit", async function(e) {
     // preventDefault method will prevent the page from refreshing after cliking "login" if i did not 
     // added the page will refresh and will not execute  
     e.preventDefault();
@@ -24,6 +23,7 @@ document.getElementById("form").addEventListener("submit", async function(e) {
 
     // if the user has been found
     if (user) {
+        localStorage.uid = user.id;
 
         if (user.role === "student") {
             window.location.href = "dashboard.html";

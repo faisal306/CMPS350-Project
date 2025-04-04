@@ -11,16 +11,19 @@ View learning path (completed, in-progress, and pending courses) -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
 </head>
     <body>
         
         <header>
 
-            <section id="header">
-
-                <div class="div-logo">
-                    <img src="../Phase01/images/qulogo.png" class="qu-logo" alt="Qu Logo">
+            <nav>
+                <div>
+                    <a href="./landing.html"><img src="./images/qulogo.png" alt="Qu Logo" class="qu-logo"></a>
+                    <p id="student-email">
+                        <!-- Should contain the email of the currently logged in user -->
+                        Current User:
+                    </p>
                 </div>
 
                 <div class="div-title">
@@ -28,10 +31,9 @@ View learning path (completed, in-progress, and pending courses) -->
 
                 </div>
 
-            </section>
+            </nav>
 
         </header>
-
 
         <main>
 
@@ -142,4 +144,6 @@ View learning path (completed, in-progress, and pending courses) -->
         <footer></footer>
 
     </body>
+
+    <script src="script/dashboard.js"></script>
 </html>

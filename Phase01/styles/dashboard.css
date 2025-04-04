@@ -9,12 +9,23 @@ body, html {
 }
 
 
-
-#header {
+nav{
     display: flex;
-    align-items: center;
-    margin: 0 auto;
     flex-direction: column;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+
+    text-decoration: none;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+nav div{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .qu-logo {
