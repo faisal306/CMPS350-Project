@@ -268,6 +268,11 @@ section {
     border-radius: 0.8em;
 }
 
+#academic-plans{
+    display: flex;
+    flex-direction: column;
+}
+
 .college-slider{
     display: flex;
     overflow-x: auto;
@@ -281,13 +286,14 @@ section {
   border-radius: 1em;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 300px;
   height: 350px;
   padding: 0.5em;
   display: flex;
-  flex: 0 0 80%;
+  flex: 0 0 12%;
   scroll-snap-align: center;
   flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
   transition: transform 0.3s ease;
 }
 
@@ -308,7 +314,7 @@ section {
 .college-title {
   font-size: 1.3em;
   color: var(--primary-color);
-  margin-bottom: 0 0 0.3em 0;
+  height: 10%;
 }
 
 .college-desc {
@@ -345,7 +351,21 @@ section {
     flex-direction: column;
 }
 .contact{
+    display: flex;
     gap: 20px;
+}
+
+.choose-lang {
+    color: black !important;
+    text-decoration: none !important;
+}
+
+#email {
+    text-decoration: none;
+}
+
+#email:hover{
+    background-color: var(--background-color);
 }
 
 /* Small screen size */
@@ -378,13 +398,4 @@ section {
         flex-direction: column;
     }
 
-}
-
-.choose-lang {
-    color: black !important;
-    text-decoration: none !important;
-}
-
-#email {
-    text-decoration: none;
 }
