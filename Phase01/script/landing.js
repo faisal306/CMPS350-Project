@@ -25,7 +25,7 @@ async function initializeSlider() {
         const user = users.find(u => u.id == localStorage.uid);
         currentuser.innerHTML = 
         `
-            Current User: ${user.email} 
+            ${user.email} 
         `
     }
 }

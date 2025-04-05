@@ -8,35 +8,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to QU Student Management</title>
     <link rel="stylesheet" href="./styles/landing.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
 </head>
     <body>
         
         <header>
 
             <nav>
-                <div>
-                    <a href="./landing.html"><img src="./images/qulogo.png" alt="Qu Logo" class="qu-logo"></a>
-                    <p id="student-email">
-                        <!-- Should contain the email of the currently logged in user -->
-                        Current User:
-                    </p>
+                <a href="./landing.html"><img src="./images/qulogo.png" alt="Qu Logo" class="qu-logo"></a>
+                <div class="btns">
+                    <a href="./landing.html">Home</a>
+                    <a href="./login.html">Login</a>
+                    <a href="./dashboard.html">Dashboard</a>
                 </div>
-
+               <div class="user-info">
+                    <img src="./images/user-icon.png" alt="User Icon" class="user-icon">
+                    <span id="student-email">student@example.com</span>
+                </div> 
             </nav>
+            <hr>
 
         </header>
 
         <main>
-
-            <section id="top-bar">
-                <img src="./images/qu-header.jpg" alt="QU Picture" id="top-img">
-                <div class="btns">
-                    <a href="./login.html"><button type="button" id="lgn-btn">Login</button></a>
-                </div>
+            <section id="welcome-bar">
+                <h1 id="welcome-msg" >Welcome to the Qatar University Student Management System</h1>
+                <p id="welcome-sub">Access your academic dashboard, manage your plans, and explore university resources.</p>
             </section>
 
-            <section id="home">
+            <section id="about">
 
+                <div class="hist">
+
+                    <h3 class="overview-title">Overview</h3>
+
+                    <p class="overview">Qatar University (QU), established in 1977, is Qatar’s leading higher education institution, known for academic 
+                    and research excellence. It offers high-quality education aligned with international standards, earning multiple
+                        accreditations. QU comprises 12 colleges, including Arts and Sciences, Business, Engineering, Medicine, and Law,
+                        and provides 51 bachelor’s and 53 master’s programs tailored to national needs. Research is a key focus, supported by
+                        a state-of-the-art Research Complex and 18 research centers, with over 500 projects in 130+ countries.
+                        The university emphasizes community engagement, student development, and leadership while fostering partnerships
+                            with industry, government, and academia to drive Qatar’s economic and social progress.</p>
+
+                </div>
+
+                <div class="mission">
+
+                    <h3 class="mission-title">Mission</h3>
+
+                    <p class="mission-p">
+                        Qatar University is a beacon of thought and creativity, with an Arabic-Islamic identity and a global outlook.
+                        The University aims to cultivate a conscious, influential generation that aspires to have a constructive impact.
+                        It is a center for innovation and for the development of knowledge-based solutions that respond to major national
+                        challenges in support of the sustainable human, social, economic, and environmental development of the State of Qatar.
+                    </p>
+
+                </div>
+
+
+            </section>
+
+            <section id="top-bar">
                 <div class="slider">
                     <button class="prev" onclick="prevSlide()">&#10094</button>
 
@@ -49,63 +81,100 @@
                     
                     <button class="next" onclick="nextSlide()">&#10095</button>
                 </div>
-
-            </section>
-
-
-            <section id="about">
-
                 <div class="video">
                     <iframe class="intro-video" width="560" height="315" src="https://www.youtube.com/embed/wBoVS5hlhHc?si=hEq-KpwRcfECzVcK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                    </div>
                 </div>
-                
-                <div class="hist-mission">
-
-                    <div class="hist">
-
-                        <h3 class="overview-title">Overview</h3>
-
-                        <p class="overview">Qatar University (QU), established in 1977, is Qatar’s leading higher education institution, known for academic 
-                        and research excellence. It offers high-quality education aligned with international standards, earning multiple
-                            accreditations. QU comprises 12 colleges, including Arts and Sciences, Business, Engineering, Medicine, and Law,
-                            and provides 51 bachelor’s and 53 master’s programs tailored to national needs. Research is a key focus, supported by
-                            a state-of-the-art Research Complex and 18 research centers, with over 500 projects in 130+ countries.
-                            The university emphasizes community engagement, student development, and leadership while fostering partnerships
-                                with industry, government, and academia to drive Qatar’s economic and social progress.</p>
-
-                    </div>
-
-                    <div class="mission">
-
-                        <h3 class="mission-title">Mission</h3>
-
-                        <p class="mission-title">
-                            Qatar University is a beacon of thought and creativity, with an Arabic-Islamic identity and a global outlook.
-                            The University aims to cultivate a conscious, influential generation that aspires to have a constructive impact.
-                            It is a center for innovation and for the development of knowledge-based solutions that respond to major national
-                            challenges in support of the sustainable human, social, economic, and environmental development of the State of Qatar.
-                        </p>
-
-                    </div>
-                                 
-                </div>
-
-
             </section>
+
 
             <section id="academic-plans">
+                <div class="college-slider">
 
-                <!-- To be done -->
-                
+                    <div class="college-card">
+                        <h3 class="college-title">College of Arts and Sciences</h3>
+                        <p class="college-desc">
+                            The College of Arts and Sciences (CAS) is the largest college at QU, offering various degrees at the undergraduate and graduate levels. CAS is home to nine academic departments, 15 undergraduate programs, seven graduate programs, as well as five accredited degree programs.
+                        </p>
+                    </div>
 
-            </section>
+                    <div class="college-card">
+                        <h3 class="college-title">College of Business and Economics</h3>
+                        <p class="college-desc">
+                            The College of Business and Economics (CBE) was founded in 1985 and offers undergraduate and graduate programs in various business disciplines. The college is accredited by the Association to Advance Collegiate Schools of Business (AACSB).
+                        </p>
+                    </div>
 
-            <section id="loc">
+                    <div class="college-card">
+                        <h3 class="college-title">College of Education</h3>
+                        <p class="college-desc">
+                            The College of Education (CED) was the primary academic body under which Qatar University was founded in 1973. It offers programs in Educational Sciences, Psychological Sciences, and Art Education.
+                        </p>
+                    </div>
 
-                <div class="location">
-                    <!--To be done-->
+                    <div class="college-card">
+                        <h3 class="college-title">College of Engineering</h3>
+                        <p class="college-desc">
+                            The College of Engineering (CENG) offers undergraduate and graduate programs in various engineering disciplines. The college aims to provide its students with abilities to succeed as engineers that are sought after in the professional world and graduate schools.
+                        </p>
+                    </div>
+
+                    <div class="college-card">
+                        <h3 class="college-title">College of Health Sciences</h3>
+                        <p class="college-desc">
+                            The College of Health Sciences (CHS) was founded in 2016 and offers undergraduate programs in biomedical sciences, human nutrition, and public health, as well as graduate programs in biomedical science and public health.
+                        </p>
+                    </div>
+
+                    <div class="college-card">
+                    <h3 class="college-title">College of Law</h3>
+                    <p class="college-desc">
+                        The College of Law offers programs that prepare students for legal careers. The college focuses on providing a comprehensive legal education that combines theory and practice.
+                    </p>
+                    </div>
+
+                    <div class="college-card">
+                    <h3 class="college-title">College of Medicine</h3>
+                    <p class="college-desc">
+                        The College of Medicine was established in 2014 and offers a Doctor of Medicine (MD) program. The college aims to produce competent physicians who can contribute to the healthcare sector in Qatar and beyond.
+                    </p>
+                    </div>
+
+                    <div class="college-card">
+                    <h3 class="college-title">College of Pharmacy</h3>
+                    <p class="college-desc">
+                        The College of Pharmacy offers programs leading to Bachelor of Science in Pharmacy, Doctor of Pharmacy, and Master of Science in Pharmacy. It is the first pharmacy college to be established in Qatar and is accredited by the Canadian Council for Accreditation of Pharmacy Programs (CCAPP).
+                    </p>
+                    </div>
+
+                    <div class="college-card">
+                    <h3 class="college-title">College of Sharia and Islamic Studies</h3>
+                    <p class="college-desc">
+                        The College of Sharia and Islamic Studies was among the first colleges founded at Qatar University in 1977. It offers programs in Islamic Jurisprudence, Islamic Culture & Preaching, and Foundations of Islam.
+                    </p>
+                    </div>
+
+                    <div class="college-card">
+                    <h3 class="college-title">College of Dental Medicine</h3>
+                    <p class="college-desc">
+                        The College of Dental Medicine was founded in 2019 and offers a six-year program leading to a Doctor of Dental Medicine degree. The college aims to produce competent dental professionals to meet the oral health needs of the community.
+                    </p>
+                    </div>
+
+                    <div class="college-card">
+                    <h3 class="college-title">College of Nursing</h3>
+                    <p class="college-desc">
+                        The College of Nursing offers programs designed to prepare students for careers in nursing, focusing on providing high-quality education and training to meet the healthcare needs of the population.
+                    </p>
+                    </div>
+
+                    <div class="college-card">
+                    <h3 class="college-title">College of Sport Science</h3>
+                    <p class="college-desc">
+                        The College of Sport Science offers a Bachelor of Science degree with concentrations in Sport Management, Exercise and Fitness, and Physical Education. The program aims to prepare students for careers in the sports industry.
+                    </p>
+                    </div>
+
                 </div>
-
             </section>
 
         </main>
