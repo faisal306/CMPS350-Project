@@ -46,7 +46,7 @@
       "role": "instructor"
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "Prof. Rehab",
       "areasOfExpertise": ["Artificial Intelligence", "Software Engineering"],
       "email": "Rehab@qu.edu.qa",
@@ -54,7 +54,7 @@
       "role": "instructor"
     },
     {
-      "id": 4,
+      "id": 6,
       "email": "admin@qu.edu.qa",
       "password": "admin123",
       "role": "admin",

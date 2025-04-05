@@ -12,9 +12,10 @@
 
 ## Notes regarding the project
 
-1. Course.json file
+1. pendingCourse.json file
    1. This is just a simple array that will contain in it items objects.
    2. Each object will be course with it details.
+   3. All courses will be closed by default, and opend by the admin.
 2. university.js file
    1. The includes() method checks if the course name contains the string stored in searchTerm.
    2. For example, if searchTerm is "program", then "programming concepts" includes "program" and this returns true.
