@@ -384,3 +384,7 @@ section {
     color: black !important;
     text-decoration: none !important;
 }
+
+#email {
+    text-decoration: none;
+}
