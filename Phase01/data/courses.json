@@ -1,1 +1,58 @@
-[]
+[
+    {
+        "id": "CMPS151",
+        "crn": 14201,
+        "name": "Programming Concepts",
+        "category": "Programming",
+        "description": "Learn and understand the basic concepts of programming.",
+        "instructor": "Dr. Mohammed Mohammed",
+        "prerequisites": [],
+        "openForRegistration": false,
+        "adminApprove": false,
+        "availableSeats": 45,
+        "registeredStudents": [],
+        "schedule": "MW 10:00AM - 10:50AM"
+    },
+    {
+        "id": "CMPS251",
+        "crn": 15321,
+        "name": "Object Oriented Programming",
+        "category": "Programming",
+        "description": "Learn and understand the concepts of OOP.",
+        "instructor": "Dr. Zeyad Ali",
+        "prerequisites": ["CMPS151"],
+        "openForRegistration": false,
+        "adminApprove": false,
+        "availableSeats": 35,
+        "registeredStudents": [],
+        "schedule": "STT 2:00PM - 3:15PM"
+    },
+    {
+        "id": "CMPS303",
+        "crn": 15311,
+        "name": "Data Structures",
+        "category": "Programming",
+        "description": "Learn about linked lists, trees, and graphs.",
+        "instructor": "Dr. Saleh Al-Hazbi",
+        "prerequisites": ["CMPS151", "CMPS251"],
+        "openForRegistration": false,
+        "adminApprove": false,
+        "availableSeats": 50,
+        "registeredStudents": [],
+        "schedule": "STT 8:00AM - 9:15AM"
+    },
+    {
+        "id": "CMPS351",
+        "crn": 15210,
+        "name": "Fundamentals of Databases",
+        "category": "Databases",
+        "description": "Overview of relational databases and SQL.",
+        "instructor": "Dr. Rehab Duwairi",
+        "prerequisites": ["CMPS151", "CMPS251", "CMPS303"],
+        "openForRegistration": false,
+        "adminApprove": false,
+        "availableSeats": 45,
+        "registeredStudents": [],
+        "schedule": "MW 11:00AM - 12:15PM"
+    }
+]

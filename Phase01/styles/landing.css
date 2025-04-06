@@ -279,6 +279,7 @@ section {
     scroll-snap-type: x mandatory;
     gap: 1em;
     padding: 1em;
+    width: 80%;
 }
 
 .college-card {
@@ -289,7 +290,7 @@ section {
   height: 350px;
   padding: 0.5em;
   display: flex;
-  flex: 0 0 12%;
+  flex: 0 0 15%;
   scroll-snap-align: center;
   flex-direction: column;
   justify-content: flex-start;

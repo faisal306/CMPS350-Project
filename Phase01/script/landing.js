@@ -1,6 +1,7 @@
 
 
 const slides = document.querySelectorAll('.slides img');
+const dashboard = document.querySelector("#dashboard");
 let slideIndex = 0;
 let intervalID = null;
 
@@ -28,6 +29,20 @@ async function initializeSlider() {
             ${user.email} 
         `
     }
+
+    let dashboardLoc = "";
+    switch(localStorage.userRole){
+        case "admin":
+            dashboardLoc = "admin.html";
+            break;
+        case "instructor":
+            dashboardLoc = "university.html";
+            break;
+        case "student":
+            dashboardLoc = "dashboard.html";
+            break;
+    }
+    dashboard.href = dashboardLoc;
 }
 
 function showSlide(index) {

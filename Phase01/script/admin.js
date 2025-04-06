@@ -84,122 +84,82 @@
 
 // document.addEventListener("DOMContentLoaded", loadCoursesForAdmin());
 
+const pendDiv = document.querySelector('#pending-courses');
+const approvedDiv = document.querySelector("#approved-courses");
 
-// to load pending courses
-async function loadPendingCourses() {
-    
-    const data_pend = await fetch('data/pendingCourses.json');
-    let pendCourses = await data_pend.json();
-
-    const pendDiv = document.querySelector('#pending-courses');
-
-    // To show only the latest version (except header)
-    pendDiv.innerHTML = "<h2>Courses Pending Approval</h2>";
-
-    pendCourses.forEach(course => {
-        pendDiv.innerHTML += `
-            <div id = "course-item">
-                <h3>${course.name}</h3>
-                <p>${course.description}</p>
-                <p><strong>Instructor:</strong> ${course.instructor}</p>
-                <p><strong>Schedule:</strong> ${course.schedule}</p>
-                <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
-                <button onclick="approveCourse('${course.id}')">Approve Course</button>
-            </div>
-            </hr>
+// When the page open load both courses
+document.addEventListener("DOMContentLoaded", function(){
+    if(!permittedUser()){
+        
+        document.body.innerHTML = `
+        <h1>You do not have permission to view this page. Please <a href="login.html">log in</a> with admin privliges.</h1>
         `;
-    });
+        return;
+    }
+    loadCourses();
+});
 
+function permittedUser(){
+    const role = localStorage.userRole;
+    if(role == "admin") return true;
+    return false;
 }
 
-// to load approved courses
-
-async function loadApprovedCourses() {
-    
-    const data_approv = await fetch('data/courses.json');
-    let approvedCourses = await data_approv.json();
-
-    const approvedDiv = document.querySelector("#approved-courses");
-
-    approvedDiv.innerHTML = "<h2>Approved Courses (Open for Registration)</h2>";
-
-    approvedCourses.forEach(course => {
-        approvedDiv.innerHTML += `
-            <div class="course-item">
-                <h3>${course.name}</h3>
-                <p>${course.description}</p>
-                <p><strong>Instructor:</strong> ${course.instructor}</p>
-                <p><strong>Schedule:</strong> ${course.schedule}</p>
-                <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
-            </div>
-        `;
+// to load pending courses
+async function loadCourses() {
+    // To show only the latest version (except header)
+    const data = await fetch('data/courses.json');
+    let courses = await data.json();
+    courses.forEach(course => {
+        if(!course.adminApprove){
+            pendDiv.innerHTML += `
+                <div id = "course-item">
+                    <h3>${course.name}</h3>
+                    <p>${course.description}</p>
+                    <p><strong>Instructor:</strong> ${course.instructor}</p>
+                    <p><strong>Schedule:</strong> ${course.schedule}</p>
+                    <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
+                    <button onclick="approveCourse('${course.crn}')">Approve Course</button>
+                </div>
+                </hr>
+            `;
+        } else{
+            approvedDiv.innerHTML += `
+                <div class="course-item">
+                    <h3>${course.name}</h3>
+                    <p>${course.description}</p>
+                    <p><strong>Instructor:</strong> ${course.instructor}</p>
+                    <p><strong>Schedule:</strong> ${course.schedule}</p>
+                    <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
+                </div>
+            `;
+        }
     });
 
 }
 
 // function to approve a course by only the admin
 
-async function approveCourse(courseId) {
-    
-    // first: check if the user is admin
-
-    const currentUserEmail = localStorage.getItem('currentUserEmail');
-
-    const result = await fetch('data/users.json');
-
-    const users = await result.json();
-
-    const getCurrentUser = users.find(u => u.email === currentUserEmail);
-
-    // check
-
-    if(!getCurrentUser || getCurrentUser !== "admin") {
-        alert("Only admin can approve courses.");
-        return;
-    }
-
-    // get pending courses
-
-    const pendingResults = await fetch('data/pendingCourses.json');
-
-    // the pendCourses is an array
-    let pendingCourses = await pendingResults.json();
+async function approveCourse(courseCRN) {
+    // get courses
+    const data = await fetch('data/courses.json');
+    let courses = await data.json();
 
     // find the course in the pending array
+    let course = courses.find(c => c.crn == courseCRN);
 
-    let course = pendingCourses.find(c => c.id === courseId);
-
-    if (!course) {
+    if (!course) { // Could happen if two admins using the page at the same time
         alert("Course not found in pending list!");
         return;
     }
 
-     // Approve the course
+    // Approve the course
     course.adminApprove = true;
     course.openForRegistration = true;
-
-    // Moving a course: 1- remove it from pending, 2- load approved courses
-
-    pendingCourses = pendingCourses.find(c => c.id !== courseId);
-
-    let approvedCourses = JSON.parse(localStorage.getItem("approvedCourses")) || [];
-
-    approvedCourses.push(course);
-
-    // saving updated courses
-    localStorage.setItem("approvedCourses", JSON.stringify(approvedCourses));
-    localStorage.setItem("pendingCourses", JSON.stringify(pendingCourses));
 
     alert(`Course "${course.name}" has been approved and is now open for registration.`);
 
     // Reload to reflect the changes 
-    loadPendingCourses();
-    loadApprovedCourses();
+    loadCourses();
 
 }
-
-// When the page open load both courses
-document.addEventListener("DOMContentLoaded", function(){
-    loadPendingCourses();
-    loadApprovedCourses();
-});
