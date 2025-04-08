@@ -49,6 +49,7 @@ class CoursesRepo {
     }
 
     async registerClass(userId, crn) {
+
         try {
             // Read the courses list from the file
             const courses = await fs.readJson(this.filePath);
@@ -62,7 +63,7 @@ class CoursesRepo {
                 }
             }
             
-            // If no course is found
+            // If no course 
             if (courseIndex === -1) {
                 return { success: false, message: "Course not found" };
             }
@@ -70,6 +71,7 @@ class CoursesRepo {
             // Get the course from the courses array
             const course = courses[courseIndex];
             
+
             // Check if the course is approved by an admin
             if (!course.adminApprove) {
                 return { success: false, message: "Course has not been approved by admin" };
@@ -78,7 +80,7 @@ class CoursesRepo {
 
 
             
-            // Check if the course is open for registration
+            // Check if the course is open
             if (!course.openForRegistration) {
                 return { success: false, message: "Course is not open for registration" };
             }
@@ -117,15 +119,15 @@ class CoursesRepo {
             
             // Add the user to the registeredStudents list
             course.registeredStudents.push(userId);
-            // Decrease the available seats by 1
+
             course.availableSeats = course.availableSeats - 1;
             
-            // Write the updated courses back to the file.
+            // Write the updated courses back
             await fs.writeJson(this.filePath, courses);
             
 
 
-            // Now update the user's record with the new course.
+            // update the user's with the new course
             const users = await fs.readJson(this.usersFilePath);
             
             // get the user
@@ -137,20 +139,21 @@ class CoursesRepo {
                 }
             }
             
-            // If the user is found, update their registeredCourses property
+            // update their registeredCourses property if found
             if (userIndex !== -1) {
+
+
                 // will be true if registeredCourses === undefined or null
                 if (!users[userIndex].registeredCourses) {
                 users[userIndex].registeredCourses = [];
                 }
                 
-                // Access the User's Registered Courses and add a new registration 
                 users[userIndex].registeredCourses.push({
                 id: course.crn,
                 name: course.name,
                 });
                 
-                // Write the updated users back.
+             
                 await fs.writeJson(this.usersFilePath, users);
             }
             
@@ -159,9 +162,9 @@ class CoursesRepo {
 
             return { success: true, message: "Successfully registered for the course" };
             } catch (error) {
-            // if any errors 
+            
             console.error("Error registering for course:", error);
-            return { success: false, message: "An error occurred during registration" };
+            return { success: false, message: "An error occurred during registration!" };
         }
     }
 
@@ -233,7 +236,7 @@ class CoursesRepo {
 
             try {
 
-                // Load users from the file
+                
                 const users = await fs.readJson(this.usersFilePath);
                 
                 // get the user with the given ID
