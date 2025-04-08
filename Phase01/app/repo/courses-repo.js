@@ -295,7 +295,7 @@ class CoursesRepo {
 
     // This method will give the admin the ability to either open or close a class
 
-    async toggleRegistrationStatus(crn, isOpen) {
+    async adjustRegistrationStatus(crn, isOpen) {
 
 
         try {
