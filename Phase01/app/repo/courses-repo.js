@@ -167,6 +167,7 @@ class CoursesRepo {
 
 
 
+    // this method only for admin to creata a new class for students 
         // courseData is an object that contains the details of the course
     async createClass(courseData) {
 
@@ -181,10 +182,18 @@ class CoursesRepo {
                 
 
 
+            
+
+            // in javaScript and JSON the ordre doesn’t matter for functionality
+            // Because in the JSON file the openForRegistration is before adminApprove
+            // javaSCript will still be able to read and use those properties correctly.
+
 
             // Create a new course with default settings
             const newCourse = {
-            ...courseData, // Copy all info from courseData (like name, prerequisites, etc.)
+            // used here the spread operator here
+            
+            ...courseData, // Copy all info from courseData 
             adminApprove: false,           
             openForRegistration: false,    
             availableSeats: courseData.totalSeats || 30, 
@@ -223,7 +232,7 @@ class CoursesRepo {
 
 
             try {
-                
+
                 // Load users from the file
                 const users = await fs.readJson(this.usersFilePath);
                 
@@ -283,6 +292,72 @@ class CoursesRepo {
                     }
                 }
                 
+
+    // This method will give the admin the ability to either open or close a class
+
+    async toggleRegistrationStatus(crn, isOpen) {
+
+
+        try {
+            // Read courses from the JSON file
+            const courses = await fs.readJson(this.filePath);
+    
+            // Find the course with the matching CRN
+            let courseIndex = -1;
+            for (let i = 0; i < courses.length; i++) {
+                if (courses[i].crn == crn) {
+                    courseIndex = i;
+                    break;
+                }
+            }
+    
+
+            // If course not found
+            if (courseIndex === -1) {
+                return {
+                    success: false,
+                    message: "Course not found"
+                };
+            }
+    
+
+
+            // Update the registration status for this specific course
+            courses[courseIndex].openForRegistration = isOpen;
+    
+
+            //Save changes 
+            await fs.writeJson(this.filePath, courses);
+    
+            
+
+
+            let statusText = ""; // initialize
+            if (isOpen) {
+                statusText = "opened";
+            } else {
+                statusText = "closed";
+            }
+    
+            // success
+            return {
+                success: true,
+                message: `Course registration ${statusText} successfully`
+            };
+    
+
+
+        } catch (error) {
+            
+            console.error("Error toggling registration status:", error);
+            return {
+                success: false,
+                message: "An error occurred while updating registration status"
+            };
+        }
+    }
+    
+
 
 }
 
