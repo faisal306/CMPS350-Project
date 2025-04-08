@@ -68,6 +68,31 @@ nav{
     gap: 30px;
 }
 
+.user-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8em;
+  background-color: white;
+  padding: 0.5em 1em;
+  margin-right: 30px;
+  border-radius: 0.75em;
+  font-weight: 500;
+  font-size: 1em;
+  color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+#student-email{
+    background-color: white;
+}
+
+
 main {
     display: flex;
     flex-direction: column;
@@ -99,30 +124,6 @@ main {
   color: white;
   text-align: center;
   background-color: var;
-}
-
-.user-info {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.8em;
-  background-color: white;
-  padding: 0.5em 1em;
-  margin-right: 30px;
-  border-radius: 0.75em;
-  font-weight: 500;
-  font-size: 1em;
-  color: var(--primary-color);
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-.user-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-
-#student-email{
-    background-color: white;
 }
 
 #top-bar {

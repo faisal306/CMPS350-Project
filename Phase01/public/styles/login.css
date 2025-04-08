@@ -1,23 +1,92 @@
-:root{
+:root {
+  --primary-color: #781C38; /* Dark Maroon (Logo Text & Elements) */
+  --secondary-color: #A02C50; /* Lighter Maroon (Highlights) */
+  --accent-color: #C05060; /* Soft Pinkish Maroon */
+  --background-color: #F5F5F5; /* Light Gray */
+  --text-color: #333333; /* Dark Gray for readability */
+  --border-color: #CCCCCC; /* Subtle Border Color */
     margin: 0;
     padding: 0;
-    --color-bg: #F5F5F2;  
-    --color-text: #333333;
-    --color-accent: #5BC8CE;
     box-sizing: border-box;
 }
 
+*{
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+}
+
+html{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+}
+
+.qu-logo {
+    width: 15em;
+}
+
+header{
+    background-color: var(--background-color);
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.btns a {
+  display: inline-block;
+  padding: 0.8em 1.2em;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-radius: 0.5em;
+  border-color: var(--border-color);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+}
+
+
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+
+    text-decoration: none;
+    gap: 30px;
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.user-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8em;
+  background-color: white;
+  padding: 0.5em 1em;
+  margin-right: 30px;
+  border-radius: 0.75em;
+  font-weight: 500;
+  font-size: 1em;
+  color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+
 body {
-    background-color: var(--color-accent);
+    background-color: var(--background-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-content: space-between;
     align-items: center;
-    background-image: url('/images/bg2.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    gap: 2em;
 }
 
 main{
@@ -27,14 +96,9 @@ main{
     align-items: center;
 }
 
-header{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
 .background {
-    background-color: var(--color-bg);
+    background-color: var(--primary-color);
     border-radius: 2.5em;
     padding: 3em 3em 2em 2em;
     gap: 2em;
@@ -66,6 +130,7 @@ header{
 }
 
 #email, #password {
+    background-color: var(--background-color);
     width: 100%;
     height: 2.5rem;
     padding: 5px;
@@ -81,10 +146,12 @@ header{
     border: none;
     margin-top: 2em;
     font-weight: bold;
+    background-color: var(--secondary-color);
 }
 
 #login:hover {
     cursor: pointer;
+    background-color: var(--accent-color);
 }
 
 
