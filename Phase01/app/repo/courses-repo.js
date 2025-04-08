@@ -76,7 +76,7 @@ class CoursesRepo {
             }
             
 
-            
+
             
             // Check if the course is open for registration
             if (!course.openForRegistration) {
@@ -166,6 +166,57 @@ class CoursesRepo {
     }
 
 
+
+        // courseData is an object that contains the details of the course
+    async createClass(courseData) {
+        try {
+            // Read
+            const courses = await fs.readJson(this.filePath);
+                
+            // If the course doesn't have a CRN
+            if (!courseData.crn) {
+                courseData.crn = nanoid(8);  
+            }
+                
+
+
+
+            // Create a new course with default settings
+            const newCourse = {
+            ...courseData, // Copy all info from courseData (like name, prerequisites, etc.)
+            adminApprove: false,           
+            openForRegistration: false,    
+            availableSeats: courseData.totalSeats || 30, 
+            registeredStudents: [], 
+            };
+                
+
+            // Add the new course 
+            courses.push(newCourse);
+                
+            // Save the updated list of courses
+            await fs.writeJson(this.filePath, courses);
+                
+
+
+
+            // Return success message
+            return {
+                success: true,
+                message: "Course created successfully",
+                course: newCourse
+            };
+                
+            } catch (error) {
+                // If there's any error
+                console.error("Error creating course:", error);
+                return {
+                    success: false,
+                    message: "An error occurred while creating the course"
+                        };
+                    }
+                }
+                
 
 }
 
