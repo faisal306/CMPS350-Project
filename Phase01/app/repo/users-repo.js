@@ -33,6 +33,19 @@ class UsersRepo {
     }
 
 
+    // this method is to retrieve the user data by the Id
+    async getUser(id) {
+        const users = await this.getUsers();
+        // search for the user in the array 
+        const user = users.find(user => user.id == id);
+        if (user)
+            return user;
+        else
+            return { errorMessage: 'User not found' };
+    }
+
+    
+
 }
 
 export default new UsersRepo()
