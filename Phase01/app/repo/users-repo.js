@@ -5,6 +5,7 @@ import path from 'path'
 class UsersRepo {
     constructor() {
         this.filePath = path.join(process.cwd(), 'app/data/users.json');
+        this.coursesFilePath = path.join(process.cwd(), 'app/data/courses.json');
     }
 
     async getUsers() {
