@@ -107,9 +107,16 @@ function permittedUser(){
 
 // to load pending courses
 async function loadCourses() {
+    pendDiv.innerHTML = `
+        <h2>Courses Pending Approval</h2>
+    `
+
+    approvedDiv.innerHTML = `
+        <h2>Approved Courses</h2>
+    `
     // To show only the latest version (except header)
-    const data = await fetch('data/courses.json');
-    let courses = await data.json();
+    let response = await fetch(`api/courses`);
+    let courses = await response.json();
     courses.forEach(course => {
         if(!course.adminApprove){
             pendDiv.innerHTML += `
@@ -131,6 +138,7 @@ async function loadCourses() {
                     <p><strong>Instructor:</strong> ${course.instructor}</p>
                     <p><strong>Schedule:</strong> ${course.schedule}</p>
                     <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
+                    <button onclick="disApproveCourse('${course.crn}')">Disapprove Course</button>
                 </div>
             `;
         }
@@ -141,25 +149,11 @@ async function loadCourses() {
 // function to approve a course by only the admin
 
 async function approveCourse(courseCRN) {
-    // get courses
-    const data = await fetch('data/courses.json');
-    let courses = await data.json();
-
-    // find the course in the pending array
-    let course = courses.find(c => c.crn == courseCRN);
-
-    if (!course) { // Could happen if two admins using the page at the same time
-        alert("Course not found in pending list!");
-        return;
-    }
-
-    // Approve the course
-    course.adminApprove = true;
-    course.openForRegistration = true;
-
-    alert(`Course "${course.name}" has been approved and is now open for registration.`);
-
-    // Reload to reflect the changes 
+    await fetch(`api/courses/${courseCRN}?approved=true`);
     loadCourses();
+}
 
+async function disApproveCourse(courseCRN) {
+    await fetch(`api/courses/${courseCRN}?approved=false`);
+    loadCourses();
 }
