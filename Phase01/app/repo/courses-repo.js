@@ -169,6 +169,7 @@ class CoursesRepo {
 
         // courseData is an object that contains the details of the course
     async createClass(courseData) {
+
         try {
             // Read
             const courses = await fs.readJson(this.filePath);
@@ -214,6 +215,71 @@ class CoursesRepo {
                     success: false,
                     message: "An error occurred while creating the course"
                         };
+                    }
+                }
+
+
+    async hasCompletedPrereq(userId, courseId) {
+
+
+            try {
+                
+                // Load users from the file
+                const users = await fs.readJson(this.usersFilePath);
+                
+                // get the user with the given ID
+                const user = users.find(u => u.id == userId);
+                
+                // If user doesn't exist 
+                if (!user || !user.completedCourses) {
+                    return false;
+                }
+
+
+                
+                // get all courses
+                const courses = await this.getCourses();
+                
+                // Find the course the student wants to register for
+                const course = courses.find(c => c.crn == courseId);
+                
+                // If course doesn't exist or has no prerequisites
+                if (!course || !course.prerequisites || course.prerequisites.length === 0) {
+                    return true;
+                }
+                
+
+                // give me the list of course IDs the user has already completed
+                const completedCourseIds = user.completedCourses.map(c => c.id);
+                
+                // Check if the user has completed all required prerequisites
+                
+                for (let i = 0; i < course.prerequisites.length; i++) {
+                    const requiredCourse = course.prerequisites[i];
+        
+                    // Check if requiredCourse exists in completedCourseIds
+                    let found = false;
+                    for (let j = 0; j < completedCourseIds.length; j++) {
+                        if (completedCourseIds[j] === requiredCourse) {
+                            found = true;
+                            break;
+                        }
+                    }
+        
+                    // If any required course is not found
+                    if (!found) {
+                        return false;
+                    }
+                }
+        
+                // prerequisites are all found
+                return true;
+
+
+                
+                } catch (error) {
+                        console.error("Error checking prerequisites:", error);
+                        return false;
                     }
                 }
                 
