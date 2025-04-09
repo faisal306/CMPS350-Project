@@ -360,9 +360,6 @@ class CoursesRepo {
             };
         }
     }
-    
-
-
 }
 
 export default new CoursesRepo()

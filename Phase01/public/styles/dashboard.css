@@ -1,10 +1,28 @@
-
-* {
+:root {
+  --primary-color: #781C38; /* Dark Maroon (Logo Text & Elements) */
+  --secondary-color: #A02C50; /* Lighter Maroon (Highlights) */
+  --accent-color: #C05060; /* Soft Pinkish Maroon */
+  --background-color: #F5F5F5; /* Light Gray */
+  --text-color: #333333; /* Dark Gray for readability */
+  --border-color: #CCCCCC; /* Subtle Border Color */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+*{
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+html{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+}
 
 body {
     font-family: Arial, sans-serif;
@@ -14,34 +32,87 @@ body {
     margin: 0;
 }
 
-
-
-header {
-    
-    color: white;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-
-
-
-.logo-user {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
 .qu-logo {
-    height: 40px;
-    width: auto;
+    width: 15em;
 }
+
+header{
+    background-color: var(--background-color);
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.btns a {
+  display: inline-block;
+  padding: 0.8em 1.2em;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-radius: 0.5em;
+  border-color: var(--border-color);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+}
+
+
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+
+    text-decoration: none;
+    gap: 30px;
+}
+
+.user-info {
+  display: none;
+  position: relative;
+  align-items: center;
+  gap: 0.8em;
+  background-color: white;
+  padding: 0.5em 1em;
+  margin-right: 30px;
+  border-radius: 0.75em;
+  font-weight: 500;
+  font-size: 1em;
+  color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.logout-btn {
+    display: none;
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    right: 0;
+    padding: 0.8em 1.2em;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border-radius: 0.5em;
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-weight: 500;
+}
+
+
+.logout-btn:hover{
+    background-color: var(--secondary-color);
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+#student-email{
+    background-color: white;
+}
+
 
 .title {
     color: #781C38;

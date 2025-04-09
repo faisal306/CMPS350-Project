@@ -8,23 +8,20 @@
     <link rel="stylesheet" href="styles/dashboard.css">
 </head>
 <body> 
+    
     <header>
+
         <nav>
-            <div class="logo-user">
-                <a href="./landing.html"><img src="./images/qulogo.png" alt="Qu Logo" class="qu-logo"></a>
-                <div id="user-welcome">
-                    <!-- Will be populated with welcome message -->
-                </div>
-            </div>
-
-            <div class="div-title">
-                <h1 class="title">Student Dashboard</h1>
-            </div>
-
-            <div class="nav-actions">
-                <button id="logout-btn" class="btn-logout">Logout</button>
-            </div>
+            <a href="./landing.html"><img src="./images/qulogo.png" alt="Qu Logo" class="qu-logo"></a>
+            <h1>Student Dashboard</h1>
+            <div class="user-info">
+                <img src="./images/user-icon.png" alt="User Icon" class="user-icon">
+                <span id="student-email">student@example.com</span>
+                <button class="logout-btn" onclick="logOut()">Logout</button>
+            </div> 
         </nav>
+        <hr>
+
     </header>
 
     <main>

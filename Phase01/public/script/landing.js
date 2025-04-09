@@ -1,5 +1,3 @@
-
-
 const slides = document.querySelectorAll('.slides img');
 const dashboard = document.querySelector("#dashboard");
 let slideIndex = 0;
