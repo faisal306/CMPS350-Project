@@ -12,7 +12,8 @@
         "availableSeats": 45,
         "registeredStudents": [],
         "schedule": "MW 10:00AM - 10:50AM",
-        "hasStarted": false
+        "hasStarted": false,
+        "creditHours": 3
     },
     {
         "id": "CMPS251",
@@ -29,7 +30,8 @@
         "availableSeats": 35,
         "registeredStudents": [],
         "schedule": "STT 2:00PM - 3:15PM",
-        "hasStarted": false
+        "hasStarted": false,
+        "creditHours": 3
     },
     {
         "id": "CMPS303",
@@ -47,7 +49,8 @@
         "availableSeats": 50,
         "registeredStudents": [],
         "schedule": "STT 8:00AM - 9:15AM",
-        "hasStarted": false
+        "hasStarted": false,
+        "creditHours": 4
     },
     {
         "id": "CMPS351",
@@ -66,6 +69,7 @@
         "availableSeats": 45,
         "registeredStudents": [],
         "schedule": "MW 11:00AM - 12:15PM",
-        "hasStarted": false
+        "hasStarted": false,
+        "creditHours": 4
     }
 ]
