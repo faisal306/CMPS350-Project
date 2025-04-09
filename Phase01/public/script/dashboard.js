@@ -67,8 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         
-        console.error("An error occurred:", error);
-        window.location.href = '/login.html'; 
+       console.error("An error occurred:", error);
     }
 });
 
@@ -91,7 +90,7 @@ async function loadAvailableCourses() {
         availableCourses = courses.filter(c => c.adminApprove && c.openForRegistration && c.availableSeats > 0);
         displayAvailableCourses();
     } catch {
-        document.getElementById('available-courses-list').innerHTML = '<p class="error">Failed to load courses.</p>';
+       // document.getElementById('available-courses-list').innerHTML = '<p class="error">Failed to load courses.</p>';
     }
 }
 
@@ -143,7 +142,7 @@ async function loadUserCourses() {
             displayUserCourses('pending');
         } else throw new Error();
     } catch {
-        document.getElementById('my-courses-list').innerHTML = '<p class="error">Failed to load your courses.</p>';
+        //document.getElementById('my-courses-list').innerHTML = '<p class="error">Failed to load your courses.</p>';
     }
 }
 
@@ -261,6 +260,6 @@ function filterAvailableCourses() {
 }
 
 function logout() {
-    localStorage.removeItem('currentUser');
+    localStorage.clear();
     window.location.href = '/login.html';
 }
