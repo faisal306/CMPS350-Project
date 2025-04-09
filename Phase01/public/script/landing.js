@@ -21,7 +21,7 @@ async function initializeSlider() {
     }    
 
     if(localStorage.uid){
-        const response = await fetch('data/users.json');
+        const response = await fetch('api/users');
         const users = await response.json();
         const user = users.find(u => u.id == localStorage.uid);
         currentuser.innerHTML = 
