@@ -28,6 +28,18 @@ async function initializeSlider() {
         `
             ${user.email} 
         `
+
+        const style = document.createElement("style");
+        style.innerHTML = `
+          .user-info:hover .logout-btn {
+            display: block;
+          }
+          .user-info {
+            display: inline-flex;
+          }
+        `;
+        document.head.appendChild(style);
+
     }
 
     let dashboardLoc = "";
@@ -76,4 +88,9 @@ function nextSlide() {
     slideIndex++;
     showSlide(slideIndex);
 
+}
+
+function logOut(){
+    localStorage.clear();
+    location.reload();
 }
