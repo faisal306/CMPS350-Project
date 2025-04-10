@@ -10,10 +10,8 @@
     "openForRegistration": true,
     "adminApprove": false,
     "totalSeats": 45,
-    "availableSeats": 43,
-    "registeredStudents": [
-      2
-    ],
+    "availableSeats": 39,
+    "registeredStudents": [],
     "schedule": "MW 10:00AM - 10:50AM",
     "hasStarted": false,
     "creditHours": 3
