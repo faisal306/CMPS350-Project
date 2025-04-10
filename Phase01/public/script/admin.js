@@ -1,6 +1,8 @@
 // This file will handle the admin approval for courses
 
 
+const searchBtn = document.querySelector('#apply-filters');
+
 async function loadCoursesForAdmin() {
         
     const data = await fetch('api/courses');
@@ -81,6 +83,8 @@ async function approveCourse(courseId) {
 }
 
 
+
+
 // this functions should apply the filter when choosing a category
 
 function filterCoursesByCategory() {
@@ -112,8 +116,8 @@ function filterCoursesByCategory() {
 
 }
 
+searchBtn.addEventListener('click', filterCoursesByCategory);
 
-document.addEventListener("DOMContentLoaded", loadCoursesForAdmin());
 
 const pendDiv = document.querySelector('#pending-courses');
 const approvedDiv = document.querySelector("#approved-courses");
@@ -127,7 +131,33 @@ document.addEventListener("DOMContentLoaded", function(){
         `;
         return;
     }
+
+    // load all functions
+    
+    setupTabs();
     loadCourses();
+    loadCoursesForAdmin();
+
+
+    
+    // Add all event listeners only after elements are visable
+    document.getElementById('department-filter').addEventListener('change', filterCoursesByCategory);
+    searchBtn.addEventListener('click', searchCoursesByName);
+
+    // this for real-time search
+    // when the user types anything it immediately calls searchCoursesByName() mehtod
+    document.getElementById('course-name-search').addEventListener('input', searchCoursesByName);
+
+
+
+    // load the data
+
+    loadCoursesForPrerequisites();
+ 
+    setupCreateCourseForm();
+ 
+    loadInstructors();
+
 });
 
 function permittedUser(){
@@ -248,6 +278,44 @@ async function approveCourse(courseCRN) {
 }
 
 
+// search for a course 
+
+function searchCoursesByName() {
+
+    const searchName = document.getElementById('course-name-search').value.toLowerCase();
+    const getListTable = document.getElementById('courses-list');
+
+    const getRows = getListTable.querySelectorAll('tr');
+
+    getRows.forEach(row => {
+
+        if (!row.cells) return;
+
+        // get the coures name from the second column, starting from index 0
+
+        const courseNameCell = row.cells[1];
+
+        const courseName = courseNameCell.textContent.toLowerCase();
+
+                        // indexOf(searchName) means that the substring searchTerm is found 
+                        // starting at the very first character of courseName
+
+                        //example, if courseName is "Web Development" and searchTerm is "Web", 
+                        // then courseName.indexOf("Web") returns 0, so the condition is true.
+                        
+
+        if (!searchName || courseName.indexOf(searchName) === 0) {
+            row.style.display = '';
+        }
+
+        else {
+            row.style.display = 'none';
+        }
+
+    });
+
+}
+
 
 async function disApproveCourse(courseCRN) {
     await fetch(`api/courses/${courseCRN}?approved=false`);
@@ -263,23 +331,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
         return;
     }
-
-    // calling the functions 
-
-
-    setupTabs();
-
-   
-    await loadCourses();
-
-    document.getElementById('department-filter').addEventListener('change', filterCoursesByCategory);
- 
-     
-    loadCoursesForPrerequisites();
- 
-    setupCreateCourseForm();
- 
-    loadInstructors();
 
 });
 
