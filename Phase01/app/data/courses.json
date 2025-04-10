@@ -90,6 +90,40 @@
     "registeredStudents": [],
     "schedule": "STT 11:00AM - 11:50AM",
     "hasStarted": false,
-    "creditHours": 4
+    "creditHours": 3
+  }, 
+  {
+    "id": "MATH102",
+    "crn": 5247,
+    "name": "Calculus 2",
+    "category": "Math",
+    "description": "This course covers covers integration, differential equations, sequences and series, and parametric equations and polar coordinates",
+    "instructor": "Dr. Yousef Dabboorasad",
+    "prerequisites": [],
+    "openForRegistration": false,
+    "adminApprove": true,
+    "totalSeats": 30,
+    "availableSeats": 30,
+    "registeredStudents": [],
+    "schedule": "STT 9:00AM - 9:50AM",
+    "hasStarted": false,
+    "creditHours": 3
+  },
+  {
+    "id": "PHYS101",
+    "crn": 5247,
+    "name": "Physics 1",
+    "category": "Physics",
+    "description": "This course deals with the structure of matter and the interactions between the fundamental constituents of the observable universe",
+    "instructor": "Dr. Sabah Al-Naimi",
+    "prerequisites": [],
+    "openForRegistration": false,
+    "adminApprove": true,
+    "totalSeats": 45,
+    "availableSeats": 45,
+    "registeredStudents": [],
+    "schedule": "MW 10:00AM - 10:50AM",
+    "hasStarted": false,
+    "creditHours": 3
   }
 ]
