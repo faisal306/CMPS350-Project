@@ -23,7 +23,7 @@ class CoursesRepo {
             else{
                 courses[index].adminApprove = false;
             }
-            await fs.writeJson(this.filePath, courses);
+            await fs.writeJson(this.filePath, courses, { spaces: 2 });
             return "Course approval updated successfully";
         }
         return "Unable to update course because it does not exist";
@@ -34,7 +34,7 @@ class CoursesRepo {
         const index = courses.findIndex(course => course.crn == params.crn);
         if (index >= 0) {
             courses[index].adminApprove = false;
-            await fs.writeJson(this.filePath, courses);
+            await fs.writeJson(this.filePath, courses, { spaces: 2 });
             return "Course approved successfully";
         }
         return "Unable to update course because it does not exist";
@@ -72,15 +72,6 @@ class CoursesRepo {
             // Get the course from the courses array
             const course = courses[courseIndex];
             
-
-            // Check if the course is approved by an admin
-            if (!course.adminApprove) {
-                return { success: false, message: "Course has not been approved by admin" };
-            }
-            
-
-
-            
             // Check if the course is open
             if (!course.openForRegistration) {
                 return { success: false, message: "Course is not open for registration" };
@@ -97,8 +88,6 @@ class CoursesRepo {
             }
             
             // Check if the student is already registered
-
-
             let alreadyRegistered = false;
             for (let i = 0; i < course.registeredStudents.length; i++) {
                 if (course.registeredStudents[i] == userId) {
@@ -106,7 +95,6 @@ class CoursesRepo {
                 break;
                 }
             }
-
 
             if (alreadyRegistered) {
                 return { success: false, message: "You are already registered for this course" };
@@ -124,10 +112,8 @@ class CoursesRepo {
             course.availableSeats = course.availableSeats - 1;
             
             // Write the updated courses back
-            await fs.writeJson(this.filePath, courses);
+            await fs.writeJson(this.filePath, courses, { spaces: 2 });
             
-
-
             // update the user's with the new course
             const users = await fs.readJson(this.usersFilePath);
             
@@ -155,7 +141,7 @@ class CoursesRepo {
                 });
                 
              
-                await fs.writeJson(this.usersFilePath, users);
+                await fs.writeJson(this.usersFilePath, users, { spaces: 2 });
             }
             
 
@@ -209,7 +195,7 @@ class CoursesRepo {
             courses.push(newCourse);
                 
             // Save the updated list of courses
-            await fs.writeJson(this.filePath, courses);
+            await fs.writeJson(this.filePath, courses, { spaces: 2 });
                 
 
 
@@ -232,7 +218,7 @@ class CoursesRepo {
                 }
 
 
-    async hasCompletedPrereq(userId, courseId) {
+    async hasCompletedPrerequisites(userId, courseId) {
 
 
             try {
@@ -331,7 +317,7 @@ class CoursesRepo {
     
 
             //Save changes 
-            await fs.writeJson(this.filePath, courses);
+            await fs.writeJson(this.filePath, courses, { spaces: 2 });
     
             
 

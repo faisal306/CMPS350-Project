@@ -8,10 +8,10 @@ export async function GET(request, { params }) {
     return Response.json(approval);
 }
 
-export async function POST(request, { params }) {
+export async function POST(request, { params }) { //api/courses/[crn]
     try {
-        const { crn } = params;
-        const { studentId } = await request.json();
+        const { studentId, crn} = await request.json();
+        console.log(studentId, crn);
         const registration = await CoursesRepo.registerClass(studentId, crn);
         return Response.json(registration);
     } catch (error) {

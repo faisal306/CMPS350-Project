@@ -1,17 +1,17 @@
 // Global variables
 let currentUser = null;
-let availableCourses = [];
+let availableCourses = null;
 let userCourses = {
-    pendingCourses: [],
+    completedCourses: [],
     inProgressCourses: [],
-    completedCourses: []
+    pendingCourses: []
 };
 let selectedCourse = null;
 
-// Initialize the dashboard
 document.addEventListener('DOMContentLoaded', async () => {
     const userId = localStorage.getItem('uid');
     if (!userId) {
+        alert("You are not logged in. Please log in to access the dashboard.");
         window.location.href = '/login.html';
         return;
     }
@@ -42,25 +42,20 @@ async function initializeUser(userId) {
         headers: { 'Content-Type': 'application/json' }
     });
     const coursesData = await userDataResponse.json();
-    userCourses = coursesData.courses || userCourses;
+    userCourses = coursesData || userCourses;
 }
 
 async function initializeCourses() {
     const response = await fetch('/api/courses');
     if (!response.ok) throw new Error('Failed to fetch courses');
     const courses = await response.json();
-    availableCourses = courses.filter(c => c.availableSeats > 0);
+    availableCourses = courses;
 }
 
 function setupEventListeners() {
     // Tab switching
     document.querySelectorAll('.tab-btn').forEach(button => {
         button.addEventListener('click', () => switchTab(button));
-    });
-
-    // Learning path tabs
-    document.querySelectorAll('.learning-tab-btn').forEach(button => {
-        button.addEventListener('click', () => switchLearningTab(button));
     });
 
     // Registration modal
@@ -106,8 +101,11 @@ function displayAvailableCourses(availableCourses) {
     }
     coursesList.innerHTML = '';
     availableCourses.forEach(course => {
-        const isRegistered = userCourses?.pendingCourses?.some(c => c.id === course.crn) ||
-                             userCourses?.inProgressCourses?.some(c => c.id === course.crn);
+        const isRegistered = userCourses?.pendingCourses?.some(c => c.crn === course.crn) ||
+                            userCourses?.inProgressCourses?.some(c => c.crn === course.crn) || 
+                            userCourses?.completedCourses?.some(c => c.crn === course.crn);
+        console.log(userCourses);
+        console.log(isRegistered);
         const hasPrerequisites = !course.prerequisites || course.prerequisites.every(pr =>
             userCourses?.completedCourses?.some(c => c.id === pr));
 
@@ -122,7 +120,7 @@ function displayAvailableCourses(availableCourses) {
                 ${course.description ? `<p>${course.description}</p>` : ''}
             </div>
             <button class="register-button" data-crn="${course.crn}" ${isRegistered || !hasPrerequisites ? 'disabled' : ''}>
-                ${isRegistered ? 'Registered' : !hasPrerequisites ? 'Prerequisites Not Met' : 'Register'}
+                ${isRegistered ? 'Already Registered' : !hasPrerequisites ? 'Prerequisites Not Met' : 'Register'}
             </button>
         `;
 
@@ -201,20 +199,18 @@ async function registerForCourse() {
     if (!selectedCourse) return;
     
     try {
-        const response = await fetch('/api/courses/register', {
+        const response = await fetch(`/api/courses/${selectedCourse.crn}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId: currentUser.id, crn: selectedCourse.crn })
+            body: JSON.stringify({ studentId: currentUser.id, crn: selectedCourse.crn })
         });
         
         const result = await response.json();
-        
         if (result.success) {
             await Promise.all([initializeCourses(), initializeUser(currentUser.id)]);
-            document.querySelector('[data-tab="my-courses"]').click();
-            document.querySelector('[data-status="pending"]').click();
             showNotification('Successfully registered for the course!');
         } else {
+            alert("Failed to register class. Please contact the admnistration.\nError Message: " + result.message);
             throw new Error(result.message || 'Registration failed');
         }
     } catch (error) {

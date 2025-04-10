@@ -49,8 +49,6 @@ class UsersRepo {
     // this method will use the user Id to get his courses and categorizes them into
     // completed / In-Progress / Pending 
     async getUserCourses(userId) {
-
-
         try {
             // get user and course data
             const users = await this.getUsers();
@@ -60,7 +58,6 @@ class UsersRepo {
                 return { success: false, errorMessage: 'User not found' };
             } 
             
-
             const allCourses = await fs.readJson(this.coursesFilePath);
             
             // Initialize categories
@@ -81,10 +78,8 @@ class UsersRepo {
                     // using the sperad i will combine regCourse and enrichedCourse
                     // to get all the relevant info about the course and then categorize them
                     const enrichedCourse = { ...regCourse, ...courseDetails };
-                    
 
                     /*
-
 
                     How the classification will be:
                     pending: A course that the student has registered for but hasn't started yet. 
