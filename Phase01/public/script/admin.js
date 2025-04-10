@@ -29,36 +29,8 @@ async function loadCoursesForAdmin() {
         var option = document.createElement("option");
         option.value = category;
         option.textContent = category;
-        filter.appendChild(option);
+        dropdown.appendChild(option);
     }
-
-
-    // const adminDiv = document.querySelector("#admin-course-list");
-
-    // // To show only the latest version
-    // adminDiv.innerHTML = "";
-
-    // courses.forEach(course => {
-
-    //     // if the course is not approved by the admin
-    //     // in otherwords this block will run only for courses are waitiing for admin approve 
-    //     if (!course.adminApprove) {
-    //         // Here i used += instead of = beacuse i want to add a course to the parent (adminDiv)
-    //         // += i will prevent overriding the previous courses if i used = it will overwrite
-    //         adminDiv.innerHTML += `
-    //         <div class="course-item">
-    //             <h3>${course.name}</h3>
-    //             <p>${course.description}</p>
-    //             <p><strong>Instructor</strong>: ${course.instructor}</p>
-    //             <p><strong>Schedule</strong>: ${course.schedule}</p>
-    //             <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
-    //             <button onclick="approveCourse('${course.id}')">Approve Course</button>
-    //         </div>
-    //         </hr>
-    //         `;
-    //     }
-
-    // });
 
 }
 
@@ -105,6 +77,38 @@ async function approveCourse(courseId) {
     alert(`Course ${course.name} has been approved and is now open for registration.`);
 
     loadCoursesForAdmin();
+
+}
+
+
+// this functions should apply the filter when choosing a category
+
+function filterCoursesByCategory() {
+
+    const getCatValue = document.getElementById('department-filter').value;
+
+    const getCourseListTable = document.getElementById('courses-list');
+
+
+    // get the table rows
+    const rows = getCourseListTable.querySelectorAll('tr');
+
+    rows.forEach(row => {
+
+        // because the category in the 3 column in the table
+        // I used here cells because DOM provide you with it when using table
+        const categoryCell = row.cells[2];
+
+        // !getCatValue if not category is selectd
+        // categoryCell.textContent === getCatValue display the category
+        if (!getCatValue || categoryCell.textContent === getCatValue) {
+            row.style.display = '';
+
+        } else {
+            row.style.display = 'none';
+        }
+
+    });
 
 }
 

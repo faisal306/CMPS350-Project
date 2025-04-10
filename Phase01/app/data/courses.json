@@ -77,5 +77,21 @@
     "schedule": "MW 11:00AM - 12:15PM",
     "hasStarted": false,
     "creditHours": 4
+  },{
+    "id": "MATH101",
+    "crn": 5247,
+    "name": "Calculus 1",
+    "category": "Math",
+    "description": "This course is designed to be cover functions, limits, derivatives, and integration",
+    "instructor": "Dr. Yousef Dabboorasad",
+    "prerequisites": [],
+    "openForRegistration": false,
+    "adminApprove": true,
+    "totalSeats": 50,
+    "availableSeats": 50,
+    "registeredStudents": [],
+    "schedule": "STT 11:00AM - 11:50AM",
+    "hasStarted": false,
+    "creditHours": 4
   }
 ]
