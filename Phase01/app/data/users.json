@@ -2,16 +2,7 @@
   {
     "id": 1,
     "name": "Yazan",
-    "completedCourses": [
-      {
-        "id": "CMPS151",
-        "grade": "90"
-      },
-      {
-        "id": "CMPS251",
-        "grade": "75"
-      }
-    ],
+    "completedCourses": [],
     "email": "yazan@qu.edu.qa",
     "password": "yazan123",
     "role": "student"
@@ -19,36 +10,17 @@
   {
     "id": 2,
     "name": "Faisal",
-    "completedCourses": [
-      {
-        "id": "CMPS251",
-        "grade": "84"
-      },
-      {
-        "id": "CMPS303",
-        "grade": "87"
-      }
-    ],
+    "completedCourses": [],
     "email": "faisal@qu.edu.qa",
     "password": "faisal123",
     "role": "student",
     "registeredCourses": [
       {
-        "id": 14201,
+        "crn": 1420,
+        "id": "CMPS151",
         "name": "Programming Concepts"
       }
     ]
-  },
-  {
-    "id": 3,
-    "name": " Prof. Mahmoud",
-    "areasOfExpertise": [
-      "Web Development",
-      "Cybersecurity"
-    ],
-    "email": "barhamgi@qu.edu.qa",
-    "password": "barhamgi123",
-    "role": "instructor"
   },
   {
     "id": 5,

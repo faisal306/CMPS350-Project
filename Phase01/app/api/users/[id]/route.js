@@ -11,3 +11,4 @@ export async function POST(request, { params }) {
     const courses = await UsersRepo.getUserCourses(id);
     return Response.json(courses);
 }
+

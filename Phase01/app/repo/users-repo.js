@@ -53,9 +53,10 @@ class UsersRepo {
             // get user and course data
             const users = await this.getUsers();
             const user = users.find(u => u.id == userId);
+            console.log(user);
 
             if (!user) {
-                return { success: false, errorMessage: 'User not found' };
+                return { success: false, errorMessage: 'User not found' }; 
             } 
             
             const allCourses = await fs.readJson(this.coursesFilePath);
@@ -63,68 +64,28 @@ class UsersRepo {
             // Initialize categories
             const completedCourses = user.completedCourses || [];
             const registeredCourses = user.registeredCourses || [];
-            const pendingCourses = [];
-            const inProgressCourses = [];
             
-            // loop through each course in the student's registeredCourses
-            for (const regCourse of registeredCourses) {
-
-                // get teh details 
-                const courseDetails = allCourses.find(c => c.crn == regCourse.id);
-
-                // if found
-                if (courseDetails) {
-
-                    // using the sperad i will combine regCourse and enrichedCourse
-                    // to get all the relevant info about the course and then categorize them
-                    const enrichedCourse = { ...regCourse, ...courseDetails };
-
-                    /*
-
-                    How the classification will be:
-                    pending: A course that the student has registered for but hasn't started yet. 
-                    It's still open for registration or is waiting to begin.
-
-                    in-Progress: A course that has already started, and the student 
-                    is currently attending. The course is ongoing but hasn't been completed yet.
-
-                    */
-
-                    // Check if the course is pending or in progress
-                    if (courseDetails.openForRegistration && !courseDetails.hasStarted) {
-                        // added to the pending courses array
-                        pendingCourses.push(enrichedCourse); 
-
-                        
-                    } else {
-                        inProgressCourses.push(enrichedCourse); 
-                    }
-                }
-            }
-    
             return {
                 success: true,
                 data: {
-                    // the list of courses
-                    completedCourses: completedCourses,
-                    inProgressCourses: inProgressCourses,
-                    pendingCourses: pendingCourses
+                    completedCourses: completedCourses.map(c => ({
+                        ...c,
+                        ...allCourses.find(ac => ac.crn === c.id)
+                    })),
+                    registeredCourses: registeredCourses.map(c => ({
+                        ...c,
+                        ...allCourses.find(ac => ac.crn === c.id)
+                    })),
                 }
             };
-
-
-        // in case fail happend to when getting the courses 
         } catch (error) {
             console.error('Error getting user courses:', error);
             return { 
-                success: false, errorMessage: 'An error occurred while retrieving user courses' 
+                success: false, 
+                errorMessage: 'An error occurred while retrieving user courses' 
             };
         }
-
-
     }
-
-
 }
 
 export default new UsersRepo()

@@ -3,8 +3,7 @@ let currentUser = null;
 let availableCourses = null;
 let userCourses = {
     completedCourses: [],
-    inProgressCourses: [],
-    pendingCourses: []
+    registeredCourses: []
 };
 let selectedCourse = null;
 
@@ -42,7 +41,8 @@ async function initializeUser(userId) {
         headers: { 'Content-Type': 'application/json' }
     });
     const coursesData = await userDataResponse.json();
-    userCourses = coursesData || userCourses;
+    console.log(coursesData);
+    userCourses = coursesData.data || userCourses;
 }
 
 async function initializeCourses() {
@@ -71,8 +71,6 @@ function setupEventListeners() {
 function updateUI() {
     displayAvailableCourses(availableCourses);
     displayCompletedCourses();
-    displayInProgressCourses();
-    displayPendingCourses();
     populateDepartmentFilter();
     updateUserInfo();
 }
@@ -101,13 +99,26 @@ function displayAvailableCourses(availableCourses) {
     }
     coursesList.innerHTML = '';
     availableCourses.forEach(course => {
-        const isRegistered = userCourses?.pendingCourses?.some(c => c.crn === course.crn) ||
-                            userCourses?.inProgressCourses?.some(c => c.crn === course.crn) || 
-                            userCourses?.completedCourses?.some(c => c.crn === course.crn);
-        console.log(userCourses);
-        console.log(isRegistered);
+        const isCompleted = userCourses?.completedCourses?.some(c => c.crn == course.crn);
+        const isRegistered = userCourses?.registeredCourses?.some(c => c.crn == course.crn);
+
         const hasPrerequisites = !course.prerequisites || course.prerequisites.every(pr =>
-            userCourses?.completedCourses?.some(c => c.id === pr));
+            userCourses?.completedCourses?.some(c => c.crn == pr));
+
+        const buttonClass = !hasPrerequisites ? 'register-button-disabled' : 'register-button-active';
+        let buttonText = 'Register';
+        let isClickable = true;
+
+        if (isCompleted) {
+            buttonText = 'Already Completed';
+            isClickable = false;
+        } else if (isRegistered) {
+            buttonText = 'Unregister';
+            isClickable = true;
+        } else if (!hasPrerequisites) {
+            buttonText = 'Prerequisites Not Met';
+            isClickable = false;
+        } 
 
         const courseCard = document.createElement('div');
         courseCard.className = 'course-card';
@@ -119,13 +130,22 @@ function displayAvailableCourses(availableCourses) {
                 <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
                 ${course.description ? `<p>${course.description}</p>` : ''}
             </div>
-            <button class="register-button" data-crn="${course.crn}" ${isRegistered || !hasPrerequisites ? 'disabled' : ''}>
-                ${isRegistered ? 'Already Registered' : !hasPrerequisites ? 'Prerequisites Not Met' : 'Register'}
+            <button class="${buttonClass}" data-crn="${course.crn}" ${!isClickable ? 'disabled' : ''}>
+                ${buttonText}
             </button>
         `;
 
-        if (!isRegistered && hasPrerequisites) {
-            courseCard.querySelector('.register-button').addEventListener('click', () => openRegistrationModal(course));
+        if (isClickable) {
+            const button = courseCard.querySelector('button');
+            button.addEventListener('click', () => {
+                if (isRegistered) {
+                    if(confirm("Are you sure you want to unregister from this course?")) {
+                        unregisterFromCourse(course);
+                    }
+                } else {
+                    openRegistrationModal(course, 'register');
+                }
+            });
         }
         coursesList.appendChild(courseCard);
     });
@@ -176,17 +196,23 @@ function displayPendingCourses() {
         : '<tr><td colspan="4">No pending registrations.</td></tr>';
 }
 
-function openRegistrationModal(course) {
+function openRegistrationModal(course, action) {
     selectedCourse = course;
     const modal = document.getElementById('registration-modal');
     const details = document.getElementById('modal-course-details');
+    const confirmBtn = document.getElementById('confirm-registration');
+    
     details.innerHTML = `
         <h3>${course.name} (${course.crn})</h3>
         <p><strong>Department:</strong> ${course.department}</p>
         <p><strong>Credits:</strong> ${course.creditHours}</p>
         <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
-        <p>Are you sure you want to register?</p>
+        <p>Are you sure you want to ${action} this course?</p>
     `;
+    
+    confirmBtn.textContent = action === 'register' ? 'Register' : 'Unregister';
+    confirmBtn.onclick = registerForCourse;
+    
     modal.style.display = 'block';
 }
 
@@ -208,14 +234,43 @@ async function registerForCourse() {
         const result = await response.json();
         if (result.success) {
             await Promise.all([initializeCourses(), initializeUser(currentUser.id)]);
-            showNotification('Successfully registered for the course!');
+            alert("Successfully registered for the course!");
+            location.reload();
         } else {
             alert("Failed to register class. Please contact the admnistration.\nError Message: " + result.message);
             throw new Error(result.message || 'Registration failed');
         }
     } catch (error) {
         console.error('Registration error:', error);
-        showNotification(error.message || 'Failed to register for the course. Please try again.');
+        alert("Failed to register for the course. Please try again.");
+        location.reload();
+    } finally {
+        closeModal();
+    }
+}
+
+async function unregisterFromCourse(course) {
+    if (!course) return;
+    
+    try {
+        const response = await fetch(`/api/courses/${course.crn}`, {
+            method: 'DELETE',  
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ studentId: currentUser.id })
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+            await Promise.all([initializeCourses(), initializeUser(currentUser.id)]);
+            alert("Successfully unregistered from the course!");
+            location.reload();
+        } else {
+            alert("Failed to unregister from class. Please contact the administration.\nError Message: " + result.message);
+            throw new Error(result.message || 'Unregistration failed');
+        }
+    } catch (error) {
+        console.error('Unregistration error:', error);
+        alert("Failed to unregister from the course. Please try again.");
     } finally {
         closeModal();
     }

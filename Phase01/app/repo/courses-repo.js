@@ -136,8 +136,9 @@ class CoursesRepo {
                 }
                 
                 users[userIndex].registeredCourses.push({
-                id: course.crn,
-                name: course.name,
+                crn: course.crn,
+                id: course.id,
+                name: course.name
                 });
                 
              
@@ -344,6 +345,45 @@ class CoursesRepo {
                 success: false,
                 message: "An error occurred while updating registration status"
             };
+        }
+    }
+
+    async unregisterClass(userId, crn) {
+        try {
+            // Read current data
+            const courses = await fs.readJson(this.filePath);
+            const users = await fs.readJson(this.usersFilePath);
+
+            // Find course and user
+            const course = courses.find(c => c.crn == crn);
+            const user = users.find(u => u.id == userId);
+
+            if (!course || !user) {
+                return { success: false, message: "Course or user not found" };
+            }
+
+            // Remove student from course's registered students
+            const studentIndex = course.registeredStudents.indexOf(userId);
+            if (studentIndex === -1) {
+                return { success: false, message: "Student not registered in this course" };
+            }
+
+            course.registeredStudents.splice(studentIndex, 1);
+            course.availableSeats++;
+
+            // Remove course from user's registered courses
+            user.registeredCourses = user.registeredCourses.filter(c => c.crn !== crn);
+            console.log("Registered Courses", user.registeredCourses);
+            
+
+            // Save changes
+            await fs.writeJson(this.filePath, courses, { spaces: 2 });
+            await fs.writeJson(this.usersFilePath, users, { spaces: 2 });
+
+            return { success: true, message: "Successfully unregistered from course" };
+        } catch (error) {
+            console.error("Error unregistering from course:", error);
+            return { success: false, message: "An error occurred during unregistration" };
         }
     }
 }
