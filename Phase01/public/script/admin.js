@@ -107,42 +107,105 @@ function permittedUser(){
 
 // to load pending courses
 async function loadCourses() {
-    pendDiv.innerHTML = `
-        <h2>Courses Pending Approval</h2>
-    `
+    
 
-    approvedDiv.innerHTML = `
-        <h2>Approved Courses</h2>
-    `
-    // To show only the latest version (except header)
-    let response = await fetch(`api/courses`);
-    let courses = await response.json();
-    courses.forEach(course => {
-        if(!course.adminApprove){
-            pendDiv.innerHTML += `
-                <div id = "course-item">
-                    <h3>${course.name}</h3>
-                    <p>${course.description}</p>
-                    <p><strong>Instructor:</strong> ${course.instructor}</p>
-                    <p><strong>Schedule:</strong> ${course.schedule}</p>
-                    <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
-                    <button onclick="approveCourse('${course.crn}')">Approve Course</button>
-                </div>
-                </hr>
-            `;
-        } else{
-            approvedDiv.innerHTML += `
-                <div class="course-item">
-                    <h3>${course.name}</h3>
-                    <p>${course.description}</p>
-                    <p><strong>Instructor:</strong> ${course.instructor}</p>
-                    <p><strong>Schedule:</strong> ${course.schedule}</p>
-                    <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
-                    <button onclick="disApproveCourse('${course.crn}')">Disapprove Course</button>
-                </div>
-            `;
+    try {
+
+        
+        // Get the courses list table body
+        const coursesListTable = document.getElementById('courses-list');
+        if (!coursesListTable) {
+            console.error("Could not find courses-list element");
+            return;
         }
-    });
+        
+
+
+        // Clear existing content
+        coursesListTable.innerHTML = '<tr><td colspan="8">Loading courses...</td></tr>';
+        
+
+        // get the courses
+        const response = await fetch('/api/courses');
+        if (!response.ok) {
+            throw new Error('Failed to fetch courses');
+        }
+        
+
+        const courses = await response.json();
+        
+
+        
+        // Clear the  message
+        coursesListTable.innerHTML = '';
+        
+
+
+
+        // If no courses found
+        if (!courses || courses.length === 0) {
+            coursesListTable.innerHTML = '<tr><td colspan="8">No courses found</td></tr>';
+            return;
+        }
+
+
+        
+        // Display each course
+        courses.forEach(course => {
+            // Determine the status text and class
+            let statusText = '';
+            let statusClass = '';
+            
+
+
+            if (!course.adminApprove) {
+                statusText = 'Pending Approval';
+                statusClass = 'status-pending';
+            } else if (course.openForRegistration) {
+                statusText = 'Open for Registration';
+                statusClass = 'status-open';
+            } else if (course.hasStarted) {
+                statusText = 'In Progress';
+                statusClass = 'status-in-progress';
+            } else {
+                statusText = 'Approved';
+                statusClass = 'status-approved';
+            }
+            
+
+
+            // Create row
+            const row = document.createElement('tr');
+
+        
+
+            row.innerHTML = `
+                <td>${course.crn}</td>
+                <td>${course.name}</td>
+                <td>${course.department || course.category || 'N/A'}</td>
+                <td>${course.creditHours || 'N/A'}</td>
+                <td>${course.availableSeats}/${course.totalSeats || (course.availableSeats + course.registeredStudents.length)}</td>
+                <td>${course.instructor || 'Not Assigned'}</td>
+                <td><span class="status-label ${statusClass}">${statusText}</span></td>
+                <td class="action-buttons">
+                    ${!course.adminApprove ? 
+                        `<button class="btn-action btn-approve" onclick="approveCourse('${course.crn}')">Approve</button>` : 
+                        `<button class="btn-action btn-reject" onclick="disApproveCourse('${course.crn}')">Disapprove</button>`
+                    }
+                    <button class="btn-action btn-edit">Edit</button>
+                    ${course.adminApprove ? 
+                        `<button class="btn-action btn-toggle" onclick="toggleRegistration('${course.crn}', ${!course.openForRegistration})">
+                            ${course.openForRegistration ? 'Close' : 'Open'} Registration
+                        </button>` : ''
+                    }
+                </td>
+            `;
+            coursesListTable.appendChild(row);
+        });
+    } catch (error) {
+        
+        showNotification('Failed to load courses', 'error');
+    }
 
 }
 
@@ -152,6 +215,8 @@ async function approveCourse(courseCRN) {
     await fetch(`api/courses/${courseCRN}?approved=true`);
     loadCourses();
 }
+
+
 
 async function disApproveCourse(courseCRN) {
     await fetch(`api/courses/${courseCRN}?approved=false`);
@@ -168,19 +233,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-     // Set up tab buttons
-     setupTabs();
+    // calling the functions 
 
-     // Load all courses for the management tab
+
+    setupTabs();
+
+   
      loadCourses();
  
-     // Load courses for the prerequisites dropdown (create course form)
+     
      loadCoursesForPrerequisites();
  
-     // Set up what happens when the admin submits the course form
      setupCreateCourseForm();
  
-     // Load instructors into the instructor dropdown
      loadInstructors();
 
 });
@@ -216,7 +281,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             courses.forEach(course => {
                 const option = document.createElement('option');
                 option.value = course.crn;
-                option.textContent = `${course.name} (${course.crn})`;
+                option.textContent = `${course.name} (${course.id})`;
                 dropdown.appendChild(option);
             });
         } catch (err) {
@@ -242,7 +307,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             instructors.forEach(inst => {
                 const option = document.createElement('option');
                 option.value = inst.id;
-                option.textContent = `${inst.firstName} ${inst.lastName}`;
+                option.textContent = `${inst.name}`;
                 dropdown.appendChild(option);
             });
         } catch (err) {
@@ -296,6 +361,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 creditHours,
                 totalSeats,
                 availableSeats: totalSeats,
+
+                // if there is no instructor make it undefined
                 instructor: instructorId || undefined,
                 description: description || undefined,
                 // if there is add the prerequisites if not empty array
@@ -351,6 +418,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         notificationBox.className = `notification ${type}`;
         notificationBox.classList.remove('hidden');
     
+
+
         // 5000 = 5s
         setTimeout(() => {
             notificationBox.classList.add('hidden');

@@ -54,7 +54,7 @@
                     <div class="search-inputs">
                         <input type="text" id="course-name-search" placeholder="Search by course name...">
                         <select id="department-filter">
-                            <option value="">All Departments</option>
+                            <option value="">All Categories</option>
                             <!-- Will be populated dynamically -->
                         </select>
                         <select id="status-filter">
@@ -77,7 +77,7 @@
                             <tr>
                                 <th>CRN</th>
                                 <th>Course Name</th>
-                                <th>Department</th>
+                                <th>Category</th>
                                 <th>Credit Hours</th>
                                 <th>Seats</th>
                                 <th>Instructor</th>
@@ -116,12 +116,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="course-department">CRN (Should be unique)</label>
+                        <label for="course-department">CRN (Should be unique): </label>
                         <input type="text" id="course-department" placeholder="e.g., XXXX" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="course-credits">Credit Hours:</label>
+                        <label for="course-credits">Credit Hours: </label>
                         <input type="number" id="course-credits" min="1" max="6" value="3" required>
                     </div>
                     
@@ -133,7 +133,7 @@
                     <div class="form-group">
                         <label for="course-instructor">Instructor</label>
                         <select id="course-instructor">
-                            <option value="">Select Instructor (optional)</option>
+                            <option value="">Select Instructor: </option>
                             <!-- Will be populated dynamically -->
                         </select>
                     </div>
@@ -144,7 +144,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="course-prerequisites">Prerequisites: </label>
+                        <label for="course-prerequisites">Prerequisites (Optional): </label>
                         <select id="course-prerequisites" multiple>
                             <!-- Will be populated dynamically -->
                         </select>

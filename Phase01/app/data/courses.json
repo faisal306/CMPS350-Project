@@ -1,7 +1,7 @@
 [
   {
     "id": "CMPS151",
-    "crn": 14201,
+    "crn": 1420,
     "name": "Programming Concepts",
     "category": "Programming",
     "description": "Learn and understand the basic concepts of programming.",
@@ -9,6 +9,7 @@
     "prerequisites": [],
     "openForRegistration": true,
     "adminApprove": false,
+    "totalSeats": 45,
     "availableSeats": 43,
     "registeredStudents": [
       2
@@ -19,7 +20,7 @@
   },
   {
     "id": "CMPS251",
-    "crn": 15321,
+    "crn": 1531,
     "name": "Object Oriented Programming",
     "category": "Programming",
     "description": "Learn and understand the concepts of OOP.",
@@ -29,6 +30,7 @@
     ],
     "openForRegistration": false,
     "adminApprove": false,
+    "totalSeats": 35,
     "availableSeats": 35,
     "registeredStudents": [],
     "schedule": "STT 2:00PM - 3:15PM",
@@ -37,7 +39,7 @@
   },
   {
     "id": "CMPS303",
-    "crn": 15311,
+    "crn": 1531,
     "name": "Data Structures",
     "category": "Programming",
     "description": "Learn about linked lists, trees, and graphs.",
@@ -48,6 +50,7 @@
     ],
     "openForRegistration": false,
     "adminApprove": true,
+    "totalSeats": 50,
     "availableSeats": 50,
     "registeredStudents": [],
     "schedule": "STT 8:00AM - 9:15AM",
@@ -56,7 +59,7 @@
   },
   {
     "id": "CMPS351",
-    "crn": 15210,
+    "crn": 1521,
     "name": "Fundamentals of Databases",
     "category": "Databases",
     "description": "Overview of relational databases and SQL.",
@@ -68,6 +71,7 @@
     ],
     "openForRegistration": false,
     "adminApprove": true,
+    "totalSeats": 45,
     "availableSeats": 45,
     "registeredStudents": [],
     "schedule": "MW 11:00AM - 12:15PM",
