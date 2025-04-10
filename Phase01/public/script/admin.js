@@ -3,35 +3,62 @@
 
 async function loadCoursesForAdmin() {
         
-    const data = await fetch('data/courses.json');
+    const data = await fetch('api/courses');
     const courses = await data.json();
 
-    const adminDiv = document.querySelector("#admin-course-list");
+    const categories = new Set();
 
-    // To show only the latest version
-    adminDiv.innerHTML = "";
+    courses.forEach(c => {
 
-    courses.forEach(course => {
-
-        // if the course is not approved by the admin
-        // in otherwords this block will run only for courses are waitiing for admin approve 
-        if (!course.adminApprove) {
-            // Here i used += instead of = beacuse i want to add a course to the parent (adminDiv)
-            // += i will prevent overriding the previous courses if i used = it will overwrite
-            adminDiv.innerHTML += `
-            <div class="course-item">
-                <h3>${course.name}</h3>
-                <p>${course.description}</p>
-                <p><strong>Instructor</strong>: ${course.instructor}</p>
-                <p><strong>Schedule</strong>: ${course.schedule}</p>
-                <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
-                <button onclick="approveCourse('${course.id}')">Approve Course</button>
-            </div>
-            </hr>
-            `;
+        if (c.category) {
+            categories.add(c.category);
         }
+        
 
     });
+
+    const dropdown = document.getElementById('department-filter');
+    // Clear existing content 
+    dropdown.innerHTML = '<option value="">Select Category</option>';
+
+
+                        // here i will convert the set to an array
+    const sortedCategories = Array.from(categories);
+    for (var i = 0; i < sortedCategories.length; i++) {
+        var category = sortedCategories[i];
+        var option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        filter.appendChild(option);
+    }
+
+
+    // const adminDiv = document.querySelector("#admin-course-list");
+
+    // // To show only the latest version
+    // adminDiv.innerHTML = "";
+
+    // courses.forEach(course => {
+
+    //     // if the course is not approved by the admin
+    //     // in otherwords this block will run only for courses are waitiing for admin approve 
+    //     if (!course.adminApprove) {
+    //         // Here i used += instead of = beacuse i want to add a course to the parent (adminDiv)
+    //         // += i will prevent overriding the previous courses if i used = it will overwrite
+    //         adminDiv.innerHTML += `
+    //         <div class="course-item">
+    //             <h3>${course.name}</h3>
+    //             <p>${course.description}</p>
+    //             <p><strong>Instructor</strong>: ${course.instructor}</p>
+    //             <p><strong>Schedule</strong>: ${course.schedule}</p>
+    //             <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
+    //             <button onclick="approveCourse('${course.id}')">Approve Course</button>
+    //         </div>
+    //         </hr>
+    //         `;
+    //     }
+
+    // });
 
 }
 
@@ -239,14 +266,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     setupTabs();
 
    
-     loadCourses();
+    await loadCourses();
+
+    document.getElementById('department-filter').addEventListener('change', filterCoursesByCategory);
  
      
-     loadCoursesForPrerequisites();
+    loadCoursesForPrerequisites();
  
-     setupCreateCourseForm();
+    setupCreateCourseForm();
  
-     loadInstructors();
+    loadInstructors();
 
 });
 

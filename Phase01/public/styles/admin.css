@@ -54,7 +54,7 @@ nav {
 }
 
 .btn-logout {
-    background-color: #470D39;
+    background-color: #A02C50;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -125,7 +125,7 @@ main {
 }
 
 .tab-btn.active {
-    background-color: #61224A;
+    background-color: #A02C50;
     color: white;
     font-weight: bold;
 }
@@ -171,7 +171,7 @@ main {
 }
 
 .btn-primary {
-    background-color: #61224A;
+    background-color: #A02C50;
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -330,7 +330,7 @@ main {
 }
 
 .logout-btn {
-    background-color: #470D39;
+    background-color: #A02C50;
     color: white;
     border: none;
     padding: 8px 15px;
