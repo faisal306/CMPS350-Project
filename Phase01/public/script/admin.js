@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function(){
     // when the user types anything it immediately calls searchCoursesByName() mehtod
     document.getElementById('course-name-search').addEventListener('input', searchCoursesByName);
 
-
+    document.getElementById('status-filter').addEventListener('change', filterCoursesByStatus);
 
     // load the data
 
@@ -250,13 +250,18 @@ async function loadCourses() {
                 <td><span class="status-label ${statusClass}">${statusText}</span></td>
                 <td class="action-buttons">
                     ${!course.adminApprove ? 
+                        // if the admin approve is false then show the approve button if not show the disapprove button
                         `<button class="btn-action btn-approve" onclick="approveCourse('${course.crn}')">Approve</button>` : 
                         `<button class="btn-action btn-reject" onclick="disApproveCourse('${course.crn}')">Disapprove</button>`
                     }
                     <button class="btn-action btn-edit">Edit</button>
                     ${course.adminApprove ? 
+                        // if the admin approve is true show the button for close or open
+
+                        // if the course is open for registration show close else open in the button label
                         `<button class="btn-action btn-toggle" onclick="toggleRegistration('${course.crn}', ${!course.openForRegistration})">
                             ${course.openForRegistration ? 'Close' : 'Open'} Registration
+                            
                         </button>` : ''
                     }
                 </td>
@@ -273,6 +278,8 @@ async function loadCourses() {
 // function to approve a course by only the admin
 
 async function approveCourse(courseCRN) {
+
+    // here it will get the crn of the course and then chagne the admin approve to false
     await fetch(`api/courses/${courseCRN}?approved=true`);
     loadCourses();
 }
@@ -509,4 +516,64 @@ document.addEventListener("DOMContentLoaded", async () => {
             notificationBox.classList.add('hidden');
         }, 5000);
 
-    }
+}
+
+
+// this function will filter the courses by status
+
+function filterCoursesByStatus() {
+
+    const statusValue = document.getElementById('status-filter').value;
+
+    const getCoursesTable = document.getElementById('courses-list');
+
+    const rows = getCoursesTable.querySelectorAll('tr');
+
+    rows.forEach(row => {
+
+        // skip if no cells, start from 0
+
+        if(!row.cells) return;
+
+        // get column 7
+
+        const getStatusCell = row.cells[6];
+
+
+        // textContent will return the content of the status element
+        // trim() to remove whitespace 
+        const statusText = getStatusCell.textContent.trim();
+
+        // map the status text to the value in dropdown 
+
+        const statusMapping = {
+            'Pending Approval': 'pending',
+            'Approved': 'approved',
+            'Open for Registration': 'open',
+            'Closed for Registration': 'closed',
+            'In Progress': 'inProgress',
+            'Completed': 'completed'
+        };
+
+        // here how mapping works 
+        // get the choosing status and then check for it in the list 
+        // and if no status has been choosen put empty string
+        const rowStatValue = statusMapping[statusText] || '';
+
+        // showing and hiding
+
+        if (!statusValue || rowStatValue === statusValue) {
+            // show the row as the browser will go back to the default 
+            // display style
+            row.style.display = '';
+        }
+
+        // hide that row from view because the user did not choose a status 
+
+        else {
+            row.style.display = 'none';
+        }
+
+    });
+
+}

@@ -36,3 +36,7 @@
       2. Admin -> admin.html , where the admin will see the courses that are ready to be approved.
 5. In JSON and javsScript
    1. The order of properties in an object doesn’t matter for functionality.
+6. Summary of the how registration work
+   1. Phase 1: Created and marked as Open for Registration.
+   2. Phase 2: Once enough students sign up, it becomes Pending Validation.
+   3. Phase 3: After the admin validates it, its status updates to In Progress.
