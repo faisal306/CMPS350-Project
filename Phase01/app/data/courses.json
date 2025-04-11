@@ -160,5 +160,22 @@
     "schedule": "MW 2:00AM - 3:15AM",
     "hasStarted": false,
     "creditHours": 3
+  },
+  {
+    "id": "CMPS310",
+    "crn": 5747,
+    "name": "Software Engineering",
+    "category": "Programming",
+    "description": "This course deals with the design, development, testing, and maintenance of software applications.",
+    "instructor": "Dr. Rehab Duwairi",
+    "prerequisites": [],
+    "openForRegistration": false,
+    "adminApprove": true,
+    "totalSeats": 50,
+    "availableSeats": 50,
+    "registeredStudents": [],
+    "schedule": "MW 9:00AM - 10:15AM",
+    "hasStarted": false,
+    "creditHours": 4
   }
 ]

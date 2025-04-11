@@ -420,6 +420,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             
             const crn = document.getElementById('course-crn').value.trim();
             const name = document.getElementById('course-name').value.trim();
+
+            // we changed department ==> to be category 
             const department = document.getElementById('course-department').value.trim();
             const creditHours = Number(document.getElementById('course-credits').value);
             const totalSeats = Number(document.getElementById('course-seats').value);
@@ -446,7 +448,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
             // Build the course object to send to the server
             const newCourse = {
-                crn: crn || undefined, // If no CRN is given, let the backend generate one
+                crn,
                 name,
                 department,
                 creditHours,
@@ -462,7 +464,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             };
     
             try {
-                const res = await fetch('/api/courses/create', {
+                const res = await fetch('/api/courses', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

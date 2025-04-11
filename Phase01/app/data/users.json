@@ -23,18 +23,29 @@
     ]
   },
   {
-    "id": 5,
-    "name": "Prof. Rehab",
+    "id": 3,
+    "name": "Prof. Rehab Duwairi",
     "areasOfExpertise": [
       "Artificial Intelligence",
       "Software Engineering"
     ],
-    "email": "Rehab@qu.edu.qa",
+    "email": "Rehab.Duwairi@qu.edu.qa",
     "password": "Rehab123",
     "role": "instructor"
   },
   {
-    "id": 6,
+    "id": 4,
+    "name": "Prof. Mahmoud Barhamgi",
+    "areasOfExpertise": [
+      "Web Development",
+      "Cybersecurity"
+    ],
+    "email": "Barhamgi@qu.edu.qa",
+    "password": "Mahmoud123",
+    "role": "instructor"
+  },
+  {
+    "id": 5,
     "email": "admin@qu.edu.qa",
     "password": "admin123",
     "role": "admin",
