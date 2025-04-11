@@ -468,9 +468,18 @@ class CoursesRepo {
     }
     
 
+// Add this method to courses-repo.js
+async saveCourses(courses) {
+    try {
+        await fs.writeJson(this.filePath, courses, { spaces: 2 });
+        return true;
+    } catch (error) {
+        console.error("Error saving courses:", error);
+        throw error;
+    }
 }
 
-
+}
 
 
 export default new CoursesRepo()

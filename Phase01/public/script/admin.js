@@ -36,47 +36,36 @@ async function loadCoursesForAdmin() {
 
 }
 
-async function approveCourse(courseId) {
-    // Check if the user is logged in 
-    const currentUserEmail = localStorage.getItem("currentUserEmail");
-    const res = await fetch('data/users.json');
-    const users = await res.json();
-    // get the user from his email
-    const currentUser = users.find(u => u.email === currentUserEmail);
+async function approveCourse(courseCRN) {
 
-    // only admins are allowed
-    if (!currentUser || currentUser.role !== "admin") {
-        alert("Only admin can approve courses.");
-        return;
+
+    try {
+        const response = await fetch(`/api/courses/${courseCRN}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ approved: true })
+        });
+        
+        
+
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification('Course approved successfully', 'success');
+            loadCourses();
+        } else {
+            showNotification(result.message || 'Failed to approve course', 'error');
+        }
+        
+        
+        
+    } catch (error) {
+        console.error('Error approving course:', error);
+        showNotification('Error approving course. Please try again.', 'error');
     }
 
-    if (currentUser.role === "admin") {
-        window.location.href = "admin.html";
-    }
-
-    else if (currentUser.role === "student") {
-        window.location.href = "dashboard.html";
-    }
-
-    // get the courses
-
-    const data = await fetch("data/courses.json");
-    const courses = await data.json();
-    let course = courses.find(c => c.id === courseId);
-
-    if(!course) {
-        alert("Coursr not found!");
-        return;
-    }
-
-    // Approve the course
-    course.adminApprove = true;
-    course.openForRegistration = true;
-
-    // Save the courses after update
-    localStorage.setItem("courses", JSON.stringify(courses));
-
-    alert(`Course ${course.name} has been approved and is now open for registration.`);
 
     loadCoursesForAdmin();
 
@@ -282,8 +271,34 @@ async function loadCourses() {
 async function approveCourse(courseCRN) {
 
     // here it will get the crn of the course and then chagne the admin approve to false
-    await fetch(`api/courses/${courseCRN}?approved=true`);
-    loadCourses();
+    // await fetch(`api/courses/${courseCRN}?approved=true`);
+    // loadCourses();
+
+
+    try {
+        const response = await fetch(`/api/courses/${courseCRN}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ approved: true })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification('Course approved successfully', 'success');
+        } else {
+            showNotification(result.message || 'Failed to approve course', 'error');
+        }
+        
+        // Reload the course list
+        loadCourses();
+    } catch (error) {
+        console.error('Error approving course:', error);
+        showNotification('Error approving course. Please try again.', 'error');
+    }
+
 }
 
 
@@ -327,8 +342,28 @@ function searchCoursesByName() {
 
 
 async function disApproveCourse(courseCRN) {
-    await fetch(`api/courses/${courseCRN}?approved=false`);
-    loadCourses();
+    try {
+        const response = await fetch(`/api/courses/${courseCRN}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ approved: false })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification('Course disapproved successfully', 'success');
+        } else {
+            showNotification(result.message || 'Failed to disapprove course', 'error');
+        }
+        
+        loadCourses();
+    } catch (error) {
+        console.error('Error disapproving course:', error);
+        showNotification('Error disapproving course. Please try again.', 'error');
+    }
 }
 
 
