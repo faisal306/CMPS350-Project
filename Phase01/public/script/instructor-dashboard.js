@@ -295,52 +295,6 @@ async function displayAssignedCourses() {
 }
 
 
-// function filterCourses() {
-//     const searchTerm = document.getElementById('course-name-search')?.value.toLowerCase() || '';
-//     const departmentValue = document.getElementById('department-filter')?.value || '';
-    
-//     const filteredCourses = availableCourses.filter(course => {
-//         const matchesSearch = course.name.toLowerCase().includes(searchTerm);
-//         const matchesDepartment = !departmentValue || course.category === departmentValue;
-//         return matchesSearch && matchesDepartment;
-//     });
-    
-//     const coursesList = document.getElementById('available-courses-list');
-//     coursesList.innerHTML = '';
-    
-//     if (filteredCourses.length === 0) {
-//         coursesList.innerHTML = '<tr><td colspan="6">No courses match your search criteria.</td></tr>';
-//         return;
-//     }
-    
-//     filteredCourses.forEach(course => {
-//         const isInterested = currentUser.interestedCourses?.includes(course.id);
-//         const deadlineDate = course.interestDeadline ? new Date(course.interestDeadline) : null;
-//         const deadlinePassed = deadlineDate && deadlineDate < new Date();
-        
-//         const row = document.createElement('tr');
-//         row.innerHTML = `
-//             <td>${course.id}</td>
-//             <td>${course.name}</td>
-//             <td>${course.category}</td>
-//             <td>${course.creditHours}</td>
-//             <td>${deadlineDate ? deadlineDate.toLocaleString() : 'No deadline'}</td>
-//             <td>
-//                 ${!deadlinePassed ? 
-//                     `<button class="btn-action ${isInterested ? 'btn-reject' : 'btn-approve'}" 
-//                              onclick="toggleInterest('${course.id}', ${!isInterested})">
-//                         ${isInterested ? 'Remove Interest' : 'Express Interest'}
-//                      </button>` :
-//                     '<span class="deadline-passed">Deadline passed</span>'
-//                 }
-//             </td>
-//         `;
-//         coursesList.appendChild(row);
-//     });
-// }
-
-
-
 function showNotification(message, type) {
     const notificationBox = document.getElementById('notification-area');
     notificationBox.textContent = message;
