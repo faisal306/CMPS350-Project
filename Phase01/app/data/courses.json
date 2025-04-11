@@ -15,7 +15,7 @@
     "schedule": "MW 10:00AM - 10:50AM",
     "hasStarted": false,
     "creditHours": 3,
-    "isPublishedForInstructors": false,
+    "isPublishedForInstructors": true,
     "interestedInstructors": [],
     "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"

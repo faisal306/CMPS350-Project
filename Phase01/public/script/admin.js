@@ -158,6 +158,8 @@ document.addEventListener("DOMContentLoaded", function(){
  
     loadInstructors();
 
+    loadCoursesForPublication();
+
 });
 
 function permittedUser(){
@@ -353,8 +355,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 // Activate the clicked tab and related content
                 button.classList.add('active');
+                // get the custom data attribute
                 const tabId = button.dataset.tab;
                 document.getElementById(tabId).classList.add('active');
+
+
+                // to load the courses when the user click on publish courses
+
+                if (tabId === 'course-publication-tab') {
+                    loadCoursesForPublication();
+                }
+
             });
         });
 
