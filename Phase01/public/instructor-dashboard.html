@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="./landing.html"><img src="./images/qulogo.png" alt="Qu Logo" class="qu-logo"></a>
+            <h1>Instructor Dashboard</h1>
+            <div class="user-info">
+                <img src="./images/user-icon.png" alt="User Icon" class="user-icon">
+                <span id="instructor-email">instructor@example.com</span>
+                <button class="logout-btn" onclick="logOut()">Logout</button>
+            </div>
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+        <div id="notification-area" class="notification hidden"></div>
+
+        <div class="dashboard-tabs">
+            <button class="tab-btn active" data-tab="available-courses-tab">Available Courses</button>
+            <button class="tab-btn" data-tab="my-courses-tab">My Courses</button>
+            <button class="tab-btn" data-tab="profile-tab">My Profile</button>
+        </div>
+
+        <div class="tab-content">
+            <section id="available-courses-tab" class="tab-pane active">
+                <h2>Courses Available for Interest</h2>
+                
+                <div class="search-container">
+                    <div class="search-inputs">
+                        <input type="text" id="course-name-search" placeholder="Search by course name...">
+                        <select id="department-filter">
+                            <option value="">All Departments</option>
+                        </select>
+                    </div>
+                    <button id="apply-filters" class="btn-primary">Search</button>
+                </div>
+                
+                <div class="courses-table-container">
+                    <table class="courses-table">
+                        <thead>
+                            <tr>
+                                <th>Course ID</th>
+                                <th>Course Name</th>
+                                <th>Category</th>
+                                <th>Credit Hours</th>
+                                <th>Interest Deadline</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="available-courses-list">
+                            <!-- Will be populated with available courses -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="my-courses-tab" class="tab-pane">
+                <h2>My Courses</h2>
+                
+                <div class="tab-sub-header">
+                    <button class="sub-tab-btn active" data-content="interested-courses">My Interests</button>
+                    <button class="sub-tab-btn" data-content="assigned-courses">Assigned Courses</button>
+                </div>
+                
+                <div id="interested-courses" class="sub-content active">
+                    <div class="courses-table-container">
+                        <table class="courses-table">
+                            <thead>
+                                <tr>
+                                    <th>Course ID</th>
+                                    <th>Course Name</th>
+                                    <th>Category</th>
+                                    <th>Interest Deadline</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="interested-courses-list">
+                                <!-- Will be populated with interested courses -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="assigned-courses" class="sub-content">
+                    <div class="courses-table-container">
+                        <table class="courses-table">
+                            <thead>
+                                <tr>
+                                    <th>Course ID</th>
+                                    <th>Course Name</th>
+                                    <th>Category</th>
+                                    <th>Registered Students</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="assigned-courses-list">
+                                <!-- Will be populated with assigned courses -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="profile-tab" class="tab-pane">
+                <h2>My Profile</h2>
+                
+                <div class="profile-card">
+                    <div id="instructor-info">
+                        <!-- Will be populated with instructor info -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Qatar University, All Rights Reserved</p>
+    </footer>
+
+    <script src="script/instructor-dashboard.js"></script>
+</body>
+</html>

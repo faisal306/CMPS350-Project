@@ -3,6 +3,8 @@ import { nanoid } from 'nanoid'
 import path from 'path'
 
 class CoursesRepo {
+
+
     constructor() {
         this.filePath = path.join(process.cwd(), 'app/data/courses.json');
         this.usersFilePath = path.join(process.cwd(), 'app/data/users.json');
@@ -350,7 +352,7 @@ class CoursesRepo {
 
     async unregisterClass(userId, crn) {
         try {
-            // Read current data
+            
             const courses = await fs.readJson(this.filePath);
             const users = await fs.readJson(this.usersFilePath);
 
@@ -376,7 +378,9 @@ class CoursesRepo {
             console.log("Registered Courses", user.registeredCourses);
             
 
-            // Save changes
+            
+            
+
             await fs.writeJson(this.filePath, courses, { spaces: 2 });
             await fs.writeJson(this.usersFilePath, users, { spaces: 2 });
 
@@ -386,6 +390,84 @@ class CoursesRepo {
             return { success: false, message: "An error occurred during unregistration" };
         }
     }
+
+
+    async publishCourseForInstructors(crn, publish) {
+    
+
+
+        const allCourses = await fs.readJson(this.filePath);
+
+
+        // get the course with the crn
+        const courseIndex = allCourses.findIndex(course => course.crn == crn);
+
+
+
+        // If course not found
+        if (courseIndex === -1) {
+            return { success: false, message: "Course not found" };
+        }
+
+
+
+        // update the publish for that specific course
+        allCourses[courseIndex].isPublishedForInstructors = publish;
+
+        // if unpublishing the course, clear the list of instructors
+        if (publish === false) {
+            allCourses[courseIndex].interestedInstructors = [];
+        }
+
+
+
+        // Save the updated courses back to the file
+        await fs.writeJson(this.filePath, allCourses, { spaces: 2 });
+
+
+
+        return {
+            success: true,
+            message: `Course has been ${publish ? 'published' : 'unpublished'} successfully`
+        };
+    
+
+    }
+
+
+
+    async setInterestDeadline(courseIds, deadline) {
+        
+
+            // read the current list of courses 
+            const allCourses = await fs.readJson(this.filePath);
+    
+            // loop through each  ID 
+            for (const crn of courseIds) {
+
+
+                const index = allCourses.findIndex(course => course.crn == crn);
+    
+                // If found, update its interest deadline
+                if (index !== -1) {
+                    allCourses[index].interestDeadline = deadline;
+                }
+            }
+    
+         
+
+            await fs.writeJson(this.filePath, allCourses, { spaces: 2 });
+    
+            
+            return {
+                success: true,
+                message: "Deadline set successfully"
+            };
+    
+        
+    }
+    
+
 }
 
 export default new CoursesRepo()

@@ -18,3 +18,28 @@ export async function POST(request) {
     return Response.json(result);
 
 }
+
+
+export async function POST(request, { params }) {
+    
+    // get the data of the course
+    
+
+        const { crn } = params;
+        const { publish } = await request.json();
+        const result = await CoursesRepo.publishCourseForInstructors(crn, publish);
+        return Response.json(result);
+    
+}
+
+
+export async function POST(request) {
+
+
+    
+        const { courses, deadline } = await request.json();
+        const result = await CoursesRepo.setInterestDeadline(courses, deadline);
+        return Response.json(result);
+   
+
+}

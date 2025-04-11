@@ -516,6 +516,88 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
+
+async function loadCoursesForPublication() {
+
+        const response = await fetch('/api/courses');
+        const courses = await response.json();
+        
+        const publishCoursesList = document.getElementById('publish-courses-list');
+
+        // clear all previous 
+        publishCoursesList.innerHTML = '';
+        
+        courses.forEach(course => {
+            const row = document.createElement('tr');
+            const isPublished = course.isPublishedForInstructors;
+            
+            row.innerHTML = `
+                <td><input type="checkbox" class="course-select" data-crn="${course.crn}"></td>
+                <td>${course.id}</td>
+                <td>${course.name}</td>
+                <td>${course.category}</td>
+                <td>${isPublished ? 'Published' : 'Not Published'}</td>
+                <td>${course.interestDeadline ? new Date(course.interestDeadline).toLocaleString() : "-"}</td>  
+                <td>${course.interestedInstructors?.length || 0}</td>
+                <td>
+                    <button class="btn-action ${isPublished ? 'btn-reject' : 'btn-approve'}" 
+                            onclick="togglePublishStatus('${course.crn}', ${!isPublished})">
+                        ${isPublished ? 'Unpublish' : 'Publish'}
+                    </button>
+                </td>
+            `;
+            
+            publishCoursesList.appendChild(row);
+        });
+}
+
+
+// Function to set deadline for selected courses
+document.getElementById('apply-deadline').addEventListener('click', async () => {
+    const deadline = document.getElementById('interest-deadline').value;
+    
+    // get all checkboxes 
+    const checkboxes = document.querySelectorAll('.course-select:checked');
+
+    let selectedCourses = [];
+
+    // loop on them 
+    checkboxes.forEach(function(checkbox) {
+        // get the courses that are selected by the user
+        selectedCourses.push(checkbox.getAttribute('data-crn'));
+    });
+
+
+    // if no courses has been selected
+    if (selectedCourses.length === 0) {
+        showNotification('Please select at least one course', 'error');
+        return;
+    }
+    
+
+
+    
+        const response = await fetch('/api/courses', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            // convert to JSON
+            body: JSON.stringify({ 
+                courses: selectedCourses,
+                deadline: new Date(deadline).toISOString()
+            })
+        });
+
+
+        const result = await response.json();
+        if (result.success) {
+            
+            loadCoursesForPublication();
+        } 
+        
+});
+
+
+
     // this is a notification 
 
     function showNotification(message, type) {
