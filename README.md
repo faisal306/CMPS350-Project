@@ -40,3 +40,6 @@
    1. Phase 1: Created and marked as Open for Registration.
    2. Phase 2: Once enough students sign up, it becomes Pending Validation.
    3. Phase 3: After the admin validates it, its status updates to In Progress.
+7. In users.json for instructors 
+   1. "interestedCourses": [] -> Array of course IDs the instructor is interested in teaching
+   2. "assignedCourses": [] -> Array of course IDs officially assigned to this instructor

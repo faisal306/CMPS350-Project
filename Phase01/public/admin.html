@@ -293,6 +293,55 @@
                     </table>
                 </div>
             </section>
+
+
+            <section id="course-publication-tab" class="tab-pane">
+                <h2>Publish Courses for Instructor Interest</h2>
+                
+                <div class="search-container">
+                    <div class="search-inputs">
+                        <input type="text" id="publish-course-search" placeholder="Search by course name...">
+                        <select id="publish-department-filter">
+                            <option value="">All Departments</option>
+                      <!-- Will be populated dynamically -->
+                        </select>
+                </div>
+                    <button id="apply-publish-filters" class="btn-primary">Search</button>
+                </div>
+                
+                <div class="publication-settings">
+                    <h3>Set Interest Deadline</h3>
+                    <div class="form-group">
+                        <label for="interest-deadline">Deadline for instructor interest:</label>
+                        <input type="datetime-local" id="interest-deadline" required>
+                    </div>
+                    <button id="apply-deadline" class="btn-primary">Apply Deadline to Selected</button>
+                </div>
+                
+                <div class="courses-table-container">
+                    <table class="courses-table">
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all-courses"></th>
+                            <th>Course ID</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Interest Deadline</th>
+                            <th>Interested Instructors</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="publish-courses-list">
+                        <!-- Will be populated with courses -->
+                    </tbody>
+                    </table>
+                </div>
+
+                
+
+            </section>
+
         </div>
     </main>
 

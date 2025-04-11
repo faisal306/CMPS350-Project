@@ -31,7 +31,9 @@
     ],
     "email": "Rehab.Duwairi@qu.edu.qa",
     "password": "rehab123",
-    "role": "instructor"
+    "role": "instructor",
+    "interestedCourses": [],
+    "assignedCourses": []  
   },
   {
     "id": 4,
@@ -42,7 +44,9 @@
     ],
     "email": "Barhamgi@qu.edu.qa",
     "password": "mahmoud123",
-    "role": "instructor"
+    "role": "instructor",
+    "interestedCourses": [],
+    "assignedCourses": [] 
   },
   {
     "id": 5,
@@ -53,7 +57,9 @@
     ],
     "email": "n.almarri@qu.edu.qa",
     "password": "noora123",
-    "role": "instructor"
+    "role": "instructor",
+    "interestedCourses": [],
+    "assignedCourses": [] 
   },
   {
     "id": 6,
@@ -64,7 +70,9 @@
     ],
     "email": "Saeed.Salem@qu.edu.qa",
     "password": "saeed123",
-    "role": "instructor"
+    "role": "instructor",
+    "interestedCourses": [],
+    "assignedCourses": [] 
   },
   {
     "id": 7,
@@ -75,7 +83,9 @@
     ],
     "email": "salhazbi@qu.edu.qa",
     "password": "saleh123",
-    "role": "instructor"
+    "role": "instructor",
+    "interestedCourses": [],
+    "assignedCourses": [] 
   },
   {
     "id": 8,
@@ -83,7 +93,9 @@
     "areasOfExpertise": ["Harmonic Analysis"],
     "email": "husseink@qu.edu.qa",
     "password": "hussain123",
-    "role": "instructor"
+    "role": "instructor",
+    "interestedCourses": [],
+    "assignedCourses": [] 
   },
   {
     "id": 9,
@@ -94,10 +106,25 @@
     ],
     "email": "georges.younes@qu.edu.qa",
     "password": "georges123",
-    "role": "instructor"
+    "role": "instructor",
+    "interestedCourses": [],
+    "assignedCourses": [] 
   },
   {
     "id": 10,
+    "name": "Eng. Abdulahi Mohamed Hassen",
+    "areasOfExpertise": [
+      "Software Engineering",
+      "Mobile Learning"
+    ],
+    "email": "abdulahi@qu.edu.qa",
+    "password": "abdulahi123",
+    "role": "instructor",
+    "interestedCourses": [],
+    "assignedCourses": [] 
+  },
+  {
+    "id": 11,
     "email": "admin@qu.edu.qa",
     "password": "admin123",
     "role": "admin",
