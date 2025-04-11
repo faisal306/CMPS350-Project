@@ -371,7 +371,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             courses.forEach(course => {
                 const option = document.createElement('option');
-                option.value = course.crn;
+                option.value = course.id;
                 option.textContent = `${course.name} (${course.id})`;
                 dropdown.appendChild(option);
             });
@@ -397,7 +397,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
             instructors.forEach(inst => {
                 const option = document.createElement('option');
-                option.value = inst.id;
+                option.value = inst.name;
                 option.textContent = `${inst.name}`;
                 dropdown.appendChild(option);
             });
@@ -418,43 +418,56 @@ document.addEventListener("DOMContentLoaded", async () => {
             e.preventDefault(); 
     
             
+            const id = document.getElementById('course-id').value.trim().toUpperCase();
+
             const crn = document.getElementById('course-crn').value.trim();
+
+
             const name = document.getElementById('course-name').value.trim();
 
-            // we changed department ==> to be category 
-            const department = document.getElementById('course-department').value.trim();
+
+            const category = document.getElementById('course-category').value.trim();
+
+            const description = document.getElementById('course-description').value.trim();
+
+
+            // Get all selected prerequisites
+            const prereqDropdown = document.getElementById('course-prerequisites');
+
+
+
+            
             const creditHours = Number(document.getElementById('course-credits').value);
             const totalSeats = Number(document.getElementById('course-seats').value);
             const instructorId = document.getElementById('course-instructor').value;
-            const description = document.getElementById('course-description').value.trim();
     
-            // Get all selected prerequisites
-            const prereqDropdown = document.getElementById('course-prerequisites');
+
             
+            
+
             const selectedOptions = prereqDropdown.selectedOptions;
 
             const selectedArray = [...selectedOptions];
 
 
-            // get the value from each selected array
+            // get the value from each selected array by going for each option
             const prerequisites = selectedArray.map(option => option.value);
             
-    
-            // just to make sure all filed are added
-            if (!name || !creditHours || !totalSeats) {
-                showNotification('Please fill in all required fields', 'error');
-                return;
-            }
+
     
             // Build the course object to send to the server
             const newCourse = {
+                id,
                 crn,
                 name,
-                department,
-                creditHours,
+                category,
                 totalSeats,
+                creditHours,
                 availableSeats: totalSeats,
-
+                adminApprove: false,
+                openForRegistration: false,
+                registeredStudents: [],
+                hasStarted: false,
                 // if there is no instructor make it undefined
                 instructor: instructorId || undefined,
                 description: description || undefined,

@@ -18,12 +18,15 @@
   },
   {
     "id": "CMPS350",
-    "crn": 1220,
+    "crn": 3529,
     "name": "Web Development Fundamentals",
     "category": "Programming",
     "description": "This course will cover the creation of Web pages and sites using HTML, CSS, Javascript, jQuery, and graphical applications as well as the client and server architecture of the Internet and related web technologies.",
     "instructor": "Dr. Mahmoud Barhamgi",
-    "prerequisites": [],
+    "prerequisites": [
+      "CMPS151",
+      "CMPS251"
+    ],
     "openForRegistration": true,
     "adminApprove": false,
     "totalSeats": 50,
@@ -54,7 +57,7 @@
   },
   {
     "id": "CMPS303",
-    "crn": 1531,
+    "crn": 8834,
     "name": "Data Structures",
     "category": "Programming",
     "description": "Learn about linked lists, trees, and graphs.",
@@ -74,7 +77,7 @@
   },
   {
     "id": "CMPS351",
-    "crn": 1521,
+    "crn": 8211,
     "name": "Fundamentals of Databases",
     "category": "Databases",
     "description": "Overview of relational databases and SQL.",
@@ -95,7 +98,7 @@
   },
   {
     "id": "MATH101",
-    "crn": 5247,
+    "crn": 3257,
     "name": "Calculus 1",
     "category": "Math",
     "description": "This course is designed to be cover functions, limits, derivatives, and integration.",
@@ -112,12 +115,14 @@
   },
   {
     "id": "MATH102",
-    "crn": 5247,
+    "crn": 8542,
     "name": "Calculus 2",
     "category": "Math",
     "description": "This course covers covers integration, differential equations, sequences and series, and parametric equations and polar coordinates.",
     "instructor": "Dr. Yousef Dabboorasad",
-    "prerequisites": [],
+    "prerequisites": [
+      "MATH101"
+    ],
     "openForRegistration": false,
     "adminApprove": true,
     "totalSeats": 30,
@@ -128,12 +133,12 @@
     "creditHours": 3
   },
   {
-    "id": "PHYS101",
-    "crn": 5247,
-    "name": "Physics 1",
+    "id": "PHYS191",
+    "crn": 4321,
+    "name": "General Physics 1",
     "category": "Physics",
     "description": "This course deals with the structure of matter and the interactions between the fundamental constituents of the observable universe.",
-    "instructor": "Dr. Sabah Al-Naimi",
+    "instructor": "Dr. Mohamed Gharaibeh",
     "prerequisites": [],
     "openForRegistration": false,
     "adminApprove": true,
@@ -146,8 +151,8 @@
   },
   {
     "id": "CHEM101",
-    "crn": 5247,
-    "name": "Chemistry 1",
+    "crn": 9657,
+    "name": "General Chemistry 1",
     "category": "Chemistry",
     "description": "This course is about atomic and molecular structure, bonding, stoichiometry, periodicity, gases, solutions, acids, bases, oxidation-reduction and nuclear chemistry.",
     "instructor": "Dr. Khalid Al-kuwari",
@@ -163,18 +168,39 @@
   },
   {
     "id": "CMPS310",
-    "crn": 5747,
+    "crn": 3259,
     "name": "Software Engineering",
     "category": "Programming",
     "description": "This course deals with the design, development, testing, and maintenance of software applications.",
     "instructor": "Dr. Rehab Duwairi",
-    "prerequisites": [],
+    "prerequisites": [
+      "CMPS151",
+      "CMPS251",
+      "CMPS303"
+    ],
     "openForRegistration": false,
     "adminApprove": true,
     "totalSeats": 50,
     "availableSeats": 50,
     "registeredStudents": [],
     "schedule": "MW 9:00AM - 10:15AM",
+    "hasStarted": false,
+    "creditHours": 4
+  },
+  {
+    "id": "PHYS193",
+    "crn": 2541,
+    "name": "General Physics 2",
+    "category": "Physics",
+    "description": "This course is about thermodynamics, electricity and magnetics, and quantum, atomic, and nuclear physics.",
+    "instructor": "Dr. Sabah Al-Naimi",
+    "prerequisites": [],
+    "openForRegistration": false,
+    "adminApprove": true,
+    "totalSeats": 50,
+    "availableSeats": 50,
+    "registeredStudents": [],
+    "schedule": "MW 8:00AM - 9:15AM",
     "hasStarted": false,
     "creditHours": 4
   }

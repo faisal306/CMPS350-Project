@@ -86,14 +86,6 @@
     "role": "instructor"
   },
   {
-    "id": 8,
-    "name": "Dr. Ilyasse Aksikas",
-    "areasOfExpertise": ["Applied Mathematics"],
-    "email": "aksikas@qu.edu.qa",
-    "password": "Ilyasse123",
-    "role": "instructor"
-  },
-  {
     "id": 9,
     "name": "Eng. Georges Younes",
     "areasOfExpertise": [

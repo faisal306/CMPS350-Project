@@ -102,24 +102,29 @@
                 <form id="create-course-form" class="admin-form">
                     <div class="form-group">
                         <label for="course-crn">Course ID: </label>
-                        <input type="text" id="course-crn" placeholder="e.g., CMPS350">
+                        <input type="text" id="course-id" placeholder="e.g., CMPS350" required>
                     </div>
                     
+                    
+                    <div class="form-group">
+                        <label for="course-department">CRN (Must be unique): </label>
+                        <input type="number" id="course-crn" placeholder="e.g., XXXX" required>
+                    </div>
+                    
+
                     <div class="form-group">
                         <label for="course-name">Course Name: </label>
                         <input type="text" id="course-name" placeholder="e.g., Web Development" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="course-department">Category: </label>
-                        <input type="text" id="course-department" placeholder="e.g., Programming" required>
+                        <label for="course-category">Category: </label>
+                        <input type="text" id="course-category" placeholder="e.g., Programming" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="course-department">CRN (Must be unique): </label>
-                        <input type="text" id="course-department" placeholder="e.g., XXXX" required>
-                    </div>
                     
+                    
+
                     <div class="form-group">
                         <label for="course-credits">Credit Hours: </label>
                         <input type="number" id="course-credits" min="1" required>
@@ -134,7 +139,7 @@
                         <label for="course-instructor">Instructor</label>
                         <select id="course-instructor">
                             <option value="">Select Instructor: </option>
-                            <!-- Will be populated dynamically -->
+                            <!-- Will be populated -->
                         </select>
                     </div>
                     
