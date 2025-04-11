@@ -590,13 +590,35 @@ document.getElementById('apply-deadline').addEventListener('click', async () => 
 
         const result = await response.json();
         if (result.success) {
-            
+
             loadCoursesForPublication();
         } 
         
 });
 
 
+// This function is used to publish or unpublish a course
+
+async function togglePublishStatus(crn, publish) {
+    try {
+        const response = await fetch(`/api/courses/${crn}/publish`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ publish })
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+            showNotification(`Course ${publish ? 'published' : 'unpublished'} successfully`, 'success');
+            loadCoursesForPublication();
+        } else {
+            showNotification(result.message || 'Failed to update publication status', 'error');
+        }
+    } catch (error) {
+        console.error('Error toggling publish status:', error);
+        showNotification('Failed to update publication status', 'error');
+    }
+}
 
     // this is a notification 
 

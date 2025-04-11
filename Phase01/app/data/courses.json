@@ -15,9 +15,9 @@
     "schedule": "MW 10:00AM - 10:50AM",
     "hasStarted": false,
     "creditHours": 3,
-    "isPublishedForInstructors": false, 
-    "interestedInstructors": [], 
-    "assignmentConfirmed": false,  
+    "isPublishedForInstructors": false,
+    "interestedInstructors": [],
+    "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"
   },
   {
@@ -39,8 +39,8 @@
     "schedule": "ST 10:00AM - 10:50AM",
     "hasStarted": false,
     "creditHours": 4,
-    "interestedInstructors": [], 
-    "assignmentConfirmed": false,  
+    "interestedInstructors": [],
+    "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"
   },
   {
@@ -61,8 +61,8 @@
     "schedule": "STT 2:00PM - 3:15PM",
     "hasStarted": false,
     "creditHours": 3,
-    "interestedInstructors": [], 
-    "assignmentConfirmed": false,  
+    "interestedInstructors": [],
+    "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"
   },
   {
@@ -84,8 +84,8 @@
     "schedule": "STT 8:00AM - 9:15AM",
     "hasStarted": false,
     "creditHours": 4,
-    "interestedInstructors": [], 
-    "assignmentConfirmed": false,  
+    "interestedInstructors": [],
+    "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"
   },
   {
@@ -108,8 +108,8 @@
     "schedule": "MW 11:00AM - 12:15PM",
     "hasStarted": false,
     "creditHours": 4,
-    "interestedInstructors": [], 
-    "assignmentConfirmed": false,  
+    "interestedInstructors": [],
+    "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"
   },
   {
@@ -128,8 +128,8 @@
     "schedule": "STT 11:00AM - 11:50AM",
     "hasStarted": false,
     "creditHours": 3,
-    "interestedInstructors": [], 
-    "assignmentConfirmed": false,  
+    "interestedInstructors": [],
+    "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"
   },
   {
@@ -150,8 +150,8 @@
     "schedule": "STT 9:00AM - 9:50AM",
     "hasStarted": false,
     "creditHours": 3,
-    "interestedInstructors": [], 
-    "assignmentConfirmed": false,  
+    "interestedInstructors": [],
+    "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"
   },
   {
@@ -170,8 +170,8 @@
     "schedule": "MW 10:00AM - 10:50AM",
     "hasStarted": false,
     "creditHours": 3,
-    "interestedInstructors": [], 
-    "assignmentConfirmed": false,  
+    "interestedInstructors": [],
+    "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"
   },
   {
@@ -190,8 +190,8 @@
     "schedule": "MW 2:00AM - 3:15AM",
     "hasStarted": false,
     "creditHours": 3,
-    "interestedInstructors": [], 
-    "assignmentConfirmed": false,  
+    "interestedInstructors": [],
+    "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"
   },
   {
@@ -214,8 +214,8 @@
     "schedule": "MW 9:00AM - 10:15AM",
     "hasStarted": false,
     "creditHours": 4,
-    "interestedInstructors": [], 
-    "assignmentConfirmed": false,  
+    "interestedInstructors": [],
+    "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"
   },
   {
@@ -234,8 +234,8 @@
     "schedule": "MW 8:00AM - 9:15AM",
     "hasStarted": false,
     "creditHours": 4,
-    "interestedInstructors": [], 
-    "assignmentConfirmed": false,  
+    "interestedInstructors": [],
+    "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59"
   }
 ]

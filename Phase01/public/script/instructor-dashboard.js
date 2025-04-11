@@ -47,7 +47,7 @@ async function loadAvailableCourses() {
     
     // get the courses
 
-        const response = await fetch('/api/courses/published');
+        const response = await fetch('/api/courses');
         const courses = await response.json();
         availableCourses = courses;
         displayAvailableCourses();
@@ -59,20 +59,30 @@ async function loadAvailableCourses() {
 
 
 
+// this function is about the switching tabs
+
 function setupEventListeners() {
     
 
-
+    // get all elements with tab-btn
     document.querySelectorAll('.tab-btn').forEach(button => {
+
         button.addEventListener('click', () => {
+            
+            // showing and not showing the tab
+
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
             button.classList.add('active');
             document.getElementById(button.dataset.tab).classList.add('active');
+
+
+
         });
+
     });
     
-    
+    // same as the above
 
     document.querySelectorAll('.sub-tab-btn').forEach(button => {
         button.addEventListener('click', () => {
@@ -85,6 +95,7 @@ function setupEventListeners() {
     
 
     
+    // add the listeners
 
     document.getElementById('apply-filters').addEventListener('click', filterCourses);
     document.getElementById('course-name-search').addEventListener('input', filterCourses);
@@ -93,11 +104,18 @@ function setupEventListeners() {
 
 }
 
+
+// calling the functions 
+
 function updateUI() {
     displayAvailableCourses();
     displayInterestedCourses();
     displayAssignedCourses();
 }
+
+
+
+// show the dr information 
 
 function updateUserInfo() {
     const userInfoElement = document.getElementById("instructor-email");
@@ -123,6 +141,9 @@ function updateUserInfo() {
 
 
 }
+
+
+// to show the courses 
 
 function displayAvailableCourses() {
     const coursesList = document.getElementById('available-courses-list');
@@ -161,42 +182,9 @@ function displayAvailableCourses() {
     });
 }
 
-async function toggleInterest(courseId, interested) {
-    try {
-        const response = await fetch(`/api/courses/${courseId}/interest`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                instructorId: currentUser.id,
-                interested
-            })
-        });
-        
-        const result = await response.json();
-        if (result.success) {
-            showNotification(`Interest ${interested ? 'expressed' : 'removed'} successfully`, 'success');
-            
-            // Update the user's interested courses
-            if (interested) {
-                if (!currentUser.interestedCourses) {
-                    currentUser.interestedCourses = [];
-                }
-                if (!currentUser.interestedCourses.includes(courseId)) {
-                    currentUser.interestedCourses.push(courseId);
-                }
-            } else {
-                currentUser.interestedCourses = currentUser.interestedCourses.filter(id => id !== courseId);
-            }
-            
-            updateUI();
-        } else {
-            showNotification(result.message, 'error');
-        }
-    } catch (error) {
-        console.error('Error toggling interest:', error);
-        showNotification('Failed to update interest', 'error');
-    }
-}
+
+
+
 
 function displayInterestedCourses() {
     const interestedList = document.getElementById('interested-courses-list');
@@ -204,16 +192,21 @@ function displayInterestedCourses() {
     
     interestedList.innerHTML = '';
     
+
+    // no intersted courses 
     if (!currentUser.interestedCourses || currentUser.interestedCourses.length === 0) {
         interestedList.innerHTML = '<tr><td colspan="5">You haven\'t expressed interest in any courses yet.</td></tr>';
         return;
     }
     
-    // Filter available courses to only those the instructor is interested in
+    // Filter courses to only the instructor is interested in
     const interestedCourses = availableCourses.filter(course => 
-        currentUser.interestedCourses.includes(course.id)
+        currentUser.interestedCourses.find(id => id === course.id)
     );
     
+
+
+
     if (interestedCourses.length === 0) {
         interestedList.innerHTML = '<tr><td colspan="5">No interested courses found.</td></tr>';
         return;
@@ -227,7 +220,7 @@ function displayInterestedCourses() {
         row.innerHTML = `
             <td>${course.id}</td>
             <td>${course.name}</td>
-            <td>${course.category || 'N/A'}</td>
+            <td>${course.category}</td>
             <td>${deadlineDate ? deadlineDate.toLocaleString() : 'No deadline'}</td>
             <td>
                 ${!deadlinePassed ? 
@@ -242,107 +235,111 @@ function displayInterestedCourses() {
     });
 }
 
-function displayAssignedCourses() {
+
+
+async function displayAssignedCourses() {
     const assignedList = document.getElementById('assigned-courses-list');
-    if (!assignedList) return;
+
     
+
     assignedList.innerHTML = '';
+
     
     if (!currentUser.assignedCourses || currentUser.assignedCourses.length === 0) {
         assignedList.innerHTML = '<tr><td colspan="5">You don\'t have any assigned courses.</td></tr>';
         return;
     }
+
     
-    // Get courses assigned to this instructor
-    Promise.all(currentUser.assignedCourses.map(courseId => 
-        fetch(`/api/courses/${courseId}`).then(res => res.json())
-    ))
-    .then(courses => {
-        if (courses.length === 0) {
-            assignedList.innerHTML = '<tr><td colspan="5">No assigned courses found.</td></tr>';
-            return;
-        }
-        
-        courses.forEach(course => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${course.id}</td>
-                <td>${course.name}</td>
-                <td>${course.category || 'N/A'}</td>
-                <td>${course.registeredStudents?.length || 0}/${course.totalSeats}</td>
-                <td>
-                    <button class="btn-action" onclick="viewStudents('${course.id}')">
-                        View Students
-                    </button>
-                </td>
-            `;
-            assignedList.appendChild(row);
-        });
-    })
-    .catch(error => {
-        console.error("Error fetching assigned courses:", error);
-        assignedList.innerHTML = '<tr><td colspan="5">Failed to load assigned courses.</td></tr>';
-    });
+    
+     // Array to hold the course data
+     let courses = [];
+
+     // Loop through all assigned courses and fetch their details
+     for (let i = 0; i < currentUser.assignedCourses.length; i++) {
+         const courseId = currentUser.assignedCourses[i];
+         
+         
+             // Fetch course data and wait for the result
+             const response = await fetch(`/api/courses/${courseId}`);
+             const course = await response.json();
+             courses.push(course); // Add the course to the courses array
+         
+     }
+ 
+     // Check if any courses were fetched
+     if (courses.length === 0) {
+         assignedList.innerHTML = '<tr><td colspan="5">No assigned courses found.</td></tr>';
+         return;
+     }
+ 
+     // Display the courses in the table
+     courses.forEach(course => {
+         const row = document.createElement('tr');
+         row.innerHTML = `
+             <td>${course.id}</td>
+             <td>${course.name}</td>
+             <td>${course.category || 'N/A'}</td>
+             <td>${course.registeredStudents?.length || 0}/${course.totalSeats}</td>
+             <td>
+                 <button class="btn-action" onclick="viewStudents('${course.id}')">
+                     View Students
+                 </button>
+             </td>
+         `;
+         assignedList.appendChild(row);
+     });
+
+    
+    
 }
 
-function populateDepartmentFilter() {
-    const departments = [...new Set(availableCourses.map(c => c.category).filter(Boolean))];
-    const filter = document.getElementById('department-filter');
-    
-    if (!filter) return;
-    
-    filter.innerHTML = '<option value="">All Departments</option>';
-    departments.sort().forEach(dept => {
-        const option = document.createElement('option');
-        option.value = dept;
-        option.textContent = dept;
-        filter.appendChild(option);
-    });
-}
 
-function filterCourses() {
-    const searchTerm = document.getElementById('course-name-search')?.value.toLowerCase() || '';
-    const departmentValue = document.getElementById('department-filter')?.value || '';
+// function filterCourses() {
+//     const searchTerm = document.getElementById('course-name-search')?.value.toLowerCase() || '';
+//     const departmentValue = document.getElementById('department-filter')?.value || '';
     
-    const filteredCourses = availableCourses.filter(course => {
-        const matchesSearch = course.name.toLowerCase().includes(searchTerm);
-        const matchesDepartment = !departmentValue || course.category === departmentValue;
-        return matchesSearch && matchesDepartment;
-    });
+//     const filteredCourses = availableCourses.filter(course => {
+//         const matchesSearch = course.name.toLowerCase().includes(searchTerm);
+//         const matchesDepartment = !departmentValue || course.category === departmentValue;
+//         return matchesSearch && matchesDepartment;
+//     });
     
-    const coursesList = document.getElementById('available-courses-list');
-    coursesList.innerHTML = '';
+//     const coursesList = document.getElementById('available-courses-list');
+//     coursesList.innerHTML = '';
     
-    if (filteredCourses.length === 0) {
-        coursesList.innerHTML = '<tr><td colspan="6">No courses match your search criteria.</td></tr>';
-        return;
-    }
+//     if (filteredCourses.length === 0) {
+//         coursesList.innerHTML = '<tr><td colspan="6">No courses match your search criteria.</td></tr>';
+//         return;
+//     }
     
-    filteredCourses.forEach(course => {
-        const isInterested = currentUser.interestedCourses?.includes(course.id);
-        const deadlineDate = course.interestDeadline ? new Date(course.interestDeadline) : null;
-        const deadlinePassed = deadlineDate && deadlineDate < new Date();
+//     filteredCourses.forEach(course => {
+//         const isInterested = currentUser.interestedCourses?.includes(course.id);
+//         const deadlineDate = course.interestDeadline ? new Date(course.interestDeadline) : null;
+//         const deadlinePassed = deadlineDate && deadlineDate < new Date();
         
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${course.id}</td>
-            <td>${course.name}</td>
-            <td>${course.category || 'N/A'}</td>
-            <td>${course.creditHours || 'N/A'}</td>
-            <td>${deadlineDate ? deadlineDate.toLocaleString() : 'No deadline'}</td>
-            <td>
-                ${!deadlinePassed ? 
-                    `<button class="btn-action ${isInterested ? 'btn-reject' : 'btn-approve'}" 
-                             onclick="toggleInterest('${course.id}', ${!isInterested})">
-                        ${isInterested ? 'Remove Interest' : 'Express Interest'}
-                     </button>` :
-                    '<span class="deadline-passed">Deadline passed</span>'
-                }
-            </td>
-        `;
-        coursesList.appendChild(row);
-    });
-}
+//         const row = document.createElement('tr');
+//         row.innerHTML = `
+//             <td>${course.id}</td>
+//             <td>${course.name}</td>
+//             <td>${course.category}</td>
+//             <td>${course.creditHours}</td>
+//             <td>${deadlineDate ? deadlineDate.toLocaleString() : 'No deadline'}</td>
+//             <td>
+//                 ${!deadlinePassed ? 
+//                     `<button class="btn-action ${isInterested ? 'btn-reject' : 'btn-approve'}" 
+//                              onclick="toggleInterest('${course.id}', ${!isInterested})">
+//                         ${isInterested ? 'Remove Interest' : 'Express Interest'}
+//                      </button>` :
+//                     '<span class="deadline-passed">Deadline passed</span>'
+//                 }
+//             </td>
+//         `;
+//         coursesList.appendChild(row);
+//     });
+// }
+
+
 
 function showNotification(message, type) {
     const notificationBox = document.getElementById('notification-area');
