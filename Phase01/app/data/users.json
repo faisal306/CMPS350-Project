@@ -30,7 +30,7 @@
       "Software Engineering"
     ],
     "email": "Rehab.Duwairi@qu.edu.qa",
-    "password": "Rehab123",
+    "password": "rehab123",
     "role": "instructor"
   },
   {
@@ -41,11 +41,71 @@
       "Cybersecurity"
     ],
     "email": "Barhamgi@qu.edu.qa",
-    "password": "Mahmoud123",
+    "password": "mahmoud123",
     "role": "instructor"
   },
   {
     "id": 5,
+    "name": "Prof. Noora Fetais",
+    "areasOfExpertise": [
+      "Artificial Intelligence",
+      "Cybersecurity"
+    ],
+    "email": "n.almarri@qu.edu.qa",
+    "password": "noora123",
+    "role": "instructor"
+  },
+  {
+    "id": 6,
+    "name": "Prof. Saeed Salem",
+    "areasOfExpertise": [
+      "Machine Learning",
+      "Cybersecurity"
+    ],
+    "email": "Saeed.Salem@qu.edu.qa",
+    "password": "saeed123",
+    "role": "instructor"
+  },
+  {
+    "id": 7,
+    "name": "Dr. Saleh Alhazbi",
+    "areasOfExpertise": [
+      "Software Engineering",
+      "Computer Science Education"
+    ],
+    "email": "salhazbi@qu.edu.qa",
+    "password": "saleh123",
+    "role": "instructor"
+  },
+  {
+    "id": 8,
+    "name": "Prof. Hussain Al-Qassem",
+    "areasOfExpertise": ["Harmonic Analysis"],
+    "email": "husseink@qu.edu.qa",
+    "password": "hussain123",
+    "role": "instructor"
+  },
+  {
+    "id": 8,
+    "name": "Dr. Ilyasse Aksikas",
+    "areasOfExpertise": ["Applied Mathematics"],
+    "email": "aksikas@qu.edu.qa",
+    "password": "Ilyasse123",
+    "role": "instructor"
+  },
+  {
+    "id": 9,
+    "name": "Eng. Georges Younes",
+    "areasOfExpertise": [
+      "Software Engineering",
+      "Computer Science"
+    ],
+    "email": "georges.younes@qu.edu.qa",
+    "password": "georges123",
+    "role": "instructor"
+  },
+  {
+    "id": 10,
     "email": "admin@qu.edu.qa",
     "password": "admin123",
     "role": "admin",
