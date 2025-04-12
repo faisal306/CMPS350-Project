@@ -63,8 +63,12 @@
     "email": "Barhamgi@qu.edu.qa",
     "password": "mahmoud123",
     "role": "instructor",
-    "interestedCourses": [],
-    "assignedCourses": []
+    "interestedCourses": [
+      "1420"
+    ],
+    "assignedCourses": [
+      "CMPS151"
+    ]
   },
   {
     "id": 5,

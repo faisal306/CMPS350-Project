@@ -226,6 +226,18 @@ async updateInstructorInterest(instructorId, courseId, interested) {
         }
     }
 
+    // Add this method to the UsersRepo class
+
+async saveUsers(users) {
+    try {
+        await fs.writeJson(this.filePath, users, { spaces: 2 });
+        return true;
+    } catch (error) {
+        console.error("Error saving users:", error);
+        throw error;
+    }
+}
+
 
     // this method will get the user from his id
     async getUserById(userId) {

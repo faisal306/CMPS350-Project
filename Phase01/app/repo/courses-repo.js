@@ -14,6 +14,12 @@ class CoursesRepo {
         return courses;
     }
 
+        // This is just an alias for the existing getCourse method
+
+    async getCourseByID(crn) {
+        return this.getCourse(crn);
+    }
+
     async approveCourse(params) {
         let courses = await fs.readJson(this.filePath);
         const index = courses.findIndex(course => course.crn == params.crn);
@@ -29,6 +35,38 @@ class CoursesRepo {
         }
         return "Unable to update course because it does not exist";
     }
+
+
+
+    // Check if method exists and add if missing
+    async updateCourse(courseData) {
+        try {
+          // Read the current list of courses from the JSON file.
+          const courses = await fs.readJson(this.filePath);
+      
+          // Look for the course by comparing course numbers (CRN).
+          const index = courses.findIndex(course => String(course.crn) === String(courseData.crn));
+      
+          // If the course isn't found, add it as a new course.
+          if (index === -1) {
+            courses.push(courseData);
+            // Save the updated list with the new course added.
+            await fs.writeJson(this.filePath, courses, { spaces: 2 });
+            return { success: true, course: courseData };
+          }
+      
+          // If the course exists, update its information with the new data.
+          courses[index] = { ...courses[index], ...courseData };
+          // Save the updated list to the JSON file.
+          await fs.writeJson(this.filePath, courses, { spaces: 2 });
+      
+          return { success: true, course: courses[index] };
+        } catch (error) {
+          console.error('Error updating course:', error);
+          throw error;
+        }
+      }
+
 
     async disApproveCourse(params) {
         const courses = await fs.readJson(this.filePath);

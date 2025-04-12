@@ -1170,6 +1170,9 @@ function toggleInstructorList(crn) {
 
 async function assignInstructorToCourse(crn, instructorName) {
     try {
+        // Show a loading message
+        showNotification('Assigning instructor...', 'info');
+        
         const response = await fetch(`/api/courses/${crn}/assign-instructor`, {
             method: 'PUT',
             headers: {
@@ -1181,11 +1184,16 @@ async function assignInstructorToCourse(crn, instructorName) {
             })
         });
         
-        if (response.ok) {
-            showNotification('Instructor assigned successfully', 'success');
-            loadInstructorAssignments(); // Refresh the list
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            showNotification(`Instructor ${instructorName} assigned successfully`, 'success');
+            // Refresh the instructor assignment list
+            loadInstructorAssignments();
+            // Also refresh the main course list to show the updated instructor
+            loadCourses();
         } else {
-            showNotification('Failed to assign instructor', 'error');
+            showNotification(result.message || 'Failed to assign instructor', 'error');
         }
     } catch (error) {
         console.error('Error assigning instructor:', error);

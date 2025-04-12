@@ -5,7 +5,7 @@
     "name": "Programming Concepts",
     "category": "Programming",
     "description": "Learn and understand the basic concepts of programming.",
-    "instructor": "Dr. Mohammed Mohammed",
+    "instructor": "Prof. Mahmoud Barhamgi",
     "prerequisites": [],
     "openForRegistration": true,
     "adminApprove": false,
@@ -23,14 +23,8 @@
     "hasStarted": true,
     "creditHours": 3,
     "isPublishedForInstructors": false,
-    "interestedInstructors": [
-      {
-        "instructorId": 9,
-        "instructorName": "Eng. Georges Younes",
-        "instructorEmail": "georges.younes@qu.edu.qa"
-      }
-    ],
-    "assignmentConfirmed": false,
+    "interestedInstructors": [],
+    "assignmentConfirmed": true,
     "interestDeadline": "2025-05-25T23:59:59",
     "registeredUsers": []
   },
