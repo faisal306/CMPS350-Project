@@ -145,6 +145,18 @@
   },
   {
     "id": 11,
+    "name": "Dr.Yousef Daboorasad ",
+    "areasOfExpertise": [
+      "Applied Math"
+    ],
+    "email": "yousef.d@qu.edu.qa",
+    "password": "yousef123",
+    "role": "instructor",
+    "interestedCourses": [],
+    "assignedCourses": []
+  },
+  {
+    "id": 12,
     "email": "admin@qu.edu.qa",
     "password": "admin123",
     "role": "admin",

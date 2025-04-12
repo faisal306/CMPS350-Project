@@ -263,8 +263,62 @@ function displayInterestedCourses() {
 async function displayAssignedCourses() {
   const assignedList = document.getElementById('assigned-courses-list');
   
-  assignedList.innerHTML = '';
+  assignedList.innerHTML = '<div class="loading">Loading your assigned courses...</div>';
+
   
+
+  // Get all courses first
+  const response = await fetch('/api/courses');
+  const allCourses = await response.json();
+
+  // Check if current user has any assigned courses
+  if (!currentUser.assignedCourses || currentUser.assignedCourses.length === 0) {
+    assignedList.innerHTML = '<div class="no-courses">You don\'t have any assigned courses. The administrator will assign courses based on your interests.</div>';
+    return; 
+  }
+
+  
+  
+  // Filter to only courses assigned to this instructor
+  const teachingCourses = allCourses.filter(course => 
+    currentUser.assignedCourses.includes(course.id)
+  );
+
+
+    // the dr does not have courses 
+    if (teachingCourses.length === 0) {
+      assignedList.innerHTML = '<div class="no-courses">You don\'t have any assigned courses.</div>';
+      return;
+  }
+  
+  
+  
+  // Continue with displaying these courses
+  assignedList.innerHTML = '';
+  teachingCourses.forEach(course => {
+      // Rest of your existing display code
+      const courseCard = document.createElement('div');
+      courseCard.className = 'course-card';
+      
+      // Create the course header with toggle button
+      const courseHeader = document.createElement('div');
+      courseHeader.className = 'course-header';
+      courseHeader.innerHTML = `
+          <div class="course-info">
+              <h3>${course.name} (${course.id})</h3>
+              <p>Category: ${course.category || 'N/A'}</p>
+              <p>Students: ${(course.registeredUsers?.length || course.registeredStudents?.length || 0)}/${course.totalSeats}</p>
+          </div>
+          <button class="toggle-students-btn" data-course-id="${course.id}">
+              Show Students
+          </button>
+      `;
+      
+      // Rest of your existing code for student lists
+      // ...
+  });
+
+
   if (!currentUser.assignedCourses || currentUser.assignedCourses.length === 0) {
       assignedList.innerHTML = '<tr><td colspan="5">You don\'t have any assigned courses.</td></tr>';
       return;
