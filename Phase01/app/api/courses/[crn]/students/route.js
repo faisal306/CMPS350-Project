@@ -12,8 +12,12 @@ export async function GET(request, { params }) {
             return Response.json({ error: `Course with ID ${crn} not found` }, { status: 404 });
         }
         
+
+        // Get the registered students - check BOTH arrays
+        const studentIds = course.registeredUsers || course.registeredStudents || [];
+        console.log(`Found ${studentIds.length} students for course ${crn}`);
+
         // Get the registered students
-        const studentIds = course.registeredStudents || [];
         const students = [];
         
         // Get details for each student

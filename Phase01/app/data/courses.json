@@ -13,7 +13,10 @@
     "availableSeats": 39,
     "registeredStudents": [],
     "schedule": {
-      "days": ["Monday", "Wednesday"],
+      "days": [
+        "Monday",
+        "Wednesday"
+      ],
       "startTime": "10:00",
       "endTime": "10:50"
     },
@@ -42,7 +45,10 @@
     "availableSeats": 50,
     "registeredStudents": [],
     "schedule": {
-      "days": ["Sunday", "Tuesday"],
+      "days": [
+        "Sunday",
+        "Tuesday"
+      ],
       "startTime": "10:00",
       "endTime": "10:50"
     },
@@ -68,7 +74,11 @@
     "availableSeats": 35,
     "registeredStudents": [],
     "schedule": {
-      "days": ["Sunday", "Tuesday", "Thursday"],
+      "days": [
+        "Sunday",
+        "Tuesday",
+        "Thursday"
+      ],
       "startTime": "14:00",
       "endTime": "15:15"
     },
@@ -95,7 +105,11 @@
     "availableSeats": 50,
     "registeredStudents": [],
     "schedule": {
-      "days": ["Sunday", "Tuesday", "Thursday"],
+      "days": [
+        "Sunday",
+        "Tuesday",
+        "Thursday"
+      ],
       "startTime": "08:00",
       "endTime": "09:15"
     },
@@ -123,7 +137,10 @@
     "availableSeats": 45,
     "registeredStudents": [],
     "schedule": {
-      "days": ["Monday", "Wednesday"],
+      "days": [
+        "Monday",
+        "Wednesday"
+      ],
       "startTime": "11:00",
       "endTime": "12:15"
     },
@@ -147,7 +164,11 @@
     "availableSeats": 50,
     "registeredStudents": [],
     "schedule": {
-      "days": ["Sunday", "Tuesday", "Thursday"],
+      "days": [
+        "Sunday",
+        "Tuesday",
+        "Thursday"
+      ],
       "startTime": "11:00",
       "endTime": "11:50"
     },
@@ -174,7 +195,11 @@
     "availableSeats": 30,
     "registeredStudents": [],
     "schedule": {
-      "days": ["Sunday", "Tuesday", "Thursday"],
+      "days": [
+        "Sunday",
+        "Tuesday",
+        "Thursday"
+      ],
       "startTime": "09:00",
       "endTime": "09:50"
     },
@@ -228,7 +253,10 @@
     "availableSeats": 50,
     "registeredStudents": [],
     "schedule": {
-      "days": ["Monday", "Wednesday"],
+      "days": [
+        "Monday",
+        "Wednesday"
+      ],
       "startTime": "14:00",
       "endTime": "15:15"
     },
@@ -256,7 +284,10 @@
     "availableSeats": 50,
     "registeredStudents": [],
     "schedule": {
-      "days": ["Monday", "Wednesday"],
+      "days": [
+        "Monday",
+        "Wednesday"
+      ],
       "startTime": "09:00",
       "endTime": "10:15"
     },
@@ -280,7 +311,10 @@
     "availableSeats": 50,
     "registeredStudents": [],
     "schedule": {
-      "days": ["Monday", "Wednesday"],
+      "days": [
+        "Monday",
+        "Wednesday"
+      ],
       "startTime": "08:00",
       "endTime": "09:15"
     },
