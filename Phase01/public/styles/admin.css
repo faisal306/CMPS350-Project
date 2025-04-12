@@ -1,70 +1,123 @@
-/* General Styles */
-* {
+:root {
+  --primary-color: #781C38; /* Dark Maroon (Logo Text & Elements) */
+  --secondary-color: #A02C50; /* Lighter Maroon (Highlights) */
+  --accent-color: #C05060; /* Soft Pinkish Maroon */
+  --background-color: #F5F5F5; /* Light Gray */
+  --text-color: #333333; /* Dark Gray for readability */
+  --border-color: #CCCCCC; /* Subtle Border Color */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+*{
+    color: var(--text-color);
     font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
 }
 
 h1 {
     color: black;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f5f5f5;
-    min-height: 100vh;
+html{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+}
+
+body{
+    background-color: var(--background-color);
+    margin: 0px 0px 0px 0px;
     display: flex;
     flex-direction: column;
-}
-
-header {
-    background-color: white;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0;
     gap: 30px;
-}
-
-
-
-.logo-user {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    overflow-x: hidden;
 }
 
 .qu-logo {
     width: 15em;
 }
 
-
-.title {
-    font-size: 1.5rem;
-    margin: 0;
+header{
+    background-color: var(--background-color);
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
-.btn-logout {
-    background-color: #A02C50;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
+.btns a {
+  display: inline-block;
+  padding: 0.8em 1.2em;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-radius: 0.5em;
+  border-color: var(--border-color);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
 }
 
-.btn-logout:hover {
-    background-color: #330A29;
+
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+
+    text-decoration: none;
+    gap: 30px;
 }
+
+.user-info {
+  display: none;
+  position: relative;
+  align-items: center;
+  gap: 0.8em;
+  background-color: white;
+  padding: 0.5em 1em;
+  margin-right: 30px;
+  border-radius: 0.75em;
+  font-weight: 500;
+  font-size: 1em;
+  color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.logout-btn {
+    display: none;
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    right: 0;
+    padding: 0.8em 1.2em;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border-radius: 0.5em;
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-weight: 500;
+}
+
+
+.logout-btn:hover{
+    background-color: var(--secondary-color);
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+#student-email{
+    background-color: white;
+}
+
 
 /* Main Content */
 main {
@@ -125,7 +178,7 @@ main {
 }
 
 .tab-btn.active {
-    background-color: #A02C50;
+    background-color: var(--secondary-color);
     color: white;
     font-weight: bold;
 }
@@ -171,7 +224,7 @@ main {
 }
 
 .btn-primary {
-    background-color: #A02C50;
+    background-color: var(--secondary-color);
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -180,7 +233,7 @@ main {
 }
 
 .btn-primary:hover {
-    background-color: #470D39;
+    background-color: var(--primary-color);
 }
 
 .btn-secondary {
@@ -357,7 +410,7 @@ main {
 }
 
 .btns a:hover {
-    background-color: rgba(97, 34, 74, 0.1);
+    background-color: var(--secondary-color);
 }
 
 .btns a.active {
@@ -385,7 +438,7 @@ main {
 }
 
 .logout-btn {
-    background-color: #A02C50;
+    background-color: var(--secondary-color);
     color: white;
     border: none;
     padding: 8px 15px;
@@ -397,15 +450,9 @@ main {
 
 
 .logout-btn:hover {
-    background-color: #330A29;
+    background-color: var(--primary-color);
 }
 
-hr {
-    border: none;
-    height: 1px;
-    background-color: #e0e0e0;
-    margin: 0;
-}
 
 .end {
     display: flex;
@@ -518,7 +565,10 @@ hr {
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-.course-card.programming { background-color: rgba(160, 44, 80, 0.1); border-left: 3px solid #A02C50; }
+.course-card.programming { 
+    background-color: rgba(160, 44, 80, 0.1); 
+    border-left: 3px solid var(--secondary-color); 
+}
 .course-card.math { background-color: rgba(46, 134, 193, 0.1); border-left: 3px solid #2E86C1; }
 .course-card.physics { background-color: rgba(40, 180, 99, 0.1); border-left: 3px solid #28B463; }
 .course-card.chemistry { background-color: rgba(241, 196, 15, 0.1); border-left: 3px solid #F1C40F; }
@@ -579,7 +629,7 @@ hr {
 }
 
 .day-tab.active {
-    background-color: #A02C50;
+    background-color: var(--secondary-color);
     color: white;
     font-weight: bold;
 }
@@ -612,7 +662,9 @@ hr {
     gap: 1rem;
 }
 
-.course-item.programming { border-color: #A02C50; }
+.course-item.programming { 
+    border-color: var(--secondary-color); 
+}
 .course-item.math { border-color: #2E86C1; }
 .course-item.physics { border-color: #28B463; }
 .course-item.chemistry { border-color: #F1C40F; }
@@ -696,4 +748,46 @@ hr {
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
+}
+
+
+.checkbox-group {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 4px;
+    margin-bottom: 2px;
+}
+
+.checkbox-item:hover {
+    background-color: #f5f5f5;
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+    margin: 0;
+}
+
+.checkbox-item label {
+    margin: 0;
+    cursor: pointer;
+    flex: 1;
+    user-select: none; /* Prevents text selection when clicking */
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
 }

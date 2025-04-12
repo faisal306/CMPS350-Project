@@ -127,7 +127,9 @@
     "email": "georges.younes@qu.edu.qa",
     "password": "georges123",
     "role": "instructor",
-    "interestedCourses": [],
+    "interestedCourses": [
+      "CMPS350"
+    ],
     "assignedCourses": []
   },
   {

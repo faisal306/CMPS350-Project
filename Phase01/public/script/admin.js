@@ -112,7 +112,7 @@ const pendDiv = document.querySelector('#pending-courses');
 const approvedDiv = document.querySelector("#approved-courses");
 
 // When the page open load both courses
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", async function(){
     if(!permittedUser()){
         
         document.body.innerHTML = `
@@ -150,6 +150,28 @@ document.addEventListener("DOMContentLoaded", function(){
 
     loadCoursesForPublication();
 
+    const currentuser = document.getElementById("student-email");
+    if(localStorage.uid){
+        const response = await fetch('api/users');
+        const users = await response.json();
+        const user = users.find(u => u.id == localStorage.uid);
+        currentuser.innerHTML = 
+        `
+            ${user.email} 
+        `
+
+        const style = document.createElement("style");
+        style.innerHTML = `
+          .user-info:hover .logout-btn {
+            display: block;
+          }
+          .user-info {
+            display: inline-flex;
+          }
+        `;
+        document.head.appendChild(style);
+
+    }
 });
 
 function permittedUser(){
@@ -418,21 +440,41 @@ document.addEventListener("DOMContentLoaded", async () => {
             const res = await fetch('/api/courses');
             const courses = await res.json();
 
-            const dropdown = document.getElementById('course-prerequisites');
-            dropdown.innerHTML = ''; // Clear old options
+            const container = document.getElementById('prerequisites-container');
+            container.innerHTML = ''; // Clear old options
 
             courses.forEach(course => {
-                const option = document.createElement('option');
-                option.value = course.id;
-                option.textContent = `${course.name} (${course.id})`;
-                dropdown.appendChild(option);
+                const checkboxItem = document.createElement('div');
+                checkboxItem.className = 'checkbox-item';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `prereq-${course.id}`;
+                checkbox.value = course.id;
+                checkbox.name = 'prerequisites';
+                
+                const label = document.createElement('label');
+                label.htmlFor = `prereq-${course.id}`;
+                label.textContent = `${course.name} (${course.id})`;
+                
+                // Handler for the entire div
+                checkboxItem.onclick = (e) => {
+                    // Only toggle if clicking the div or label, not the checkbox itself
+                    if (e.target === checkboxItem || e.target === label) {
+                        e.preventDefault(); // Prevent any default behavior
+                        checkbox.checked = !checkbox.checked; // Toggle checkbox
+                    }
+                };
+                
+                checkboxItem.appendChild(checkbox);
+                checkboxItem.appendChild(label);
+                container.appendChild(checkboxItem);
             });
         } catch (err) {
             console.error('Could not load courses:', err);
             showNotification('Failed to load prerequisites', 'error');
         }
     }
-
 
     // this method will load the instructors by getting the users and then check the role of each one to be
     // instrctor
