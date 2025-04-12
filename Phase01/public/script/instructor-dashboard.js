@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 
+
+
 async function initializeUser(userId) {
 
 
@@ -51,12 +53,38 @@ async function loadAvailableCourses() {
         const courses = await response.json();
         availableCourses = courses;
         displayAvailableCourses();
-        populateDepartmentFilter();
+        populateCategoryFilter();
    
 
 
 }
 
+
+function populateCategoryFilter() {
+    const categoryFilter = document.getElementById('category-filter');
+    if (!categoryFilter) return;
+    
+    const categories = new Set();
+    
+    availableCourses.forEach(course => {
+        if (course.category) {
+            categories.add(course.category);
+        }
+    });
+    
+    // Clear existing options except the first one
+    while (categoryFilter.options.length > 1) {
+        categoryFilter.remove(1);
+    }
+    
+    // Add sorted categories
+    [...categories].sort().forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+    });
+}
 
 
 // this function is about the switching tabs
@@ -99,8 +127,8 @@ function setupEventListeners() {
 
     document.getElementById('apply-filters').addEventListener('click', filterCourses);
     document.getElementById('course-name-search').addEventListener('input', filterCourses);
-    document.getElementById('department-filter').addEventListener('change', filterCourses);
 
+    document.getElementById('category-filter').addEventListener('change', filterCourses);
 
 }
 
@@ -311,3 +339,230 @@ function logOut() {
     localStorage.removeItem('userRole');
     window.location.href = '/login.html';
 }
+
+
+// Open the modal to view students and allow grade submission
+async function viewStudents(courseId) {
+    try {
+      // Show the modal dialog
+      document.getElementById('students-modal').style.display = 'block';
+  
+      // Get the course details
+      const courseRes = await fetch(`/api/courses/${courseId}`);
+      const course = await courseRes.json();
+  
+      // Display the course title in the modal header
+      document.getElementById('course-title').textContent = `${course.name} (${course.id}) - Students`;
+  
+      // Fetch the list of students for the course
+      const studentsRes = await fetch(`/api/courses/${courseId}/students`);
+      const students = await studentsRes.json();
+  
+      // Get the table element where student information will be shown
+      const studentTable = document.getElementById('student-grades-list');
+      studentTable.innerHTML = '';
+  
+      // Check if the course has any students
+      if (!students || students.length === 0) {
+        studentTable.innerHTML = '<tr><td colspan="4">No students registered for this course.</td></tr>';
+        return;
+      }
+  
+      // Loop through the students and add each one as a table row with a grade selector
+      students.forEach(student => {
+        const tableRow = document.createElement('tr');
+        tableRow.innerHTML = `
+            <td>${student.id}</td>
+            <td>${student.name || student.email}</td>
+            <td>${student.currentGrade || 'Not graded'}</td>
+            <td>
+                <select name="grade-${student.id}" class="grade-select">
+                    <option value="">Select Grade</option>
+                    <option value="A">A</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C+">C+</option>
+                    <option value="C">C</option>
+                    <option value="D+">D+</option>
+                    <option value="D">D</option>
+                    <option value="F">F</option>
+                </select>
+            </td>
+        `;
+        studentTable.appendChild(tableRow);
+      });
+  
+      // Attach event handler to the grade submission form
+      const form = document.getElementById('grade-submission-form');
+      form.onsubmit = (event) => {
+        // Stop the form from reloading the page
+        event.preventDefault();
+        submitGrades(courseId);
+      };
+  
+    } catch (error) {
+      console.error('Error viewing students:', error);
+      showNotification('Failed to load students', 'error');
+    }
+  }
+  
+  // Function to submit all selected grades to the server
+  async function submitGrades(courseId) {
+    try {
+      // Find all grade select elements and prepare the grade data array
+      const gradeSelects = document.querySelectorAll('.grade-select');
+      const grades = [];
+  
+      gradeSelects.forEach(select => {
+        // Only add the grade if a value was selected
+        if (select.value !== '') {
+          // Extract the student ID from the select element's name attribute
+          const studentId = select.name.split('-')[1];
+          grades.push({
+            studentId: studentId,
+            grade: select.value
+          });
+        }
+      });
+  
+      // If no grades are selected, show an error message
+      if (grades.length === 0) {
+        showNotification('Please assign at least one grade', 'error');
+        return;
+      }
+  
+      // Send the grades data to the API
+      const response = await fetch(`/api/courses/${courseId}/grades`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ grades: grades })
+      });
+  
+      const result = await response.json();
+  
+      // Check if the API confirms a successful submission
+      if (result.success) {
+        showNotification('Grades submitted successfully', 'success');
+        closeStudentsModal();
+        displayAssignedCourses(); // Assume this function refreshes the courses view
+      } else {
+        showNotification(result.message || 'Failed to submit grades', 'error');
+      }
+    } catch (error) {
+      console.error('Error submitting grades:', error);
+      showNotification('Error submitting grades', 'error');
+    }
+  }
+  
+  // Function to close the students modal dialog
+function closeStudentsModal() {
+
+    document.getElementById('students-modal').style.display = 'none';
+  }
+  
+
+
+  // Function to filter and display courses based on search input
+function filterCourses() {
+    
+    const searchText = document.getElementById('course-name-search').value.toLowerCase();
+    const categoryValue = document.getElementById('category-filter').value; // Updated ID
+    
+    const filteredCourses = availableCourses.filter(course => {
+        const nameMatches = course.name.toLowerCase().includes(searchText);
+        const categoryMatches = !categoryValue || course.category === categoryValue;
+        return nameMatches && categoryMatches;
+    });
+    
+    // Get the table element for displaying courses
+    const coursesTable = document.getElementById('available-courses-list');
+    coursesTable.innerHTML = '';
+  
+    // If there are no courses matching the search, display a message
+    if (filteredCourses.length === 0) {
+      coursesTable.innerHTML = '<tr><td colspan="6">No courses match your search criteria.</td></tr>';
+      return;
+    }
+  
+    // Add the rest of your existing course rendering code
+    filteredCourses.forEach(course => {
+      const isInterested = currentUser.interestedCourses && currentUser.interestedCourses.includes(course.id);
+      const deadline = course.interestDeadline ? new Date(course.interestDeadline) : null;
+      const deadlinePassed = deadline ? deadline < new Date() : false;
+      
+      // Create row element (keep your existing rendering code)
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${course.id}</td>
+        <td>${course.name}</td>
+        <td>${course.category || 'N/A'}</td>
+        <td>${course.creditHours || 'N/A'}</td>
+        <td>${deadline ? deadline.toLocaleString() : 'No deadline'}</td>
+        <td>
+          ${!deadlinePassed ? 
+            `<button class="btn-action ${isInterested ? 'btn-reject' : 'btn-approve'}" 
+                     onclick="toggleInterest('${course.id}', ${!isInterested})">
+               ${isInterested ? 'Remove Interest' : 'Express Interest'}
+             </button>` :
+             '<span class="deadline-passed">Deadline passed</span>'
+          }
+        </td>
+      `;
+      coursesTable.appendChild(row);
+    });
+
+}
+
+
+
+
+// Toggle interest in a course for the instructor
+async function toggleInterest(courseId, isInterested) {
+
+
+        // Send a POST request 
+        const response = await fetch(`/api/courses/${courseId}/interest`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+            instructorId: currentUser.id, // ID of the current user (instructor)
+            interested: isInterested       // true means expressing interest; false means removing interest
+            })
+        });
+        
+        // Parse the response from the server
+        const result = await response.json();
+        
+        if (result.success) {
+            // Update the local copy of the user's interested courses
+            if (isInterested) {
+            // If interest is expressed, ensure the array exists and add the courseId
+            if (!currentUser.interestedCourses) {
+                currentUser.interestedCourses = [];
+            }
+            currentUser.interestedCourses.push(courseId);
+            } else {
+            // If interest is removed, filter out the courseId from the array
+            currentUser.interestedCourses = currentUser.interestedCourses.filter(id => id !== courseId);
+            }
+            
+        // Show a success message to the user
+            showNotification(
+            isInterested ? 'Interest expressed successfully' : 'Interest removed successfully',
+            'success'
+            );
+        
+            // Refresh the course lists in the UI
+            displayAvailableCourses();
+            displayInterestedCourses();
+        } else {
+            // If the server indicates an error, notify the user
+            showNotification(result.message || 'Failed to update interest', 'error');
+        }
+    
+
+}  

@@ -5,20 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructor Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="styles/admin.css">
 </head>
 <body>
+    
     <header>
+
         <nav>
             <a href="./landing.html"><img src="./images/qulogo.png" alt="Qu Logo" class="qu-logo"></a>
-            <h1>Instructor Dashboard</h1>
+            <div class="btns">
+                <a href="./landing.html">Home</a>
+                <!-- <a href="./login.html">Login</a>
+                <a href="" id="dashboard">Dashboard</a> -->
+            </div>
             <div class="user-info">
                 <img src="./images/user-icon.png" alt="User Icon" class="user-icon">
-                <span id="instructor-email">instructor@example.com</span>
+                <span id="student-email">admin@example.com</span>
                 <button class="logout-btn" onclick="logOut()">Logout</button>
-            </div>
+            </div> 
         </nav>
         <hr>
+
     </header>
 
     <main>
@@ -26,8 +33,7 @@
 
         <div class="dashboard-tabs">
             <button class="tab-btn active" data-tab="available-courses-tab">Available Courses</button>
-            <button class="tab-btn" data-tab="my-courses-tab">My Courses</button>
-            <button class="tab-btn" data-tab="profile-tab">My Profile</button>
+            <button class="tab-btn" data-tab="my-courses-tab">My Courses & Submit Students Grades</button>
         </div>
 
         <div class="tab-content">
@@ -38,7 +44,7 @@
                     <div class="search-inputs">
                         <input type="text" id="course-name-search" placeholder="Search by course name...">
                         <select id="department-filter">
-                            <option value="">All Departments</option>
+                            <option value="">All Categories</option>
                         </select>
                     </div>
                     <button id="apply-filters" class="btn-primary">Search</button>
@@ -110,20 +116,42 @@
                 </div>
             </section>
 
-            <section id="profile-tab" class="tab-pane">
-                <h2>My Profile</h2>
-                
-                <div class="profile-card">
-                    <div id="instructor-info">
-                        <!-- Will be populated with instructor info -->
-                    </div>
-                </div>
-            </section>
+            
         </div>
+
+
+        <!-- Student List Modal -->
+<div id="students-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeStudentsModal()">&times;</span>
+        <h2 id="course-title">Course Students</h2>
+        <div id="modal-course-students">
+            <form id="grade-submission-form">
+                <table class="courses-table">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Current Grade</th>
+                            <th>Final Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="student-grades-list">
+                        <!-- Will be populated with students and grade inputs -->
+                    </tbody>
+                </table>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary">Submit Grades</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
     </main>
 
     <footer>
-        <p>&copy; 2025 Qatar University, All Rights Reserved</p>
+        <p class="end">&copy; 2025 Qatar University, All Rights Reserved</p>
     </footer>
 
     <script src="script/instructor-dashboard.js"></script>

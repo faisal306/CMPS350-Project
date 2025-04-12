@@ -53,25 +53,32 @@ async function initializeCourses() {
 }
 
 function setupEventListeners() {
+
     // Tab switching
     document.querySelectorAll('.tab-btn').forEach(button => {
         button.addEventListener('click', () => switchTab(button));
     });
+
 
     // Registration modal
     document.getElementById('confirm-registration').addEventListener('click', registerForCourse);
     document.getElementById('cancel-registration').addEventListener('click', closeModal);
     document.querySelector('.close-modal')?.addEventListener('click', closeModal);
 
+
+
     // Filters
     document.getElementById('course-name-search')?.addEventListener('input', filterAvailableCourses);
     document.getElementById('department-filter')?.addEventListener('change', filterAvailableCourses);
+
+    
+
 }
 
 function updateUI() {
     displayAvailableCourses(availableCourses);
     displayCompletedCourses();
-    populateDepartmentFilter();
+    populateCategoryFilter();
     updateUserInfo();
 }
 
@@ -276,16 +283,45 @@ async function unregisterFromCourse(course) {
     }
 }
 
-function populateDepartmentFilter() {
-    const departments = [...new Set(availableCourses.map(c => c.department))].sort();
-    const filter = document.getElementById('department-filter');
-    filter.innerHTML = '<option value="">All Departments</option>';
-    departments.forEach(dept => {
-        const option = document.createElement('option');
-        option.value = dept;
-        option.textContent = dept;
-        filter.appendChild(option);
+function populateCategoryFilter() {
+    
+
+    // get the drop-down element
+    const categoryFilter = document.getElementById('category-filter');
+
+
+
+    const categories = new Set();
+
+    // Loop through each available course and add its category
+    availableCourses.forEach(course => {
+        if (course.category) {
+            categories.add(course.category);
+        }
     });
+
+    // Remove any existing options from the dropdown except the first one
+    while (categoryFilter.options.length > 1) {
+
+        // Always remove the option at index 1.
+        // The first option (index 0) is kept intact.
+
+    categoryFilter.remove(1);
+    }
+
+
+    // Convert the Set to an array and add each as an option
+    [...categories].forEach(category => {
+
+    // Create a new <option> element for the category
+
+    const option = document.createElement('option');
+    option.value = category;        // Set the option value
+    option.textContent = category;  // Set the visible text for the option
+    categoryFilter.appendChild(option); // Add the option to the dropdown
+    });
+
+
 }
 
 function filterAvailableCourses() {

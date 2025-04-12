@@ -25,7 +25,7 @@ form.addEventListener("submit", async function(e) {
         }
 
         else if (user.role === "instructor") {
-            window.location.href = "university.html";
+            window.location.href = "instructor-dashboard.html";
         }
 
         else if (user.role === "admin") {
