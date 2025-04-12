@@ -12,8 +12,12 @@
     "totalSeats": 45,
     "availableSeats": 39,
     "registeredStudents": [],
-    "schedule": "MW 10:00AM - 10:50AM",
-    "hasStarted": false,
+    "schedule": {
+      "days": ["Monday", "Wednesday"],
+      "startTime": "10:00",
+      "endTime": "10:50"
+    },
+    "hasStarted": true,
     "creditHours": 3,
     "isPublishedForInstructors": false,
     "interestedInstructors": [],
@@ -37,8 +41,12 @@
     "totalSeats": 50,
     "availableSeats": 50,
     "registeredStudents": [],
-    "schedule": "ST 10:00AM - 10:50AM",
-    "hasStarted": false,
+    "schedule": {
+      "days": ["Sunday", "Tuesday"],
+      "startTime": "10:00",
+      "endTime": "10:50"
+    },
+    "hasStarted": true,
     "creditHours": 4,
     "interestedInstructors": [],
     "assignmentConfirmed": false,
@@ -59,8 +67,12 @@
     "totalSeats": 35,
     "availableSeats": 35,
     "registeredStudents": [],
-    "schedule": "STT 2:00PM - 3:15PM",
-    "hasStarted": false,
+    "schedule": {
+      "days": ["Sunday", "Tuesday", "Thursday"],
+      "startTime": "14:00",
+      "endTime": "15:15"
+    },
+    "hasStarted": true,
     "creditHours": 3,
     "interestedInstructors": [],
     "assignmentConfirmed": false,
@@ -82,8 +94,12 @@
     "totalSeats": 50,
     "availableSeats": 50,
     "registeredStudents": [],
-    "schedule": "STT 8:00AM - 9:15AM",
-    "hasStarted": false,
+    "schedule": {
+      "days": ["Sunday", "Tuesday", "Thursday"],
+      "startTime": "08:00",
+      "endTime": "09:15"
+    },
+    "hasStarted": true,
     "creditHours": 4,
     "interestedInstructors": [],
     "assignmentConfirmed": false,
@@ -106,7 +122,11 @@
     "totalSeats": 45,
     "availableSeats": 45,
     "registeredStudents": [],
-    "schedule": "MW 11:00AM - 12:15PM",
+    "schedule": {
+      "days": ["Monday", "Wednesday"],
+      "startTime": "11:00",
+      "endTime": "12:15"
+    },
     "hasStarted": false,
     "creditHours": 4,
     "interestedInstructors": [],
@@ -126,7 +146,11 @@
     "totalSeats": 50,
     "availableSeats": 50,
     "registeredStudents": [],
-    "schedule": "STT 11:00AM - 11:50AM",
+    "schedule": {
+      "days": ["Sunday", "Tuesday", "Thursday"],
+      "startTime": "11:00",
+      "endTime": "11:50"
+    },
     "hasStarted": false,
     "creditHours": 3,
     "interestedInstructors": [],
@@ -149,7 +173,11 @@
     "totalSeats": 30,
     "availableSeats": 30,
     "registeredStudents": [],
-    "schedule": "STT 9:00AM - 9:50AM",
+    "schedule": {
+      "days": ["Sunday", "Tuesday", "Thursday"],
+      "startTime": "09:00",
+      "endTime": "09:50"
+    },
     "hasStarted": false,
     "creditHours": 3,
     "interestedInstructors": [],
@@ -169,8 +197,15 @@
     "totalSeats": 45,
     "availableSeats": 45,
     "registeredStudents": [],
-    "schedule": "MW 10:00AM - 10:50AM",
-    "hasStarted": false,
+    "schedule": {
+      "days": [
+        "Monday",
+        "Wednesday"
+      ],
+      "startTime": "08:00",
+      "endTime": "09:15"
+    },
+    "hasStarted": true,
     "creditHours": 3,
     "interestedInstructors": [],
     "assignmentConfirmed": false,
@@ -192,8 +227,12 @@
     "totalSeats": 50,
     "availableSeats": 50,
     "registeredStudents": [],
-    "schedule": "MW 2:00AM - 3:15AM",
-    "hasStarted": false,
+    "schedule": {
+      "days": ["Monday", "Wednesday"],
+      "startTime": "14:00",
+      "endTime": "15:15"
+    },
+    "hasStarted": true,
     "creditHours": 3,
     "interestedInstructors": [],
     "assignmentConfirmed": false,
@@ -216,8 +255,12 @@
     "totalSeats": 50,
     "availableSeats": 50,
     "registeredStudents": [],
-    "schedule": "MW 9:00AM - 10:15AM",
-    "hasStarted": false,
+    "schedule": {
+      "days": ["Monday", "Wednesday"],
+      "startTime": "09:00",
+      "endTime": "10:15"
+    },
+    "hasStarted": true,
     "creditHours": 4,
     "interestedInstructors": [],
     "assignmentConfirmed": false,
@@ -236,8 +279,12 @@
     "totalSeats": 50,
     "availableSeats": 50,
     "registeredStudents": [],
-    "schedule": "MW 8:00AM - 9:15AM",
-    "hasStarted": false,
+    "schedule": {
+      "days": ["Monday", "Wednesday"],
+      "startTime": "08:00",
+      "endTime": "09:15"
+    },
+    "hasStarted": true,
     "creditHours": 4,
     "interestedInstructors": [],
     "assignmentConfirmed": false,

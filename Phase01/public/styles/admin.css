@@ -69,7 +69,7 @@ nav {
 /* Main Content */
 main {
     flex: 1;
-    max-width: 1200px;
+    max-width: 1800px; /* Increased from 1600px to accommodate larger schedule */
     width: 100%;
     margin: 0 auto;
     padding: 2rem;
@@ -356,4 +356,125 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Weekly Schedule Styles */
+.schedule-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+#week-display {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    min-width: 200px;
+    text-align: center;
+}
+
+.schedule-container {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    padding: 1.5rem;
+    width: 100%;
+    min-width: 1600px; /* Added to match table min-width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1600px; /* Increased from 1400px */
+    table-layout: fixed;
+}
+
+.schedule-table th,
+.schedule-table td {
+    border: 1px solid #ddd;
+    padding: 0;
+    text-align: left;
+    height: 100px; /* Increased from 80px */
+    position: relative;
+}
+
+.time-slot {
+    font-weight: bold;
+    background-color: #f8f9fa;
+    width: 200px; /* Increased from 180px */
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 10px;
+    font-size: 1.2rem; /* Increased font size */
+}
+
+.day-slot {
+    position: relative;
+    padding: 0;
+    height: 100px;
+    min-width: 280px; /* Increased from 240px */
+}
+
+.schedule-course {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(248, 249, 250, 0.95);
+    border-left: 4px solid #A02C50;
+    padding: 0.5rem;
+    margin: 2px;
+    border-radius: 4px;
+    font-size: 1rem; /* Increased from 0.85rem */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    word-break: break-word;
+    overflow: hidden;
+}
+
+.schedule-course strong {
+    color: #A02C50;
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.schedule-course div {
+    color: #666;
+    line-height: 1.1;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.1rem;
+}
+
+.schedule-course:hover {
+    transform: scale(1.02);
+    z-index: 3;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .schedule-container {
+        margin: 0 -1rem;
+        border-radius: 0;
+    }
 }

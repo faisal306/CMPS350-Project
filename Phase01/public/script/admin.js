@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function(){
     setupTabs();
     loadCourses();
     loadCoursesForAdmin();
+    loadWeeklySchedule();
 
 
     
@@ -741,4 +742,151 @@ function filterCoursesByStatus() {
 
     });
 
+}
+
+function loadWeeklySchedule() {
+    const scheduleBody = document.getElementById('schedule-body');
+    const weekDisplay = document.getElementById('week-display');
+    let currentWeek = new Date();
+
+    // Update week display
+    function updateWeekDisplay() {
+        const weekStart = new Date(currentWeek);
+        const weekEnd = new Date(currentWeek);
+        weekEnd.setDate(weekEnd.getDate() + 4);
+        weekDisplay.textContent = `${weekStart.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}`;
+    }
+
+    // Generate time slots for 24-hour format
+    function generateTimeSlots() {
+        scheduleBody.innerHTML = '';
+        const timeSlots = [
+            '08:00', '09:00', '10:00', '11:00', 
+            '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'
+        ];
+        
+        timeSlots.forEach(time => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td class="time-slot">${time}</td>
+                           <td class="day-slot" data-day="Sunday" data-time="${time}"></td>
+                           <td class="day-slot" data-day="Monday" data-time="${time}"></td>
+                           <td class="day-slot" data-day="Tuesday" data-time="${time}"></td>
+                           <td class="day-slot" data-day="Wednesday" data-time="${time}"></td>
+                           <td class="day-slot" data-day="Thursday" data-time="${time}"></td>`;
+            scheduleBody.appendChild(row);
+        });
+    }
+
+    // Populate schedule with courses
+    async function populateSchedule() {
+        try {
+            const response = await fetch('/api/courses');
+            const courses = await response.json();
+            
+            // Filter for in-progress courses
+            const activeCourses = courses.filter(course => course.hasStarted);
+            
+            // Clear existing schedule
+            generateTimeSlots();
+            
+            // Populate courses into schedule
+            activeCourses.forEach(course => {
+                if (course.schedule && course.schedule.days) {
+                    const duration = calculateDuration(course.schedule.startTime, course.schedule.endTime);
+                    const heightInPixels = duration * 100; // Changed from 80 to 100 to match new cell height
+                    
+                    course.schedule.days.forEach(day => {
+                        const startTime = course.schedule.startTime;
+                        const cell = document.querySelector(`.day-slot[data-day="${day}"][data-time="${startTime}"]`);
+                        
+                        if (cell) {
+                            const courseElement = document.createElement('div');
+                            courseElement.className = 'schedule-course';
+                            courseElement.style.height = `${heightInPixels}px`;
+                            courseElement.style.zIndex = '2';
+                            
+                            courseElement.innerHTML = `
+                                <strong>${course.id}</strong>
+                                <div>${course.name}</div>
+                                <div>${course.instructor || 'TBA'}</div>
+                                <div>${course.schedule.startTime} - ${course.schedule.endTime}</div>
+                            `;
+                            cell.appendChild(courseElement);
+                        }
+                    });
+                }
+            });
+        } catch (error) {
+            console.error('Error loading schedule:', error);
+            showNotification('Failed to load schedule', 'error');
+        }
+    }
+
+    // Event listeners for week navigation
+    document.getElementById('prev-week').addEventListener('click', () => {
+        currentWeek.setDate(currentWeek.getDate() - 7);
+        updateWeekDisplay();
+        populateSchedule();
+    });
+
+    document.getElementById('next-week').addEventListener('click', () => {
+        currentWeek.setDate(currentWeek.getDate() + 7);
+        updateWeekDisplay();
+        populateSchedule();
+    });
+
+    // Initial load
+    updateWeekDisplay();
+    populateSchedule();
+}
+
+function calculateDuration(startTime, endTime) {
+    const [startHour, startMinute] = startTime.split(':').map(Number);
+    const [endHour, endMinute] = endTime.split(':').map(Number);
+    const startInMinutes = startHour * 60 + startMinute;
+    const endInMinutes = endHour * 60 + endMinute;
+    const durationInMinutes = endInMinutes - startInMinutes;
+    return (durationInMinutes / 60); // Convert back to hours for proportion calculation
+}
+
+async function populateSchedule() {
+    try {
+        const response = await fetch('/api/courses');
+        const courses = await response.json();
+        
+        // Filter for in-progress courses
+        const activeCourses = courses.filter(course => course.hasStarted);
+        
+        // Clear existing schedule
+        generateTimeSlots();
+        
+        // Populate courses into schedule
+        activeCourses.forEach(course => {
+            if (course.schedule && course.schedule.days) {
+                const duration = calculateDuration(course.schedule.startTime, course.schedule.endTime);
+                const heightInPixels = duration * 100; // Changed from 80 to 100 to match new cell height
+                
+                course.schedule.days.forEach(day => {
+                    const startTime = course.schedule.startTime;
+                    const cell = document.querySelector(`.day-slot[data-day="${day}"][data-time="${startTime}"]`);
+                    
+                    if (cell) {
+                        const courseElement = document.createElement('div');
+                        courseElement.className = 'schedule-course';
+                        courseElement.style.height = `${heightInPixels}px`;
+                        courseElement.innerHTML = `
+                            <strong>${course.id}</strong>
+                            <div>${course.name}</div>
+                            <div>${course.instructor || 'TBA'}</div>
+                            <div>${course.schedule.startTime} - ${course.schedule.endTime}</div>
+                        `;
+                        cell.appendChild(courseElement);
+                    }
+                });
+            }
+        });
+    } catch (error) {
+        console.error('Error loading schedule:', error);
+        showNotification('Failed to load schedule', 'error');
+    }
 }

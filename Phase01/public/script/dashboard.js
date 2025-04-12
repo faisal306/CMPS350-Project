@@ -137,6 +137,7 @@ function displayAvailableCourses(availableCourses) {
             <h3>${course.name} (${course.crn})</h3>
             <div class="course-info">
                 <p><strong>Category:</strong> ${course.category}</p>
+                <p><strong>Instructor:</strong> ${course.instructor}</p>
                 <p><strong>Credits:</strong> ${course.creditHours}</p>
                 <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
                 ${course.description ? `<p>${course.description}</p>` : ''}
