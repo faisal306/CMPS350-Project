@@ -168,37 +168,21 @@
             <section id="instructor-tab" class="tab-pane">
                 <h2>Instructor Assignment</h2>
                 
-                <!-- Search and filter for instructors -->
+                <!-- Search and filter for courses -->
                 <div class="search-container">
                     <div class="search-inputs">
-                        <input type="text" id="instructor-search" placeholder="Search by instructor name...">
-                        <select id="department-instructor-filter">
-                            <option value="">All Departments</option>
-                            <!-- Will be populated dynamically -->
+                        <input type="text" id="course-search" placeholder="Search by course name...">
+                        <select id="department-course-filter">
+                            <option value="">All Categories</option>
                         </select>
                     </div>
-                    <button id="apply-instructor-filters" class="btn-primary">Search</button>
+                    <button id="apply-course-filters" class="btn-primary">Search</button>
                 </div>
                 
-                <!-- Instructor assignments table -->
-                <div class="courses-table-container">
-                    <table class="courses-table">
-                        <thead>
-                            <tr>
-                                <th>Instructor Name</th>
-                                <th>Department</th>
-                                <th>Current Load</th>
-                                <th>Assigned Courses</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="instructors-list">
-                            <!-- Will be populated with instructors -->
-                        </tbody>
-                    </table>
+                <!-- Course list with interested instructors -->
+                <div class="course-instructor-list" id="course-instructor-list">
+                    <!-- Will be populated dynamically -->
                 </div>
-                
-                
             </section>
 
             <!-- Weekly Schedule Tab -->

@@ -180,7 +180,10 @@ function displayAvailableCourses() {
     }
     
     availableCourses.forEach(course => {
-        const isInterested = currentUser.interestedCourses?.includes(course.id);
+        const isInterested = currentUser.interestedCourses?.some(id => 
+            Number(id) === course.crn || id === String(course.crn)
+        );
+        console.log(isInterested);
         const deadlineDate = course.interestDeadline ? new Date(course.interestDeadline) : null;
         const deadlinePassed = deadlineDate && deadlineDate < new Date();
         
@@ -194,7 +197,7 @@ function displayAvailableCourses() {
             <td>
                 ${!deadlinePassed ? 
                     `<button class="btn-action ${isInterested ? 'btn-reject' : 'btn-approve'}" 
-                             onclick="toggleInterest('${course.id}', ${!isInterested})">
+                             onclick="toggleInterest('${course.crn}', ${!isInterested})">
                         ${isInterested ? 'Remove Interest' : 'Express Interest'}
                      </button>` :
                     '<span class="deadline-passed">Deadline passed</span>'
@@ -224,8 +227,8 @@ function displayInterestedCourses() {
     
     // Filter courses to only the instructor is interested in
     const interestedCourses = availableCourses.filter(course => 
-        currentUser.interestedCourses.find(id => id === course.id)
-    );
+      course.interestedInstructors?.includes(currentUser.id)
+    )
     
 
 
@@ -247,7 +250,7 @@ function displayInterestedCourses() {
             <td>${deadlineDate ? deadlineDate.toLocaleString() : 'No deadline'}</td>
             <td>
                 ${!deadlinePassed ? 
-                    `<button class="btn-action btn-reject" onclick="toggleInterest('${course.id}', false)">
+                    `<button class="btn-action btn-reject" onclick="toggleInterest('${course.crn}', false)">
                         Remove Interest
                      </button>` :
                     '<span class="deadline-passed">Deadline passed</span>'
@@ -281,7 +284,7 @@ async function displayAssignedCourses() {
   
   // Filter to only courses assigned to this instructor
   const teachingCourses = allCourses.filter(course => 
-    currentUser.assignedCourses.includes(course.id)
+    currentUser.assignedCourses.includes(course.crn)
   );
 
 
@@ -561,7 +564,7 @@ function filterCourses() {
   
     // Add the rest of your existing course rendering code
     filteredCourses.forEach(course => {
-      const isInterested = currentUser.interestedCourses && currentUser.interestedCourses.includes(course.id);
+      const isInterested = currentUser.interestedCourses?.includes(course.crn);
       const deadline = course.interestDeadline ? new Date(course.interestDeadline) : null;
       const deadlinePassed = deadline ? deadline < new Date() : false;
       
@@ -644,66 +647,47 @@ async function loadStudentsForCourse(courseId, container) {
 
 // Toggle interest in a course for the instructor
 async function toggleInterest(courseId, isInterested) {
+    try {
+        const response = await fetch(`/api/courses/${courseId}/interest`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                instructorId: currentUser.id,
+                interested: isInterested
+            })
+        });
 
+        const result = await response.json();
 
-       // Send a POST request to update interest on the server
-    const response = await fetch(`/api/courses/${courseId}/interest`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          instructorId: currentUser.id,
-          interested: isInterested
-        })
-      });
-  
-      // Get the response result from the server
-      const result = await response.json();
-  
-      if (result.success) {
-        // Ensure the interestedCourses array is created
-        if (!currentUser.interestedCourses) {
-          currentUser.interestedCourses = [];
-        }
-  
-        if (isInterested) {
-          // Check manually if the courseId exists in the array using a loop
-          let found = false;
-          for (let i = 0; i < currentUser.interestedCourses.length; i++) {
-            if (currentUser.interestedCourses[i] === courseId) {
-              found = true;
-              break;
+        if (result.success) {
+            if (!currentUser.interestedCourses) {
+                currentUser.interestedCourses = [];
             }
-          }
-  
-          // If the courseId is not found, add it to the array
-          if (!found) {
-            currentUser.interestedCourses.push(courseId);
-          }
+
+            if (isInterested) {
+                if (!currentUser.interestedCourses.includes(courseId)) {
+                    currentUser.interestedCourses.push(courseId);
+                }
+            } else {
+                // Fix: Changed crn !== crn to c !== courseId
+                currentUser.interestedCourses = currentUser.interestedCourses.filter(c => c !== courseId);
+            }
+
+            showNotification(
+                isInterested ? 'Interest expressed successfully' : 'Interest removed successfully',
+                'success'
+            );
+
+
+            displayAvailableCourses();
+            displayInterestedCourses();
         } else {
-          // Remove the courseId from the array if not interested
-          const updatedCourses = [];
-          for (let i = 0; i < currentUser.interestedCourses.length; i++) {
-            if (currentUser.interestedCourses[i] !== courseId) {
-              updatedCourses.push(currentUser.interestedCourses[i]);
-            }
-          }
-          currentUser.interestedCourses = updatedCourses;
+            showNotification(result.message || 'Failed to update interest', 'error');
         }
-  
-        // Show a notification on success
-        showNotification(
-          isInterested ? 'Interest expressed successfully' : 'Interest removed successfully',
-          'success'
-        );
-  
-        // Refresh the user interface to reflect the changes
-        displayAvailableCourses();
-        displayInterestedCourses();
-      } else {
-        showNotification(result.message || 'Failed to update interest', 'error');
-      }
-    
-
+    } catch (error) {
+        console.error('Error updating interest:', error);
+        showNotification('Failed to update interest', 'error');
+    }
 }

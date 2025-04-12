@@ -23,7 +23,13 @@
     "hasStarted": true,
     "creditHours": 3,
     "isPublishedForInstructors": false,
-    "interestedInstructors": [],
+    "interestedInstructors": [
+      {
+        "instructorId": 9,
+        "instructorName": "Eng. Georges Younes",
+        "instructorEmail": "georges.younes@qu.edu.qa"
+      }
+    ],
     "assignmentConfirmed": false,
     "interestDeadline": "2025-05-25T23:59:59",
     "registeredUsers": []

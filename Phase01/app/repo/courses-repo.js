@@ -327,7 +327,42 @@ async saveCourses(courses) {
     }
 }
 
+// Update interestedInstructors in courses.json
+async updateInterestedInstructors(crn, instructorId, interested) {
+    try {
+        const courses = await fs.readJson(this.filePath);
+        console.log(crn);
+        const courseIndex = courses.findIndex(course => course.crn == crn);
+
+        if (courseIndex === -1) {
+            return { error: "Course not found" };
+        }
+
+        const users = await fs.readJson(this.usersFilePath);
+        const instructor = users.find(user => user.id == instructorId);
+        if (!instructor) {
+            return { error: "Instructor not found" };
+        }
+
+        if (interested) {
+            courses[courseIndex].interestedInstructors.push({
+              instructorId: instructorId,
+              instructorName: instructor.name,
+              instructorEmail: instructor.email
+        });
+        } else {
+            courses[courseIndex].interestedInstructors = courses[courseIndex].interestedInstructors.filter(id => id !== instructorId);
+        }
+
+        await fs.writeJson(this.filePath, courses, { spaces: 2 });
+        return true;
+    } catch (error) {
+        console.error("Error updating interested instructors:", error);
+        return { error: "An error occurred while updating interested instructors" };
+    }
 }
+}
+ 
 
 
 export default new CoursesRepo()

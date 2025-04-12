@@ -1107,7 +1107,95 @@ async function assignInstructor(crn) {
     }
 }
 
+async function loadInstructorAssignments() {
+    try {
+        const response = await fetch('/api/courses');
+        const courses = await response.json();
+        
+        const courseList = document.getElementById('course-instructor-list');
+        courseList.innerHTML = ''; // Clear existing content
+        courses.forEach(course => {
+            const courseElement = document.createElement('div');
+            courseElement.className = 'course-item';
+            
+            courseElement.innerHTML = `
+                <div class="course-header" onclick="toggleInstructorList('${course.crn}')">
+                    <div>
+                        <strong>${course.id} - ${course.name}</strong>
+                        <span>(Current Instructor: ${course.instructor || 'None'})</span>
+                    </div>
+                    <div>
+                        ${course.interestedInstructors?.length || 0} interested instructors
+                    </div>
+                </div>
+                <div id="instructors-${course.crn}" class="interested-instructors">
+                    ${renderInstructorList(course)}
+                </div>
+            `;
+            
+            courseList.appendChild(courseElement);
+        });
+    } catch (error) {
+        console.error('Error loading instructor assignments:', error);
+        showNotification('Failed to load instructor assignments', 'error');
+    }
+}
+
+function renderInstructorList(course) {
+    if (!course.interestedInstructors?.length) {
+        return '<div class="no-instructors">No interested instructors</div>';
+    }
+    
+    console.log(course.interestedInstructors);  
+    return `
+        <div class="instructor-list">
+            ${course.interestedInstructors.map(instructor => `
+                <div class="instructor-item">
+                    <span>${instructor.instructorName}</span>
+                    <button class="btn-action btn-assign"
+                            onclick="assignInstructorToCourse('${course.crn}', '${instructor.instructorName}')">
+                        Assign
+                    </button>
+                </div>
+                
+            `).join('')}
+        </div>
+    `;
+}
+
+function toggleInstructorList(crn) {
+    const instructorList = document.getElementById(`instructors-${crn}`);
+    instructorList.classList.toggle('active');
+}
+
+async function assignInstructorToCourse(crn, instructorName) {
+    try {
+        const response = await fetch(`/api/courses/${crn}/assign-instructor`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                instructor: instructorName,
+                clearInterested: true 
+            })
+        });
+        
+        if (response.ok) {
+            showNotification('Instructor assigned successfully', 'success');
+            loadInstructorAssignments(); // Refresh the list
+        } else {
+            showNotification('Failed to assign instructor', 'error');
+        }
+    } catch (error) {
+        console.error('Error assigning instructor:', error);
+        showNotification('Error assigning instructor', 'error');
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // ...existing code...
     setupModalClosers();
+    const instructorTab = document.querySelector('[data-tab="instructor-tab"]');
+    instructorTab.addEventListener('click', loadInstructorAssignments);
 });
