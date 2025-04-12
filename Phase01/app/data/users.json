@@ -14,13 +14,7 @@
     "email": "faisal@qu.edu.qa",
     "password": "faisal123",
     "role": "student",
-    "registeredCourses": [
-      {
-        "crn": 1420,
-        "id": "CMPS151",
-        "name": "Programming Concepts"
-      }
-    ]
+    "registeredCourses": []
   },
   {
     "id": 3,

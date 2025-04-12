@@ -4,7 +4,6 @@ import path from 'path'
 
 class CoursesRepo {
 
-
     constructor() {
         this.filePath = path.join(process.cwd(), 'app/data/courses.json');
         this.usersFilePath = path.join(process.cwd(), 'app/data/users.json');
@@ -50,115 +49,6 @@ class CoursesRepo {
         else
             return { errorMessage: 'Course does not exit' };
     }
-
-    async registerClass(userId, crn) {
-
-        try {
-            // Read the courses list from the file
-            const courses = await fs.readJson(this.filePath);
-            
-            // Find the course index
-            let courseIndex = -1;
-            for (let i = 0; i < courses.length; i++) {
-                if (courses[i].crn == crn) {
-                courseIndex = i;
-                break;
-                }
-            }
-            
-            // If no course 
-            if (courseIndex === -1) {
-                return { success: false, message: "Course not found" };
-            }
-            
-            // Get the course from the courses array
-            const course = courses[courseIndex];
-            
-            // Check if the course is open
-            if (!course.openForRegistration) {
-                return { success: false, message: "Course is not open for registration" };
-            }
-            
-            // Check if there are any available seats
-            if (course.availableSeats <= 0) {
-                return { success: false, message: "No available seats in this course" };
-            }
-            
-            
-            if (!course.registeredStudents) {
-                course.registeredStudents = [];
-            }
-            
-            // Check if the student is already registered
-            let alreadyRegistered = false;
-            for (let i = 0; i < course.registeredStudents.length; i++) {
-                if (course.registeredStudents[i] == userId) {
-                alreadyRegistered = true;
-                break;
-                }
-            }
-
-            if (alreadyRegistered) {
-                return { success: false, message: "You are already registered for this course" };
-            }
-            
-            // Check if the student has completed the prerequisites
-            const hasPrereqs = await this.hasCompletedPrerequisites(userId, crn);
-            if (!hasPrereqs) {
-                return { success: false, message: "You have not completed the required prerequisites" };
-            }
-            
-            // Add the user to the registeredStudents list
-            course.registeredStudents.push(userId);
-
-            course.availableSeats = course.availableSeats - 1;
-            
-            // Write the updated courses back
-            await fs.writeJson(this.filePath, courses, { spaces: 2 });
-            
-            // update the user's with the new course
-            const users = await fs.readJson(this.usersFilePath);
-            
-            // get the user
-            let userIndex = -1;
-            for (let i = 0; i < users.length; i++) {
-                if (users[i].id == userId) {
-                userIndex = i;
-                break;
-                }
-            }
-            
-            // update their registeredCourses property if found
-            if (userIndex !== -1) {
-
-
-                // will be true if registeredCourses === undefined or null
-                if (!users[userIndex].registeredCourses) {
-                users[userIndex].registeredCourses = [];
-                }
-                
-                users[userIndex].registeredCourses.push({
-                crn: course.crn,
-                id: course.id,
-                name: course.name
-                });
-                
-             
-                await fs.writeJson(this.usersFilePath, users, { spaces: 2 });
-            }
-            
-
-
-
-            return { success: true, message: "Successfully registered for the course" };
-            } catch (error) {
-            
-            console.error("Error registering for course:", error);
-            return { success: false, message: "An error occurred during registration!" };
-        }
-    }
-
-
 
     // this method only for admin to creata a new class for students 
         // courseData is an object that contains the details of the course
@@ -349,48 +239,6 @@ class CoursesRepo {
             };
         }
     }
-
-    async unregisterClass(userId, crn) {
-        try {
-            
-            const courses = await fs.readJson(this.filePath);
-            const users = await fs.readJson(this.usersFilePath);
-
-            // Find course and user
-            const course = courses.find(c => c.crn == crn);
-            const user = users.find(u => u.id == userId);
-
-            if (!course || !user) {
-                return { success: false, message: "Course or user not found" };
-            }
-
-            // Remove student from course's registered students
-            const studentIndex = course.registeredStudents.indexOf(userId);
-            if (studentIndex === -1) {
-                return { success: false, message: "Student not registered in this course" };
-            }
-
-            course.registeredStudents.splice(studentIndex, 1);
-            course.availableSeats++;
-
-            // Remove course from user's registered courses
-            user.registeredCourses = user.registeredCourses.filter(c => c.crn !== crn);
-            console.log("Registered Courses", user.registeredCourses);
-            
-
-            
-            
-
-            await fs.writeJson(this.filePath, courses, { spaces: 2 });
-            await fs.writeJson(this.usersFilePath, users, { spaces: 2 });
-
-            return { success: true, message: "Successfully unregistered from course" };
-        } catch (error) {
-            console.error("Error unregistering from course:", error);
-            return { success: false, message: "An error occurred during unregistration" };
-        }
-    }
-
 
     async publishCourseForInstructors(crn, publish) {
     

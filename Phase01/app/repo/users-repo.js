@@ -14,8 +14,6 @@ class UsersRepo {
     }
 
     async loginUser(email, pass){
-        console.log(email);
-        console.log(pass);
         const users = await this.getUsers();
         const index = users.findIndex(user => user.email == email && user.password == pass);
         if (index >= 0) {
@@ -53,7 +51,6 @@ class UsersRepo {
             // get user and course data
             const users = await this.getUsers();
             const user = users.find(u => u.id == userId);
-            console.log(user);
 
             if (!user) {
                 return { success: false, errorMessage: 'User not found' }; 
@@ -87,6 +84,7 @@ class UsersRepo {
         }
     }
 
+<<<<<<< Updated upstream
 
 // Update an instructor's interest in a course 
 async updateInstructorInterest(instructorId, courseId, interested) {
@@ -129,6 +127,101 @@ async updateInstructorInterest(instructorId, courseId, interested) {
     }
 
 
+=======
+    async registerCourse(userId, course) {
+        try {
+            const users = await this.getUsers();
+            const userIndex = users.findIndex(user => user.id == userId);
+            if (userIndex === -1) {
+                return { success: false, errorMessage: 'User not found' };
+            }
+
+            // Check if the course is already registered
+            const user = users[userIndex];
+            if (user.registeredCourses && user.registeredCourses.some(c => c.crn == course.crn)) {
+                return { success: false, errorMessage: 'Course already registered' };
+            }
+            // Check if the course is already completed
+            if (user.completedCourses && user.completedCourses.some(c => c.crn == course.crn)) {
+                return { success: false, errorMessage: 'Course already completed' };
+            }
+
+            // Add the course to the user's registered courses
+            if (!user.registeredCourses) {
+                user.registeredCourses = [];
+            }
+            // Only take the course ID and name and crn
+            user.registeredCourses.push({
+                id: course.id,
+                name: course.name,
+                crn: course.crn
+            });
+
+
+            // Save the updated users data
+            await fs.writeJSON(this.filePath, users, { spaces: 2 });
+
+            // Get the courses data and write the user id into the course
+            const courses = await fs.readJson(this.coursesFilePath);
+            const courseIndex = courses.findIndex(c => c.crn == course.crn);
+            if (courseIndex === -1) {
+                return { success: false, errorMessage: 'Course not found' };
+            }
+            // Add the user ID to the course's registered users
+            if (!courses[courseIndex].registeredUsers) {
+                courses[courseIndex].registeredUsers = [];
+            }
+            // Only take the user ID
+            courses[courseIndex].registeredUsers.push(user.id);
+
+            // Save the updated courses data
+            await fs.writeJSON(this.coursesFilePath, courses, { spaces: 2 });
+
+            return { success: true };
+        } catch (error) {
+            console.error('Error registering course:', error);
+            return { success: false, errorMessage: 'An error occurred while registering the course' };
+        }
+    }
+    async withdrawCourse(userId, course) {
+        try {
+            const users = await this.getUsers();
+            const userIndex = users.findIndex(user => user.id == userId);
+            if (userIndex === -1) {
+                return { success: false, errorMessage: 'User not found' };
+            }
+
+            // Check if the course is registered
+            const user = users[userIndex];
+            if (!user.registeredCourses || !user.registeredCourses.some(c => c.crn == course.crn)) {
+                return { success: false, errorMessage: 'Course not registered' };
+            }
+
+            // Remove the course from the user's registered courses
+            user.registeredCourses = user.registeredCourses.filter(c => c.crn != course.crn);
+
+            // Save the updated users data
+            await fs.writeJSON(this.filePath, users, { spaces: 2 });
+
+            // Get the courses data and remove the user id from the course
+            const courses = await fs.readJson(this.coursesFilePath);
+            const courseIndex = courses.findIndex(c => c.crn == course.crn);
+            if (courseIndex === -1) {
+                return { success: false, errorMessage: 'Course not found' };
+            }
+            // Remove the user ID from the course's registered users
+            courses[courseIndex].registeredUsers = courses[courseIndex].registeredUsers.filter(uId => uId != user.id);
+
+            // Save the updated courses data
+            await fs.writeJSON(this.coursesFilePath, courses, { spaces: 2 });
+
+            return { success: true };
+        } catch (error) {
+            console.error('Error withdrawing course:', error);
+            return { success: false, errorMessage: 'An error occurred while withdrawing from the course' };
+        }
+    }
+>>>>>>> Stashed changes
 }
 
 export default new UsersRepo()

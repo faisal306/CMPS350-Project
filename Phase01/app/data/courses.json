@@ -18,7 +18,8 @@
     "isPublishedForInstructors": false,
     "interestedInstructors": [],
     "assignmentConfirmed": false,
-    "interestDeadline": "2025-05-25T23:59:59"
+    "interestDeadline": "2025-05-25T23:59:59",
+    "registeredUsers": []
   },
   {
     "id": "CMPS350",
@@ -130,7 +131,8 @@
     "creditHours": 3,
     "interestedInstructors": [],
     "assignmentConfirmed": false,
-    "interestDeadline": "2025-05-25T23:59:59"
+    "interestDeadline": "2025-05-25T23:59:59",
+    "registeredUsers": []
   },
   {
     "id": "MATH102",

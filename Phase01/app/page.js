@@ -1,7 +1,11 @@
+'use client'
+
+import { useEffect } from 'react'
+
 export default function HomePage() {
-  return (
-    <div>
-      <a href="landing.html">Landing.html</a>
-    </div>
-  );
+  useEffect(() => {
+    window.location.href = 'landing.html'
+  }, [])
+  
+  return null
 }

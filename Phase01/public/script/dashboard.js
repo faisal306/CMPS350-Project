@@ -36,13 +36,11 @@ async function initializeUser(userId) {
     }
     
     currentUser = userData;
-    const userDataResponse = await fetch(`/api/users/${userId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-    });
-    const coursesData = await userDataResponse.json();
-    console.log(coursesData);
-    userCourses = coursesData.data || userCourses;
+    const userCoursesResponse = await fetch(`/api/users/${userId}/courses`);
+    if (!userCoursesResponse.ok) {
+        throw new Error('Failed to fetch user courses');
+    }
+    userCourses =  (await userCoursesResponse.json()).data || userCourses;
 }
 
 async function initializeCourses() {
@@ -61,7 +59,6 @@ function setupEventListeners() {
 
 
     // Registration modal
-    document.getElementById('confirm-registration').addEventListener('click', registerForCourse);
     document.getElementById('cancel-registration').addEventListener('click', closeModal);
     document.querySelector('.close-modal')?.addEventListener('click', closeModal);
 
@@ -120,7 +117,7 @@ function displayAvailableCourses(availableCourses) {
             buttonText = 'Already Completed';
             isClickable = false;
         } else if (isRegistered) {
-            buttonText = 'Unregister';
+            buttonText = 'Withdraw';
             isClickable = true;
         } else if (!hasPrerequisites) {
             buttonText = 'Prerequisites Not Met';
@@ -147,7 +144,7 @@ function displayAvailableCourses(availableCourses) {
             button.addEventListener('click', () => {
                 if (isRegistered) {
                     if(confirm("Are you sure you want to unregister from this course?")) {
-                        unregisterFromCourse(course);
+                        withdrawfromCourse(course);
                     }
                 } else {
                     openRegistrationModal(course, 'register');
@@ -232,10 +229,10 @@ async function registerForCourse() {
     if (!selectedCourse) return;
     
     try {
-        const response = await fetch(`/api/courses/${selectedCourse.crn}`, {
+        const response = await fetch(`/api/users/${currentUser.id}/courses?type=register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ studentId: currentUser.id, crn: selectedCourse.crn })
+            body: JSON.stringify({ course: selectedCourse })
         });
         
         const result = await response.json();
@@ -244,42 +241,38 @@ async function registerForCourse() {
             alert("Successfully registered for the course!");
             location.reload();
         } else {
-            alert("Failed to register class. Please contact the admnistration.\nError Message: " + result.message);
             throw new Error(result.message || 'Registration failed');
         }
     } catch (error) {
         console.error('Registration error:', error);
-        alert("Failed to register for the course. Please try again.");
+        alert("Failed to register for the course. Please try again.\n" + error.message);
         location.reload();
     } finally {
         closeModal();
     }
 }
 
-async function unregisterFromCourse(course) {
-    if (!course) return;
-    
-    try {
-        const response = await fetch(`/api/courses/${course.crn}`, {
-            method: 'DELETE',  
+async function withdrawfromCourse(course) {
+    try {  
+        const response = await fetch(`/api/users/${currentUser.id}/courses?type=withdraw`, {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ studentId: currentUser.id })
+            body: JSON.stringify({ course })
         });
         
         const result = await response.json();
         if (result.success) {
             await Promise.all([initializeCourses(), initializeUser(currentUser.id)]);
-            alert("Successfully unregistered from the course!");
+            alert("Successfully withdrawn from the course!");
             location.reload();
         } else {
-            alert("Failed to unregister from class. Please contact the administration.\nError Message: " + result.message);
-            throw new Error(result.message || 'Unregistration failed');
+            throw new Error(result.message || 'Withdrawal failed');
         }
-    } catch (error) {
-        console.error('Unregistration error:', error);
-        alert("Failed to unregister from the course. Please try again.");
-    } finally {
-        closeModal();
+    }
+    catch (error) {
+        console.error('Withdrawal error:', error);
+        alert("Failed to withdraw from the course. Please try again.\n" + error.message);
+        location.reload();
     }
 }
 
