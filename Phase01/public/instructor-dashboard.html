@@ -6,26 +6,22 @@
     <title>Instructor Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/instructor.css">
 </head>
 <body>
-    
     <header>
-
         <nav>
-            <a href="./landing.html"><img src="./images/qulogo.png" alt="Qu Logo" class="qu-logo"></a>
+            <a href="./landing.html"><img src="./images/qulogo.png" alt="QU Logo" class="qu-logo"></a>
             <div class="btns">
                 <a href="./landing.html">Home</a>
-                <!-- <a href="./login.html">Login</a>
-                <a href="" id="dashboard">Dashboard</a> -->
             </div>
             <div class="user-info">
                 <img src="./images/user-icon.png" alt="User Icon" class="user-icon">
-                <span id="student-email">instructor@example.com</span>
+                <span id="instructor-email">instructor@example.com</span>
                 <button class="logout-btn" onclick="logOut()">Logout</button>
             </div> 
         </nav>
         <hr>
-
     </header>
 
     <main>
@@ -37,6 +33,7 @@
         </div>
 
         <div class="tab-content">
+            <!-- Available Courses Tab -->
             <section id="available-courses-tab" class="tab-pane active">
                 <h2>Courses Available for Interest</h2>
                 
@@ -69,15 +66,26 @@
                 </div>
             </section>
 
+            <!-- My Courses Tab -->
             <section id="my-courses-tab" class="tab-pane">
                 <h2>My Courses</h2>
                 
-                <div class="tab-sub-header">
-                    <button class="sub-tab-btn active" data-content="interested-courses">My Interests</button>
-                    <button class="sub-tab-btn" data-content="assigned-courses">Assigned Courses</button>
+                <!-- <div class="tab-sub-header">
+                    <button class="sub-tab-btn active" data-content="assigned-courses">Current Teaching</button>
+                    <button class="sub-tab-btn" data-content="interested-courses">My Interests</button>
+                </div> -->
+                
+                <!-- 1. Current Teaching Sub-tab -->
+                <div id="assigned-courses" class="sub-content active">
+                    <div class="courses-list-container">
+                        <div id="assigned-courses-list">
+                            <!-- Will be populated with assigned courses and their students -->
+                        </div>
+                    </div>
                 </div>
                 
-                <div id="interested-courses" class="sub-content active">
+                <!-- 2. My Interests Sub-tab -->
+                <div id="interested-courses" class="sub-content">
                     <div class="courses-table-container">
                         <table class="courses-table">
                             <thead>
@@ -95,59 +103,37 @@
                         </table>
                     </div>
                 </div>
-                
-                <div id="assigned-courses" class="sub-content">
-                    <div class="courses-table-container">
+            </section>
+        </div>
+
+        <!-- Student List Modal -->
+        <div id="students-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeStudentsModal()">&times;</span>
+                <h2 id="course-title">Course Students</h2>
+                <div id="modal-course-students">
+                    <form id="grade-submission-form">
                         <table class="courses-table">
                             <thead>
                                 <tr>
-                                    <th>Course ID</th>
-                                    <th>Course Name</th>
-                                    <th>Category</th>
-                                    <th>Registered Students</th>
-                                    <th>Actions</th>
+                                    <th>Student ID</th>
+                                    <th>Student Name</th>
+                                    <th>Current Grade</th>
+                                    <th>Final Grade</th>
                                 </tr>
                             </thead>
-                            <tbody id="assigned-courses-list">
-                                <!-- Will be populated with assigned courses -->
+                            <tbody id="student-grades-list">
+                                <!-- Will be populated with students and grade inputs -->
                             </tbody>
                         </table>
-                    </div>
+                        <div class="modal-actions">
+                            <button type="submit" class="btn-primary">Submit Grades</button>
+                            <button type="button" class="btn-secondary" onclick="closeStudentsModal()">Cancel</button>
+                        </div>
+                    </form>
                 </div>
-            </section>
-
-            
+            </div>
         </div>
-
-
-        <!-- Student List Modal -->
-<div id="students-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeStudentsModal()">&times;</span>
-        <h2 id="course-title">Course Students</h2>
-        <div id="modal-course-students">
-            <form id="grade-submission-form">
-                <table class="courses-table">
-                    <thead>
-                        <tr>
-                            <th>Student ID</th>
-                            <th>Student Name</th>
-                            <th>Current Grade</th>
-                            <th>Final Grade</th>
-                        </tr>
-                    </thead>
-                    <tbody id="student-grades-list">
-                        <!-- Will be populated with students and grade inputs -->
-                    </tbody>
-                </table>
-                <div class="modal-actions">
-                    <button type="submit" class="btn-primary">Submit Grades</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
     </main>
 
     <footer>

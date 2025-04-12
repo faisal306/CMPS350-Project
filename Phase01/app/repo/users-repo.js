@@ -184,6 +184,9 @@ async updateInstructorInterest(instructorId, courseId, interested) {
             return { success: false, errorMessage: 'An error occurred while registering the course' };
         }
     }
+
+
+
     async withdrawCourse(userId, course) {
         try {
             const users = await this.getUsers();
@@ -222,6 +225,19 @@ async updateInstructorInterest(instructorId, courseId, interested) {
             return { success: false, errorMessage: 'An error occurred while withdrawing from the course' };
         }
     }
+
+
+    // this method will get the user from his id
+    async getUserById(userId) {
+        try {
+            const users = await this.getUsers();
+            return users.find(user => user.id == userId) || null;
+        } catch (error) {
+            console.error('Error getting user by ID:', error);
+            throw error;
+        }
+    }
+
 }
 
 export default new UsersRepo()

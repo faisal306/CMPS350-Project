@@ -3,7 +3,6 @@ let availableCourses = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     
-
     const userId = localStorage.getItem('uid');
     if (!userId) {
         alert("You are not logged in. Please log in to access the dashboard.");
@@ -11,15 +10,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
     
-    
-
-        // Initialize user and load courses
-        await initializeUser(userId);
-        await loadAvailableCourses();
-        setupEventListeners();
-        updateUI();
-   
-
+    // Initialize user and load courses
+    await initializeUser(userId);
+    await loadAvailableCourses();
+    setupEventListeners();
+    updateUI();
 
 });
 
@@ -266,60 +261,88 @@ function displayInterestedCourses() {
 
 
 async function displayAssignedCourses() {
-    const assignedList = document.getElementById('assigned-courses-list');
+  const assignedList = document.getElementById('assigned-courses-list');
+  
+  assignedList.innerHTML = '';
+  
+  if (!currentUser.assignedCourses || currentUser.assignedCourses.length === 0) {
+      assignedList.innerHTML = '<tr><td colspan="5">You don\'t have any assigned courses.</td></tr>';
+      return;
+  }
+  
+  // Array to hold the course data
+  let courses = [];
 
-    
+  // Loop through all assigned courses and fetch their details
+  for (let i = 0; i < currentUser.assignedCourses.length; i++) {
+      const courseId = currentUser.assignedCourses[i];
+      
+      // Fetch course data and wait for the result
+      const response = await fetch(`/api/courses/${courseId}`);
+      const course = await response.json();
+      courses.push(course); // Add the course to the courses array
+  }
 
-    assignedList.innerHTML = '';
+  // Check if any courses were fetched
+  if (courses.length === 0) {
+      assignedList.innerHTML = '<tr><td colspan="5">No assigned courses found.</td></tr>';
+      return;
+  }
 
-    
-    if (!currentUser.assignedCourses || currentUser.assignedCourses.length === 0) {
-        assignedList.innerHTML = '<tr><td colspan="5">You don\'t have any assigned courses.</td></tr>';
-        return;
-    }
+  // Display the courses in the table
+  courses.forEach(course => {
+      const courseCard = document.createElement('div');
+      courseCard.className = 'course-card';
 
-    
-    
-     // Array to hold the course data
-     let courses = [];
+      // Create the course header with toggle button
+      const courseHeader = document.createElement('div');
+      courseHeader.className = 'course-header';
+      courseHeader.innerHTML = `
+          <div class="course-info">
+              <h3>${course.name} (${course.id})</h3>
+              <p>Category: ${course.category || 'N/A'}</p>
+              <p>Students: ${course.registeredStudents?.length || 0}/${course.totalSeats}</p>
+          </div>
+          <button class="toggle-students-btn" data-course-id="${course.id}">
+              Show Students
+          </button>
+      `;
+      
+      // Create the student list container at first at will be hidden
+      const studentList = document.createElement('div');
+      studentList.className = 'student-list hidden';
+      studentList.id = `students-${course.id}`;
 
-     // Loop through all assigned courses and fetch their details
-     for (let i = 0; i < currentUser.assignedCourses.length; i++) {
-         const courseId = currentUser.assignedCourses[i];
-         
-         
-             // Fetch course data and wait for the result
-             const response = await fetch(`/api/courses/${courseId}`);
-             const course = await response.json();
-             courses.push(course); // Add the course to the courses array
-         
-     }
- 
-     // Check if any courses were fetched
-     if (courses.length === 0) {
-         assignedList.innerHTML = '<tr><td colspan="5">No assigned courses found.</td></tr>';
-         return;
-     }
- 
-     // Display the courses in the table
-     courses.forEach(course => {
-         const row = document.createElement('tr');
-         row.innerHTML = `
-             <td>${course.id}</td>
-             <td>${course.name}</td>
-             <td>${course.category || 'N/A'}</td>
-             <td>${course.registeredStudents?.length || 0}/${course.totalSeats}</td>
-             <td>
-                 <button class="btn-action" onclick="viewStudents('${course.id}')">
-                     View Students
-                 </button>
-             </td>
-         `;
-         assignedList.appendChild(row);
-     });
+      studentList.innerHTML = '<div class="loading">Loading students...</div>';
 
-    
-    
+      // Add elements to the course card
+      courseCard.appendChild(courseHeader);
+      courseCard.appendChild(studentList);
+
+      // Add the course card to the list
+      assignedList.appendChild(courseCard);
+
+      // Add click event for the toggle button
+      const toggleBtn = courseHeader.querySelector('.toggle-students-btn');
+      toggleBtn.addEventListener('click', () => {
+          const isHidden = studentList.classList.contains('hidden');
+          
+          if (isHidden) {
+              // Show the student list
+              studentList.classList.remove('hidden');
+              toggleBtn.textContent = 'Hide Students';
+              
+              // Load the students if not already loaded
+              if (studentList.innerHTML === '<div class="loading">Loading students...</div>') {
+                  loadStudentsForCourse(course.id, studentList);
+              }
+          } else {
+              // Hide the student list
+              studentList.classList.add('hidden');
+              toggleBtn.textContent = 'Show Students';
+          }
+      });
+  });
 }
 
 
@@ -408,7 +431,7 @@ async function viewStudents(courseId) {
   
   // Function to submit all selected grades to the server
   async function submitGrades(courseId) {
-    try {
+    
       // Find all grade select elements and prepare the grade data array
       const gradeSelects = document.querySelectorAll('.grade-select');
       const grades = [];
@@ -448,11 +471,7 @@ async function viewStudents(courseId) {
         closeStudentsModal();
         displayAssignedCourses(); // Assume this function refreshes the courses view
       } else {
-        showNotification(result.message || 'Failed to submit grades', 'error');
-      }
-    } catch (error) {
-      console.error('Error submitting grades:', error);
-      showNotification('Error submitting grades', 'error');
+      showNotification(result.message || 'Failed to submit grades', 'error');
     }
   }
   
@@ -515,6 +534,57 @@ function filterCourses() {
 
 }
 
+
+// Function to load students for a specific course
+async function loadStudentsForCourse(courseId, container) {
+
+      // Fetch students for this course
+      const response = await fetch(`/api/courses/${courseId}/students`);
+      const students = await response.json();
+      
+      // Clear loading message
+      container.innerHTML = '';
+      
+      if (!students || students.length === 0) {
+          container.innerHTML = '<div class="no-students">No students registered for this course.</div>';
+          return;
+      }
+      
+      // Create table to display students
+      const table = document.createElement('table');
+      table.className = 'students-table';
+      
+      // Table header
+      table.innerHTML = `
+          <thead>
+              <tr>
+                  <th>Student ID</th>
+                  <th>Student Name</th>
+                  <th>Current Grade</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              ${students.map(student => `
+                  <tr>
+                      <td>${student.id}</td>
+                      <td>${student.name || student.email}</td>
+                      <td>${student.currentGrade || 'Not graded'}</td>
+                      <td>
+                          <button class="btn-primary btn-small" 
+                                  onclick="viewStudents('${courseId}')">
+                              Assign Grade
+                          </button>
+                      </td>
+                  </tr>
+              `).join('')}
+          </tbody>
+      `;
+      
+      container.appendChild(table);
+      
+
+}
 
 
 
@@ -582,4 +652,4 @@ async function toggleInterest(courseId, isInterested) {
       }
     
 
-}  
+}
