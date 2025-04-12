@@ -246,7 +246,12 @@ async function loadCourses() {
                         `<button class="btn-action btn-approve" onclick="approveCourse('${course.crn}')">Approve</button>` : 
                         `<button class="btn-action btn-reject" onclick="disApproveCourse('${course.crn}')">Disapprove</button>`
                     }
-                    <button class="btn-action btn-edit">Edit</button>
+                    <button class="btn-action btn-view" onclick="showCourseDetails('${course.crn}')">View</button>
+                    <button class="btn-action btn-edit" onclick="editCourse('${course.crn}')">Edit</button>
+                    ${!course.instructor ? 
+                        `<button class="btn-action btn-assign" onclick="assignInstructor('${course.crn}')">Assign Instructor</button>` 
+                        : ''
+                    }
                     ${course.adminApprove ? 
                         // if the admin approve is true show the button for close or open
 
@@ -745,148 +750,322 @@ function filterCoursesByStatus() {
 }
 
 function loadWeeklySchedule() {
-    const scheduleBody = document.getElementById('schedule-body');
-    const weekDisplay = document.getElementById('week-display');
-    let currentWeek = new Date();
+    const scheduleBody = document.querySelector('#schedule-tab');
+    scheduleBody.innerHTML = `
+        <h2>Weekly Schedule</h2>
+        <div class="day-tabs">
+            <button class="day-tab active" data-day="Sunday">Sunday</button>
+            <button class="day-tab" data-day="Monday">Monday</button>
+            <button class="day-tab" data-day="Tuesday">Tuesday</button>
+            <button class="day-tab" data-day="Wednesday">Wednesday</button>
+            <button class="day-tab" data-day="Thursday">Thursday</button>
+        </div>
+        <div class="schedule-content">
+            <div id="Sunday" class="day-content active">
+                <div class="course-list"></div>
+            </div>
+            <div id="Monday" class="day-content">
+                <div class="course-list"></div>
+            </div>
+            <div id="Tuesday" class="day-content">
+                <div class="course-list"></div>
+            </div>
+            <div id="Wednesday" class="day-content">
+                <div class="course-list"></div>
+            </div>
+            <div id="Thursday" class="day-content">
+                <div class="course-list"></div>
+            </div>
+        </div>
+    `;
 
-    // Update week display
-    function updateWeekDisplay() {
-        const weekStart = new Date(currentWeek);
-        const weekEnd = new Date(currentWeek);
-        weekEnd.setDate(weekEnd.getDate() + 4);
-        weekDisplay.textContent = `${weekStart.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}`;
-    }
-
-    // Generate time slots for 24-hour format
-    function generateTimeSlots() {
-        scheduleBody.innerHTML = '';
-        const timeSlots = [
-            '08:00', '09:00', '10:00', '11:00', 
-            '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'
-        ];
-        
-        timeSlots.forEach(time => {
-            const row = document.createElement('tr');
-            row.innerHTML = `<td class="time-slot">${time}</td>
-                           <td class="day-slot" data-day="Sunday" data-time="${time}"></td>
-                           <td class="day-slot" data-day="Monday" data-time="${time}"></td>
-                           <td class="day-slot" data-day="Tuesday" data-time="${time}"></td>
-                           <td class="day-slot" data-day="Wednesday" data-time="${time}"></td>
-                           <td class="day-slot" data-day="Thursday" data-time="${time}"></td>`;
-            scheduleBody.appendChild(row);
-        });
-    }
-
-    // Populate schedule with courses
-    async function populateSchedule() {
-        try {
-            const response = await fetch('/api/courses');
-            const courses = await response.json();
-            
-            // Filter for in-progress courses
-            const activeCourses = courses.filter(course => course.hasStarted);
-            
-            // Clear existing schedule
-            generateTimeSlots();
-            
-            // Populate courses into schedule
-            activeCourses.forEach(course => {
-                if (course.schedule && course.schedule.days) {
-                    const duration = calculateDuration(course.schedule.startTime, course.schedule.endTime);
-                    const heightInPixels = duration * 100; // Changed from 80 to 100 to match new cell height
-                    
-                    course.schedule.days.forEach(day => {
-                        const startTime = course.schedule.startTime;
-                        const cell = document.querySelector(`.day-slot[data-day="${day}"][data-time="${startTime}"]`);
-                        
-                        if (cell) {
-                            const courseElement = document.createElement('div');
-                            courseElement.className = 'schedule-course';
-                            courseElement.style.height = `${heightInPixels}px`;
-                            courseElement.style.zIndex = '2';
-                            
-                            courseElement.innerHTML = `
-                                <strong>${course.id}</strong>
-                                <div>${course.name}</div>
-                                <div>${course.instructor || 'TBA'}</div>
-                                <div>${course.schedule.startTime} - ${course.schedule.endTime}</div>
-                            `;
-                            cell.appendChild(courseElement);
-                        }
-                    });
-                }
-            });
-        } catch (error) {
-            console.error('Error loading schedule:', error);
-            showNotification('Failed to load schedule', 'error');
-        }
-    }
-
-    // Event listeners for week navigation
-    document.getElementById('prev-week').addEventListener('click', () => {
-        currentWeek.setDate(currentWeek.getDate() - 7);
-        updateWeekDisplay();
-        populateSchedule();
-    });
-
-    document.getElementById('next-week').addEventListener('click', () => {
-        currentWeek.setDate(currentWeek.getDate() + 7);
-        updateWeekDisplay();
-        populateSchedule();
-    });
-
-    // Initial load
-    updateWeekDisplay();
+    setupDayTabs();
     populateSchedule();
 }
 
-function calculateDuration(startTime, endTime) {
-    const [startHour, startMinute] = startTime.split(':').map(Number);
-    const [endHour, endMinute] = endTime.split(':').map(Number);
-    const startInMinutes = startHour * 60 + startMinute;
-    const endInMinutes = endHour * 60 + endMinute;
-    const durationInMinutes = endInMinutes - startInMinutes;
-    return (durationInMinutes / 60); // Convert back to hours for proportion calculation
+function setupDayTabs() {
+    const tabs = document.querySelectorAll('.day-tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs and contents
+            tabs.forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding content
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.day).classList.add('active');
+        });
+    });
 }
 
 async function populateSchedule() {
     try {
         const response = await fetch('/api/courses');
         const courses = await response.json();
-        
-        // Filter for in-progress courses
         const activeCourses = courses.filter(course => course.hasStarted);
         
-        // Clear existing schedule
-        generateTimeSlots();
-        
-        // Populate courses into schedule
+        // Create a map for each day's courses
+        const dayMaps = {
+            'Sunday': [],
+            'Monday': [],
+            'Tuesday': [],
+            'Wednesday': [],
+            'Thursday': []
+        };
+
+        // Sort courses by start time
         activeCourses.forEach(course => {
             if (course.schedule && course.schedule.days) {
-                const duration = calculateDuration(course.schedule.startTime, course.schedule.endTime);
-                const heightInPixels = duration * 100; // Changed from 80 to 100 to match new cell height
-                
                 course.schedule.days.forEach(day => {
-                    const startTime = course.schedule.startTime;
-                    const cell = document.querySelector(`.day-slot[data-day="${day}"][data-time="${startTime}"]`);
-                    
-                    if (cell) {
-                        const courseElement = document.createElement('div');
-                        courseElement.className = 'schedule-course';
-                        courseElement.style.height = `${heightInPixels}px`;
-                        courseElement.innerHTML = `
-                            <strong>${course.id}</strong>
-                            <div>${course.name}</div>
-                            <div>${course.instructor || 'TBA'}</div>
-                            <div>${course.schedule.startTime} - ${course.schedule.endTime}</div>
-                        `;
-                        cell.appendChild(courseElement);
-                    }
+                    dayMaps[day].push({
+                        ...course,
+                        startTime: course.schedule.startTime,
+                        endTime: course.schedule.endTime
+                    });
                 });
             }
+        });
+
+        // Sort and populate each day
+        Object.entries(dayMaps).forEach(([day, courses]) => {
+            courses.sort((a, b) => a.startTime.localeCompare(b.startTime));
+            const courseList = document.querySelector(`#${day} .course-list`);
+            courseList.innerHTML = courses.length ? courses.map(course => `
+                <div class="course-item ${course.category.toLowerCase()}">
+                    <div class="course-time">${course.startTime} - ${course.endTime}</div>
+                    <div class="course-info">
+                        <div class="course-name">${course.id} - ${course.name}</div>
+                        <div class="course-instructor">Instructor: ${course.instructor || 'TBA'}</div>
+                    </div>
+                </div>
+            `).join('') : '<p>No courses scheduled for this day.</p>';
         });
     } catch (error) {
         console.error('Error loading schedule:', error);
         showNotification('Failed to load schedule', 'error');
     }
 }
+
+function logOut(){
+    // Clear all local storage
+    localStorage.clear();
+
+    // redirect to login page
+    window.location.href = 'landing.html';
+}
+
+function showModal(modalId) {
+    document.getElementById(modalId).classList.add('active');
+}
+
+function hideModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
+}
+
+function setupModalClosers() {
+    document.querySelectorAll('.close-modal').forEach(closer => {
+        closer.addEventListener('click', () => {
+            const modal = closer.closest('.modal');
+            if (modal) hideModal(modal.id);
+        });
+    });
+
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) hideModal(modal.id);
+        });
+    });
+}
+
+async function showCourseDetails(crn) {
+    try {
+        const response = await fetch(`/api/courses/${crn}`);
+        const course = await response.json();
+        
+        const modalContent = document.getElementById('modal-course-details');
+        modalContent.innerHTML = `
+            <div class="course-detail-grid">
+                <div class="detail-row">
+                    <strong>Course ID:</strong>
+                    <span>${course.id}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>CRN:</strong>
+                    <span>${course.crn}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>Name:</strong>
+                    <span>${course.name}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>Category:</strong>
+                    <span>${course.category}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>Credit Hours:</strong>
+                    <span>${course.creditHours}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>Instructor:</strong>
+                    <span>${course.instructor || 'Not Assigned'}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>Available Seats:</strong>
+                    <span>${course.availableSeats}/${course.totalSeats}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>Schedule:</strong>
+                    <span>${course.schedule ? `${course.schedule.days.join(', ')} ${course.schedule.startTime}-${course.schedule.endTime}` : 'Not Scheduled'}</span>
+                </div>
+                <div class="detail-row">
+                    <strong>Prerequisites:</strong>
+                    <span>${course.prerequisites?.length ? course.prerequisites.join(', ') : 'None'}</span>
+                </div>
+                <div class="detail-row full-width">
+                    <strong>Description:</strong>
+                    <p>${course.description || 'No description available'}</p>
+                </div>
+            </div>
+        `;
+        
+        showModal('course-details-modal');
+    } catch (error) {
+        console.error('Error loading course details:', error);
+        showNotification('Failed to load course details', 'error');
+    }
+}
+
+async function editCourse(crn) {
+    try {
+        const response = await fetch(`/api/courses/${crn}`);
+        const course = await response.json();
+        
+        const form = document.getElementById('edit-course-form');
+        form.innerHTML = `
+            <input type="hidden" id="edit-crn" value="${course.crn}">
+            <div class="form-group">
+                <label for="edit-name">Course Name:</label>
+                <input type="text" id="edit-name" value="${course.name}" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-category">Category:</label>
+                <input type="text" id="edit-category" value="${course.category}" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-credits">Credit Hours:</label>
+                <input type="number" id="edit-credits" value="${course.creditHours}" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-seats">Total Seats:</label>
+                <input type="number" id="edit-seats" value="${course.totalSeats}" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-description">Description:</label>
+                <textarea id="edit-description" rows="4">${course.description || ''}</textarea>
+            </div>
+        `;
+        
+        showModal('edit-course-modal');
+        
+        // Add save handler
+        document.getElementById('save-course-changes').onclick = async () => {
+            const updatedCourse = {
+                ...course,
+                name: document.getElementById('edit-name').value,
+                category: document.getElementById('edit-category').value,
+                creditHours: Number(document.getElementById('edit-credits').value),
+                totalSeats: Number(document.getElementById('edit-seats').value),
+                description: document.getElementById('edit-description').value
+            };
+            
+            try {
+                const updateResponse = await fetch(`/api/courses/${crn}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedCourse)
+                });
+                
+                if (updateResponse.ok) {
+                    showNotification('Course updated successfully', 'success');
+                    hideModal('edit-course-modal');
+                    loadCourses(); // Refresh the course list
+                } else {
+                    showNotification('Failed to update course', 'error');
+                }
+            } catch (error) {
+                console.error('Error updating course:', error);
+                showNotification('Error updating course', 'error');
+            }
+        };
+    } catch (error) {
+        console.error('Error loading course for editing:', error);
+        showNotification('Failed to load course for editing', 'error');
+    }
+}
+
+async function assignInstructor(crn) {
+    try {
+        const [courseResponse, instructorsResponse] = await Promise.all([
+            fetch(`/api/courses/${crn}`),
+            fetch('/api/users?role=instructor')
+        ]);
+        
+        const course = await courseResponse.json();
+        const instructors = await instructorsResponse.json();
+        
+        const modalContent = document.getElementById('modal-instructor-assignment');
+        modalContent.innerHTML = `
+            <div class="course-info">
+                <h3>${course.id} - ${course.name}</h3>
+                <p>Current Instructor: ${course.instructor || 'None'}</p>
+            </div>
+            <div class="form-group">
+                <label for="instructor-select">Select Instructor:</label>
+                <select id="instructor-select" required>
+                    <option value="">Choose an instructor</option>
+                    ${instructors.map(instructor => 
+                        `<option value="${instructor.id}">${instructor.name}</option>`
+                    ).join('')}
+                </select>
+            </div>
+        `;
+        
+        showModal('assign-instructor-modal');
+        
+        // Add confirm handler
+        document.getElementById('confirm-instructor-assignment').onclick = async () => {
+            const instructorId = document.getElementById('instructor-select').value;
+            if (!instructorId) {
+                showNotification('Please select an instructor', 'error');
+                return;
+            }
+            
+            try {
+                const updateResponse = await fetch(`/api/courses/${crn}/assign-instructor`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ instructorId })
+                });
+                
+                if (updateResponse.ok) {
+                    showNotification('Instructor assigned successfully', 'success');
+                    hideModal('assign-instructor-modal');
+                    loadCourses(); // Refresh the course list
+                } else {
+                    showNotification('Failed to assign instructor', 'error');
+                }
+            } catch (error) {
+                console.error('Error assigning instructor:', error);
+                showNotification('Error assigning instructor', 'error');
+            }
+        };
+    } catch (error) {
+        console.error('Error loading instructor assignment:', error);
+        showNotification('Failed to load instructor assignment', 'error');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ...existing code...
+    setupModalClosers();
+});

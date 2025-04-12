@@ -178,7 +178,7 @@
       "startTime": "09:00",
       "endTime": "09:50"
     },
-    "hasStarted": false,
+    "hasStarted": true,
     "creditHours": 3,
     "interestedInstructors": [],
     "assignmentConfirmed": false,
