@@ -84,7 +84,6 @@ class UsersRepo {
         }
     }
 
-<<<<<<< Updated upstream
 
 // Update an instructor's interest in a course 
 async updateInstructorInterest(instructorId, courseId, interested) {
@@ -127,7 +126,6 @@ async updateInstructorInterest(instructorId, courseId, interested) {
     }
 
 
-=======
     async registerCourse(userId, course) {
         try {
             const users = await this.getUsers();
@@ -221,7 +219,6 @@ async updateInstructorInterest(instructorId, courseId, interested) {
             return { success: false, errorMessage: 'An error occurred while withdrawing from the course' };
         }
     }
->>>>>>> Stashed changes
 }
 
 export default new UsersRepo()
