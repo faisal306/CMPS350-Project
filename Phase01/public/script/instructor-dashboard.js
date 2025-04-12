@@ -522,47 +522,64 @@ function filterCourses() {
 async function toggleInterest(courseId, isInterested) {
 
 
-        // Send a POST request 
-        const response = await fetch(`/api/courses/${courseId}/interest`, {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-            instructorId: currentUser.id, // ID of the current user (instructor)
-            interested: isInterested       // true means expressing interest; false means removing interest
-            })
-        });
-        
-        // Parse the response from the server
-        const result = await response.json();
-        
-        if (result.success) {
-            // Update the local copy of the user's interested courses
-            if (isInterested) {
-            // If interest is expressed, ensure the array exists and add the courseId
-            if (!currentUser.interestedCourses) {
-                currentUser.interestedCourses = [];
-            }
-            currentUser.interestedCourses.push(courseId);
-            } else {
-            // If interest is removed, filter out the courseId from the array
-            currentUser.interestedCourses = currentUser.interestedCourses.filter(id => id !== courseId);
-            }
-            
-        // Show a success message to the user
-            showNotification(
-            isInterested ? 'Interest expressed successfully' : 'Interest removed successfully',
-            'success'
-            );
-        
-            // Refresh the course lists in the UI
-            displayAvailableCourses();
-            displayInterestedCourses();
-        } else {
-            // If the server indicates an error, notify the user
-            showNotification(result.message || 'Failed to update interest', 'error');
+       // Send a POST request to update interest on the server
+    const response = await fetch(`/api/courses/${courseId}/interest`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          instructorId: currentUser.id,
+          interested: isInterested
+        })
+      });
+  
+      // Get the response result from the server
+      const result = await response.json();
+  
+      if (result.success) {
+        // Ensure the interestedCourses array is created
+        if (!currentUser.interestedCourses) {
+          currentUser.interestedCourses = [];
         }
+  
+        if (isInterested) {
+          // Check manually if the courseId exists in the array using a loop
+          let found = false;
+          for (let i = 0; i < currentUser.interestedCourses.length; i++) {
+            if (currentUser.interestedCourses[i] === courseId) {
+              found = true;
+              break;
+            }
+          }
+  
+          // If the courseId is not found, add it to the array
+          if (!found) {
+            currentUser.interestedCourses.push(courseId);
+          }
+        } else {
+          // Remove the courseId from the array if not interested
+          const updatedCourses = [];
+          for (let i = 0; i < currentUser.interestedCourses.length; i++) {
+            if (currentUser.interestedCourses[i] !== courseId) {
+              updatedCourses.push(currentUser.interestedCourses[i]);
+            }
+          }
+          currentUser.interestedCourses = updatedCourses;
+        }
+  
+        // Show a notification on success
+        showNotification(
+          isInterested ? 'Interest expressed successfully' : 'Interest removed successfully',
+          'success'
+        );
+  
+        // Refresh the user interface to reflect the changes
+        displayAvailableCourses();
+        displayInterestedCourses();
+      } else {
+        showNotification(result.message || 'Failed to update interest', 'error');
+      }
     
 
 }  

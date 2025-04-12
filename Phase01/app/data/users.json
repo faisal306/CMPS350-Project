@@ -33,7 +33,7 @@
     "password": "rehab123",
     "role": "instructor",
     "interestedCourses": [],
-    "assignedCourses": []  
+    "assignedCourses": []
   },
   {
     "id": 4,
@@ -46,7 +46,7 @@
     "password": "mahmoud123",
     "role": "instructor",
     "interestedCourses": [],
-    "assignedCourses": [] 
+    "assignedCourses": []
   },
   {
     "id": 5,
@@ -59,7 +59,7 @@
     "password": "noora123",
     "role": "instructor",
     "interestedCourses": [],
-    "assignedCourses": [] 
+    "assignedCourses": []
   },
   {
     "id": 6,
@@ -72,7 +72,7 @@
     "password": "saeed123",
     "role": "instructor",
     "interestedCourses": [],
-    "assignedCourses": [] 
+    "assignedCourses": []
   },
   {
     "id": 7,
@@ -85,17 +85,19 @@
     "password": "saleh123",
     "role": "instructor",
     "interestedCourses": [],
-    "assignedCourses": [] 
+    "assignedCourses": []
   },
   {
     "id": 8,
     "name": "Prof. Hussain Al-Qassem",
-    "areasOfExpertise": ["Harmonic Analysis"],
+    "areasOfExpertise": [
+      "Harmonic Analysis"
+    ],
     "email": "husseink@qu.edu.qa",
     "password": "hussain123",
     "role": "instructor",
     "interestedCourses": [],
-    "assignedCourses": [] 
+    "assignedCourses": []
   },
   {
     "id": 9,
@@ -108,7 +110,7 @@
     "password": "georges123",
     "role": "instructor",
     "interestedCourses": [],
-    "assignedCourses": [] 
+    "assignedCourses": []
   },
   {
     "id": 10,
@@ -121,7 +123,7 @@
     "password": "abdulahi123",
     "role": "instructor",
     "interestedCourses": [],
-    "assignedCourses": [] 
+    "assignedCourses": []
   },
   {
     "id": 11,

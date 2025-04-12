@@ -86,6 +86,49 @@ class UsersRepo {
             };
         }
     }
+
+
+// Update an instructor's interest in a course 
+async updateInstructorInterest(instructorId, courseId, interested) {
+        
+        const users = await fs.readJson(this.filePath);
+    
+        // Find the index of the instructor using their ID.
+        const instructorIndex = users.findIndex(user => user.id == instructorId);
+        if (instructorIndex === -1) {
+            throw new Error(`Instructor with ID ${instructorId} not found`);
+        }
+    
+        // Get the instructor's data.
+        const instructor = users[instructorIndex];
+    
+
+        // Initialize the interestedCourses list if it doesn't exist.
+        if (!instructor.interestedCourses) {
+            instructor.interestedCourses = [];
+        }
+    
+        // If the instructor is showing interest, add the courseId if it's not already in the list.
+        if (interested) {
+            if (!instructor.interestedCourses.includes(courseId)) {
+            instructor.interestedCourses.push(courseId);
+            }
+
+        } else {
+            // If not interested, remove the courseId from the list.
+            instructor.interestedCourses = instructor.interestedCourses.filter(id => id !== courseId);
+        }
+    
+        // Save the updated users
+                                            // spaces: for formatting
+        await fs.writeJson(this.filePath, users, { spaces: 2 });
+    
+        // Return the updated instructor information.
+        return instructor;
+
+    }
+
+
 }
 
 export default new UsersRepo()
