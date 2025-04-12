@@ -239,6 +239,114 @@ async saveUsers(users) {
 }
 
 
+    // Add to users-repo.js
+async updateStudentGrades(courseId, grades) {
+    try {
+        const users = await this.getUsers();
+        const courses = await fs.readJson(this.coursesFilePath);
+        
+        // Find the course
+        const course = courses.find(c => c.crn == courseId);
+        if (!course) {
+            return { success: false, message: "Course not found" };
+        }
+        
+        // Process each grade submission
+        for (const gradeData of grades) {
+            const { studentId, grade } = gradeData;
+            
+            // Find the student
+            const studentIndex = users.findIndex(u => u.id == studentId);
+            if (studentIndex === -1) continue; // Skip if student not found
+            
+            const student = users[studentIndex];
+            
+            // Check if the student is registered for this course
+            const isRegistered = student.registeredCourses && 
+                                student.registeredCourses.some(c => c.crn == courseId);
+            
+            if (!isRegistered) continue; // Skip if not registered
+            
+            // Initialize completedCourses if it doesn't exist
+            if (!student.completedCourses) {
+                student.completedCourses = [];
+            }
+            
+            // Find the registered course details
+            const registeredCourse = student.registeredCourses.find(c => c.crn == courseId);
+            
+            // Check if the course is already in completed courses (update the grade)
+            const completedIndex = student.completedCourses.findIndex(c => c.crn == courseId);
+            
+            if (completedIndex !== -1) {
+                // Update the existing grade
+                student.completedCourses[completedIndex].grade = grade;
+            } else {
+                // Add to completed courses with the grade
+                student.completedCourses.push({
+                    ...registeredCourse,
+                    grade: grade
+                });
+                
+                // Remove from registered courses after grading
+                student.registeredCourses = student.registeredCourses.filter(c => c.crn != courseId);
+                
+                // Update credits completed
+                if (!student.creditsCompleted) {
+                    student.creditsCompleted = 0;
+                }
+                student.creditsCompleted += course.creditHours || 0;
+                
+                // Calculate new GPA
+                this.recalculateGPA(student);
+            }
+        }
+        
+        // Save the updated users
+        await fs.writeJson(this.filePath, users, { spaces: 2 });
+        
+        return { success: true };
+    } catch (error) {
+        console.error("Error updating student grades:", error);
+        return { success: false, message: "An error occurred while updating grades" };
+    }
+}
+
+// Helper method to recalculate GPA
+recalculateGPA(student) {
+    if (!student.completedCourses || student.completedCourses.length === 0) {
+        student.gpa = 0;
+        return;
+    }
+    
+    let totalPoints = 0;
+    let totalCredits = 0;
+    
+    student.completedCourses.forEach(course => {
+        const credits = course.creditHours || 0;
+        totalCredits += credits;
+        
+        // Convert letter grade to GPA points
+        let points = 0;
+        switch (course.grade) {
+            case 'A': points = 4.0; break;
+            case 'B+': points = 3.5; break;
+            case 'B': points = 3.0; break;
+            case 'C+': points = 2.5; break;
+            case 'C': points = 2.0; break;
+            case 'D+': points = 1.5; break;
+            case 'D': points = 1.0; break;
+            case 'F': points = 0.0; break;
+            default: points = 0.0;
+        }
+        
+        totalPoints += credits * points;
+    });
+    
+    student.gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : 0;
+}
+
+
     // this method will get the user from his id
     async getUserById(userId) {
         try {

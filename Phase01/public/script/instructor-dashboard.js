@@ -264,142 +264,85 @@ function displayInterestedCourses() {
 
 
 async function displayAssignedCourses() {
-  const assignedList = document.getElementById('assigned-courses-list');
+    const assignedList = document.getElementById('assigned-courses-list');
+    
+    assignedList.innerHTML = '<div class="loading">Loading your assigned courses...</div>';
   
-  assignedList.innerHTML = '<div class="loading">Loading your assigned courses...</div>';
-
+    try {
+      // Get all courses
+      const response = await fetch('/api/courses');
+      const allCourses = await response.json();
   
-
-  // Get all courses first
-  const response = await fetch('/api/courses');
-  const allCourses = await response.json();
-
-  // Check if current user has any assigned courses
-  if (!currentUser.assignedCourses || currentUser.assignedCourses.length === 0) {
-    assignedList.innerHTML = '<div class="no-courses">You don\'t have any assigned courses. The administrator will assign courses based on your interests.</div>';
-    return; 
-  }
-
-  
-  
-  // Filter to only courses assigned to this instructor
-  const teachingCourses = allCourses.filter(course => 
-    currentUser.assignedCourses.includes(course.crn)
-  );
-
-
-    // the dr does not have courses 
-    if (teachingCourses.length === 0) {
-      assignedList.innerHTML = '<div class="no-courses">You don\'t have any assigned courses.</div>';
-      return;
-  }
-  
-  
-  
-  // Continue with displaying these courses
-  assignedList.innerHTML = '';
-  teachingCourses.forEach(course => {
-      // Rest of your existing display code
-      const courseCard = document.createElement('div');
-      courseCard.className = 'course-card';
+      // Check if current user has any assigned courses
+      if (!currentUser.assignedCourses || currentUser.assignedCourses.length === 0) {
+        assignedList.innerHTML = '<div class="no-courses">You don\'t have any assigned courses. The administrator will assign courses based on your interests.</div>';
+        return; 
+      }
       
-      // Create the course header with toggle button
-      const courseHeader = document.createElement('div');
-      courseHeader.className = 'course-header';
-      courseHeader.innerHTML = `
-          <div class="course-info">
-              <h3>${course.name} (${course.id})</h3>
-              <p>Category: ${course.category || 'N/A'}</p>
-              <p>Students: ${(course.registeredUsers?.length || course.registeredStudents?.length || 0)}/${course.totalSeats}</p>
-          </div>
-          <button class="toggle-students-btn" data-course-id="${course.id}">
-              Show Students
-          </button>
-      `;
-      
-      // Rest of your existing code for student lists
-      // ...
-  });
-
-
-  if (!currentUser.assignedCourses || currentUser.assignedCourses.length === 0) {
-      assignedList.innerHTML = '<tr><td colspan="5">You don\'t have any assigned courses.</td></tr>';
-      return;
-  }
+      // Filter to only courses assigned to this instructor 
+      const teachingCourses = allCourses.filter(course => 
+        currentUser.assignedCourses.includes(course.id)
+      );
   
-  // Array to hold the course data
-  let courses = [];
-
-  // Loop through all assigned courses and fetch their details
-  for (let i = 0; i < currentUser.assignedCourses.length; i++) {
-      const courseId = currentUser.assignedCourses[i];
-      
-      // Fetch course data and wait for the result
-      const response = await fetch(`/api/courses/${courseId}`);
-      const course = await response.json();
-      courses.push(course); // Add the course to the courses array
-  }
-
-  // Check if any courses were fetched
-  if (courses.length === 0) {
-      assignedList.innerHTML = '<tr><td colspan="5">No assigned courses found.</td></tr>';
-      return;
-  }
-
-  // Display the courses in the table
-  courses.forEach(course => {
-      const courseCard = document.createElement('div');
-      courseCard.className = 'course-card';
-
-      // Create the course header with toggle button
-      const courseHeader = document.createElement('div');
-      courseHeader.className = 'course-header';
-      courseHeader.innerHTML = `
-          <div class="course-info">
-              <h3>${course.name} (${course.id})</h3>
-              <p>Category: ${course.category || 'N/A'}</p>
-              <p>Students: ${course.registeredStudents?.length || 0}/${course.totalSeats}</p>
-          </div>
-          <button class="toggle-students-btn" data-course-id="${course.id}">
-              Show Students
-          </button>
-      `;
-      
-      // Create the student list container at first at will be hidden
-      const studentList = document.createElement('div');
-      studentList.className = 'student-list hidden';
-      studentList.id = `students-${course.id}`;
-
-      studentList.innerHTML = '<div class="loading">Loading students...</div>';
-
-      // Add elements to the course card
-      courseCard.appendChild(courseHeader);
-      courseCard.appendChild(studentList);
-
-      // Add the course card to the list
-      assignedList.appendChild(courseCard);
-
-      // Add click event for the toggle button
-      const toggleBtn = courseHeader.querySelector('.toggle-students-btn');
-      toggleBtn.addEventListener('click', () => {
-          const isHidden = studentList.classList.contains('hidden');
-          
-          if (isHidden) {
-              // Show the student list
-              studentList.classList.remove('hidden');
-              toggleBtn.textContent = 'Hide Students';
-              
-              // Load the students if not already loaded
-              if (studentList.innerHTML === '<div class="loading">Loading students...</div>') {
-                  loadStudentsForCourse(course.id, studentList);
-              }
-          } else {
-              // Hide the student list
-              studentList.classList.add('hidden');
-              toggleBtn.textContent = 'Show Students';
-          }
+      // If no courses are found after filtering
+      if (teachingCourses.length === 0) {
+        assignedList.innerHTML = '<div class="no-courses">You don\'t have any assigned courses.</div>';
+        return;
+      }
+    
+      // Display the courses
+      assignedList.innerHTML = '';
+      teachingCourses.forEach(course => {
+        const courseCard = document.createElement('div');
+        courseCard.className = 'course-card';
+        
+        // Create the course header with toggle button
+        const courseHeader = document.createElement('div');
+        courseHeader.className = 'course-header';
+        courseHeader.innerHTML = `
+            <div class="course-info">
+                <h3>${course.name} (${course.id})</h3>
+                <p>Category: ${course.category || 'N/A'}</p>
+                <p>Students: ${course.registeredStudents?.length || course.registeredUsers?.length || 0}/${course.totalSeats}</p>
+            </div>
+            <button class="toggle-students-btn" data-course-id="${course.id}">
+                Show Students
+            </button>
+        `;
+        
+        // Create the student list container, initially hidden
+        const studentList = document.createElement('div');
+        studentList.className = 'student-list hidden';
+        studentList.id = `students-${course.id}`;
+        studentList.innerHTML = '<div class="loading">Loading students...</div>';
+  
+        // Add elements to the course card
+        courseCard.appendChild(courseHeader);
+        courseCard.appendChild(studentList);
+        assignedList.appendChild(courseCard);
+  
+        // Add click event for the toggle button
+        const toggleBtn = courseHeader.querySelector('.toggle-students-btn');
+        toggleBtn.addEventListener('click', () => {
+            const isHidden = studentList.classList.contains('hidden');
+            if (isHidden) {
+                studentList.classList.remove('hidden');
+                toggleBtn.textContent = 'Hide Students';
+                
+                // Load the students if not already loaded
+                if (studentList.innerHTML === '<div class="loading">Loading students...</div>') {
+                    loadStudentsForCourse(course.crn, studentList);
+                }
+            } else {
+                studentList.classList.add('hidden');
+                toggleBtn.textContent = 'Show Students';
+            }
+        });
       });
-  });
+    } catch (error) {
+      console.error('Error loading assigned courses:', error);
+      assignedList.innerHTML = '<div class="error">Failed to load courses. Please try again later.</div>';
+    }
 }
 
 

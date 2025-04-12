@@ -156,7 +156,7 @@
     "name": "Calculus 1",
     "category": "Math",
     "description": "This course is designed to be cover functions, limits, derivatives, and integration.",
-    "instructor": "Dr. Yousef Dabboorasad",
+    "instructor": "Dr.Yousef Daboorasad ",
     "prerequisites": [],
     "openForRegistration": false,
     "adminApprove": true,
@@ -175,9 +175,11 @@
     "hasStarted": false,
     "creditHours": 3,
     "interestedInstructors": [],
-    "assignmentConfirmed": false,
+    "assignmentConfirmed": true,
     "interestDeadline": "2025-05-25T23:59:59",
-    "registeredUsers": []
+    "registeredUsers": [
+      2
+    ]
   },
   {
     "id": "MATH102",

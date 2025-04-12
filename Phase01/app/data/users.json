@@ -21,14 +21,23 @@
         "creditHours": 3,
         "grade": "90",
         "category": "Programming"
+      },
+      {
+        "id": "MATH101",
+        "name": "Calculus 1",
+        "crn": 3257,
+        "creditHours": 3,
+        "category": "Math",
+        "instructor": "Dr.Yousef Daboorasad ",
+        "grade": "A"
       }
     ],
     "email": "faisal@qu.edu.qa",
     "password": "faisal123",
     "role": "student",
-    "gpa": 3.8,
+    "gpa": "2.00",
     "major": "Computer Science",
-    "creditsCompleted": 3,
+    "creditsCompleted": 6,
     "registeredCourses": [
       {
         "id": "PHYS191",
@@ -159,7 +168,9 @@
     "password": "yousef123",
     "role": "instructor",
     "interestedCourses": [],
-    "assignedCourses": []
+    "assignedCourses": [
+      "MATH101"
+    ]
   },
   {
     "id": 12,
