@@ -165,7 +165,7 @@
     "instructor": "Dr. Mohamed Gharaibeh",
     "prerequisites": [],
     "openForRegistration": false,
-    "adminApprove": true,
+    "adminApprove": false,
     "totalSeats": 45,
     "availableSeats": 45,
     "registeredStudents": [],
@@ -174,7 +174,10 @@
     "creditHours": 3,
     "interestedInstructors": [],
     "assignmentConfirmed": false,
-    "interestDeadline": "2025-05-25T23:59:59"
+    "interestDeadline": "2025-05-25T23:59:59",
+    "registeredUsers": [
+      2
+    ]
   },
   {
     "id": "CHEM101",

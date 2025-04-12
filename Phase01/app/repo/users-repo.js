@@ -152,7 +152,10 @@ async updateInstructorInterest(instructorId, courseId, interested) {
             user.registeredCourses.push({
                 id: course.id,
                 name: course.name,
-                crn: course.crn
+                crn: course.crn,
+                creditHours: course.creditHours,
+                category: course.category,
+                instructor: course.instructor
             });
 
 

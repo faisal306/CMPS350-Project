@@ -5,16 +5,40 @@
     "completedCourses": [],
     "email": "yazan@qu.edu.qa",
     "password": "yazan123",
-    "role": "student"
+    "role": "student",
+    "gpa": 3.5,
+    "major": "Computer Science",
+    "creditsCompleted": 0
   },
   {
     "id": 2,
     "name": "Faisal",
-    "completedCourses": [],
+    "completedCourses": [
+      {
+        "id": "CMPS151",
+        "name": "Programming Concepts",
+        "crn": 1420,
+        "creditHours": 3,
+        "grade": "90",
+        "category": "Programming"
+      }
+    ],
     "email": "faisal@qu.edu.qa",
     "password": "faisal123",
     "role": "student",
-    "registeredCourses": []
+    "gpa": 3.8,
+    "major": "Computer Science",
+    "creditsCompleted": 3,
+    "registeredCourses": [
+      {
+        "id": "PHYS191",
+        "name": "General Physics 1",
+        "crn": 4321,
+        "creditHours": 3,
+        "category": "Physics",
+        "instructor": "Dr. Mohamed Gharaibeh"
+      }
+    ]
   },
   {
     "id": 3,

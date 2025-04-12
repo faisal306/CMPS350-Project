@@ -68,14 +68,21 @@ function setupEventListeners() {
     document.getElementById('course-name-search')?.addEventListener('input', filterAvailableCourses);
     document.getElementById('department-filter')?.addEventListener('change', filterAvailableCourses);
 
-    
+    // Learning tabs
+    document.querySelectorAll('.learning-tab-btn').forEach(button => {
+        button.addEventListener('click', () => switchLearningTab(button));
+    });    
+
+    // Logout
+    document.getElementById('logout-btn')?.addEventListener('click', logOut);
 
 }
 
 function updateUI() {
     displayAvailableCourses(availableCourses);
     displayCompletedCourses();
-    populateCategoryFilter();
+    displayInProgressCourses();
+    displayPendingCourses();
     updateUserInfo();
 }
 
@@ -129,7 +136,7 @@ function displayAvailableCourses(availableCourses) {
         courseCard.innerHTML = `
             <h3>${course.name} (${course.crn})</h3>
             <div class="course-info">
-                <p><strong>Department:</strong> ${course.department}</p>
+                <p><strong>Category:</strong> ${course.category}</p>
                 <p><strong>Credits:</strong> ${course.creditHours}</p>
                 <p><strong>Available Seats:</strong> ${course.availableSeats}</p>
                 ${course.description ? `<p>${course.description}</p>` : ''}
@@ -157,12 +164,12 @@ function displayAvailableCourses(availableCourses) {
 
 function displayCompletedCourses() {
     const completedCoursesList = document.getElementById('completed-courses-list');
-    const completedCourses = userCourses?.completedCourses || [];
+    const completedCourses = userCourses.completedCourses || [];
     completedCoursesList.innerHTML = completedCourses.length
         ? completedCourses.map(course => `
             <tr>
                 <td>${course.name}</td>
-                <td>${course.department || 'N/A'}</td>
+                <td>${course.category || 'N/A'}</td>
                 <td>${course.creditHours || 'N/A'}</td>
                 <td>${course.grade || 'N/A'}</td>
             </tr>
@@ -170,14 +177,17 @@ function displayCompletedCourses() {
         : '<tr><td colspan="4">No completed courses.</td></tr>';
 }
 
-function displayInProgressCourses() {
+async function displayInProgressCourses() {
     const inProgressCoursesList = document.getElementById('in-progress-courses-list');
-    const inProgressCourses = userCourses?.inProgressCourses || [];
+    let inProgressCourses = userCourses.registeredCourses || [];
+    const response = await fetch('/api/courses');
+    const courses = await response.json();
+    inProgressCourses = inProgressCourses.filter(course => courses.some(c => c.crn == course.crn && c.adminApprove));
     inProgressCoursesList.innerHTML = inProgressCourses.length
         ? inProgressCourses.map(course => `
             <tr>
                 <td>${course.name}</td>
-                <td>${course.department || 'N/A'}</td>
+                <td>${course.category || 'N/A'}</td>
                 <td>${course.creditHours || 'N/A'}</td>
                 <td>${course.instructor || 'N/A'}</td>
             </tr>
@@ -185,20 +195,26 @@ function displayInProgressCourses() {
         : '<tr><td colspan="4">No in-progress courses.</td></tr>';
 }
 
-function displayPendingCourses() {
+async function displayPendingCourses() {
+    // Courses that are in the registeredCourses list but is not approved by admin
+    // Need to fetch the course information
     const pendingCoursesList = document.getElementById('pending-courses-list');
-    const pendingCourses = userCourses?.pendingCourses || [];
+    const inProgressCourses = userCourses.registeredCourses || []; 
+    const response = await fetch('/api/courses');
+    const courses = await response.json();
+    const pendingCourses = inProgressCourses.filter(course => !courses.some(c => c.crn == course.crn && c.adminApprove));
     pendingCoursesList.innerHTML = pendingCourses.length
         ? pendingCourses.map(course => `
             <tr>
                 <td>${course.name}</td>
-                <td>${course.department || 'N/A'}</td>
+                <td>${course.category || 'N/A'}</td>
                 <td>${course.creditHours || 'N/A'}</td>
-                <td>${new Date(course.registrationDate).toLocaleDateString()}</td>
+                <td>${course.instructor || 'N/A'}</td>
             </tr>
         `).join('')
-        : '<tr><td colspan="4">No pending registrations.</td></tr>';
+        : '<tr><td colspan="4">No pending courses.</td></tr>';
 }
+
 
 function openRegistrationModal(course, action) {
     selectedCourse = course;
@@ -276,55 +292,14 @@ async function withdrawfromCourse(course) {
     }
 }
 
-function populateCategoryFilter() {
-    
-
-    // get the drop-down element
-    const categoryFilter = document.getElementById('category-filter');
-
-
-
-    const categories = new Set();
-
-    // Loop through each available course and add its category
-    availableCourses.forEach(course => {
-        if (course.category) {
-            categories.add(course.category);
-        }
-    });
-
-    // Remove any existing options from the dropdown except the first one
-    while (categoryFilter.options.length > 1) {
-
-        // Always remove the option at index 1.
-        // The first option (index 0) is kept intact.
-
-    categoryFilter.remove(1);
-    }
-
-
-    // Convert the Set to an array and add each as an option
-    [...categories].forEach(category => {
-
-    // Create a new <option> element for the category
-
-    const option = document.createElement('option');
-    option.value = category;        // Set the option value
-    option.textContent = category;  // Set the visible text for the option
-    categoryFilter.appendChild(option); // Add the option to the dropdown
-    });
-
-
-}
 
 function filterAvailableCourses() {
     const searchTerm = document.getElementById('course-name-search')?.value.toLowerCase() || '';
-    const departmentValue = document.getElementById('department-filter')?.value || '';
     
     const filteredCourses = availableCourses.filter(course => {
-        const matchesSearch = course.name.toLowerCase().includes(searchTerm);
-        const matchesDepartment = !departmentValue || course.department === departmentValue;
-        return matchesSearch && matchesDepartment;
+        let matchesSearch = course.name.toLowerCase().includes(searchTerm);
+        matchesSearch = matchesSearch = course.category.toLowerCase().includes(searchTerm) || matchesSearch; // Include the course name
+        return matchesSearch ;
     });
 
     displayAvailableCourses(filteredCourses);
@@ -335,6 +310,29 @@ function updateUserInfo() {
     if (userInfo) {
         userInfo.innerHTML = `${currentUser.email}`;
     }
+
+
+    console.log(currentUser);
+    // Write info into student-info
+    const studentInfo = document.getElementById("student-info");
+    if (studentInfo) {
+        studentInfo.innerHTML = `
+            <p><strong>Name:</strong> ${currentUser.name}</p>
+            <p><strong>Email:</strong> ${currentUser.email}</p>
+            <p><strong>Role:</strong> ${currentUser.role}</p>
+        `;
+    }
+
+    // Write info academic-details
+    const academicDetails = document.getElementById("academic-details");
+    if (academicDetails) {
+        academicDetails.innerHTML = `
+            <p><strong>Major:</strong> ${currentUser.major || 'N/A'}</p>
+            <p><strong>GPA:</strong> ${currentUser.gpa || 'N/A'}</p>
+            <p><strong>Credits Completed:</strong> ${currentUser.creditsCompleted || 'N/A'}</p>
+        `;
+    }
+    
 }
 
 function showNotification(message) {
