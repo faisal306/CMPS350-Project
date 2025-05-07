@@ -27,7 +27,7 @@ model Course {
 
   // Relations
   schedule   Schedule @relation(fields: [scheduleId], references: [id])
-  scheduleId Int      @unique // ✅ Make it unique for 1:1 relation
+  scheduleId Int      @unique
 
   registeredUsers       User[] @relation("RegisteredCourses")
   interestedInstructors User[] @relation("InterestedCourses")
