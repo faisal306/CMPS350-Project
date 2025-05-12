@@ -11,6 +11,10 @@ class UsersRepo {
         return user || false;
     }
 
+    async getUsers() {
+        return await prisma.user.findMany();
+    }
+
     async getCourse(crn) {
         const course = await prisma.course.findUnique({
             where: { crn: parseInt(crn) },

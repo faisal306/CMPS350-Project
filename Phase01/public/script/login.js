@@ -1,3 +1,4 @@
+
 const form = document.getElementById("form");
 
 form.addEventListener("submit", async function(e) {
@@ -35,4 +36,10 @@ form.addEventListener("submit", async function(e) {
         alert("Invalid login credentials! Please try again.");
     }
 
-})
+
+});
+
+// sign in using Github
+document.getElementById('github-login').addEventListener('click', () => {
+        window.location.href = '/api/auth/signin';
+});

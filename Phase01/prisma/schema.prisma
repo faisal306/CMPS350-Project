@@ -75,6 +75,11 @@ model User {
   // Additional normalized fields for strings
   expertise        Expertise[]
   responsibilities Responsibility[]
+  // list of all the third-party login records  
+  accounts         Account[]
+  // list of all active login sessions that belong to this user
+  sessions         Session[]
+
 }
 
 model Expertise {
@@ -125,8 +130,8 @@ model Account {
 
   id                  String    @id @default(cuid(2))
   userId              Int // foreign key 
-  type                String
-  provider            String 
+  type                String    @unique
+  provider            String    @unique
   providerAccountId   String 
   refresh_token       String?
   access_token        String?
@@ -134,10 +139,8 @@ model Account {
   token_type          String?
   scope               String?
   id_token            String?
-  id_token            String?
   session_state       String?
   user                User      @relation(fields: [userId], references: [id])
-  @@unique([provider,   providerAccountId])
 }
 
 model Session {
@@ -148,3 +151,8 @@ model Session {
   user          User        @relation(fields: [userId], references: [id])
 }
 
+model VerificationToken {
+  identifier  String   @unique
+  token       String   @unique
+  expires     DateTime
+}

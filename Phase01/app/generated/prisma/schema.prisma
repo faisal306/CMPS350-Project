@@ -75,6 +75,10 @@ model User {
   // Additional normalized fields for strings
   expertise        Expertise[]
   responsibilities Responsibility[]
+  // list of all the third-party login records  
+  accounts         Account[]
+  // list of all active login sessions that belong to this user
+  sessions         Session[]
 }
 
 model Expertise {
@@ -118,4 +122,34 @@ enum Day {
   Thursday
   Friday
   Saturday
+}
+
+model Account {
+  id                String  @id @default(cuid(2))
+  userId            Int // foreign key 
+  type              String  @unique
+  provider          String  @unique
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id])
+}
+
+model Session {
+  id           String   @id @default(cuid(2))
+  sessionToken String   @unique
+  userId       Int
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model VerificationToken {
+  identifier String   @unique
+  token      String   @unique
+  expires    DateTime
 }
