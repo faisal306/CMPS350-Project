@@ -1,4 +1,3 @@
-
 const form = document.getElementById("form");
 
 form.addEventListener("submit", async function(e) {
@@ -41,5 +40,8 @@ form.addEventListener("submit", async function(e) {
 
 // sign in using Github
 document.getElementById('github-login').addEventListener('click', () => {
-        window.location.href = '/api/auth/signin';
+    console.log("Redirecting to GitHub auth...")
+    // Direct link to GitHub OAuth authorization with forced login prompt
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${encodeURIComponent('Ov23li29Oxw7jX2E9L4c')}&redirect_uri=${encodeURIComponent('http://localhost:3000/api/auth/github-callback')}&login=true`;
+    window.location.href = githubAuthUrl;
 });

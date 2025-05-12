@@ -29,10 +29,10 @@ model Course {
   schedule   Schedule @relation(fields: [scheduleId], references: [id])
   scheduleId Int      @unique
 
-  registeredUsers       User[] @relation("RegisteredCourses")
-  interestedInstructors User[] @relation("InterestedCourses")
-  assignedToInstructor  User?  @relation("AssignedInstructor", fields: [assignedInstructorId], references: [id])
-  assignedInstructorId  Int?
+  registeredUsers       User[]  @relation("RegisteredCourses")
+  interestedInstructors User[]  @relation("InterestedCourses")
+  assignedToInstructor  User?   @relation("AssignedInstructor", fields: [assignedInstructorId], references: [id])
+  assignedInstructorId  String?
 
   prerequisites Course[] @relation("CoursePrerequisites")
   requiredFor   Course[] @relation("CoursePrerequisites")
@@ -55,14 +55,17 @@ model ScheduleDay {
 }
 
 model User {
-  id               Int     @id
+  id               String    @id @default(cuid())
   name             String?
-  email            String  @unique
-  password         String
-  role             Role
+  email            String    @unique
+  password         String?
+  role             Role?     @default(student)
   gpa              Float?
   major            String?
   creditsCompleted Int?
+  // these 2 fields because Prisma Adapter assume they exists
+  emailVerified    DateTime?
+  image            String?
 
   // Student relations
   completedCourses  CompletedCourse[]
@@ -85,20 +88,20 @@ model Expertise {
   id     Int    @id @default(autoincrement())
   value  String
   user   User   @relation(fields: [userId], references: [id])
-  userId Int
+  userId String
 }
 
 model Responsibility {
   id     Int    @id @default(autoincrement())
   value  String
   user   User   @relation(fields: [userId], references: [id])
-  userId Int
+  userId String
 }
 
 model CompletedCourse {
   id          Int     @id @default(autoincrement())
   user        User    @relation(fields: [userId], references: [id])
-  userId      Int
+  userId      String
   courseId    String
   name        String
   crn         Int
@@ -125,10 +128,10 @@ enum Day {
 }
 
 model Account {
-  id                String  @id @default(cuid(2))
-  userId            Int // foreign key 
-  type              String  @unique
-  provider          String  @unique
+  id                String  @id @default(cuid())
+  userId            String // foreign key 
+  type              String
+  provider          String
   providerAccountId String
   refresh_token     String?
   access_token      String?
@@ -138,12 +141,14 @@ model Account {
   id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id           String   @id @default(cuid(2))
+  id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       Int
+  userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id])
 }

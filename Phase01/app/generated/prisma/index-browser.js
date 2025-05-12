@@ -157,7 +157,9 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   gpa: 'gpa',
   major: 'major',
-  creditsCompleted: 'creditsCompleted'
+  creditsCompleted: 'creditsCompleted',
+  emailVerified: 'emailVerified',
+  image: 'image'
 };
 
 exports.Prisma.ExpertiseScalarFieldEnum = {

@@ -1923,7 +1923,6 @@ export namespace Prisma {
     availableSeats: number | null
     creditHours: number | null
     scheduleId: number | null
-    assignedInstructorId: number | null
   }
 
   export type CourseSumAggregateOutputType = {
@@ -1932,7 +1931,6 @@ export namespace Prisma {
     availableSeats: number | null
     creditHours: number | null
     scheduleId: number | null
-    assignedInstructorId: number | null
   }
 
   export type CourseMinAggregateOutputType = {
@@ -1952,7 +1950,7 @@ export namespace Prisma {
     assignmentConfirmed: boolean | null
     interestDeadline: Date | null
     scheduleId: number | null
-    assignedInstructorId: number | null
+    assignedInstructorId: string | null
   }
 
   export type CourseMaxAggregateOutputType = {
@@ -1972,7 +1970,7 @@ export namespace Prisma {
     assignmentConfirmed: boolean | null
     interestDeadline: Date | null
     scheduleId: number | null
-    assignedInstructorId: number | null
+    assignedInstructorId: string | null
   }
 
   export type CourseCountAggregateOutputType = {
@@ -2003,7 +2001,6 @@ export namespace Prisma {
     availableSeats?: true
     creditHours?: true
     scheduleId?: true
-    assignedInstructorId?: true
   }
 
   export type CourseSumAggregateInputType = {
@@ -2012,7 +2009,6 @@ export namespace Prisma {
     availableSeats?: true
     creditHours?: true
     scheduleId?: true
-    assignedInstructorId?: true
   }
 
   export type CourseMinAggregateInputType = {
@@ -2179,7 +2175,7 @@ export namespace Prisma {
     assignmentConfirmed: boolean
     interestDeadline: Date
     scheduleId: number
-    assignedInstructorId: number | null
+    assignedInstructorId: string | null
     _count: CourseCountAggregateOutputType | null
     _avg: CourseAvgAggregateOutputType | null
     _sum: CourseSumAggregateOutputType | null
@@ -2338,7 +2334,7 @@ export namespace Prisma {
       assignmentConfirmed: boolean
       interestDeadline: Date
       scheduleId: number
-      assignedInstructorId: number | null
+      assignedInstructorId: string | null
     }, ExtArgs["result"]["course"]>
     composites: {}
   }
@@ -2784,7 +2780,7 @@ export namespace Prisma {
     readonly assignmentConfirmed: FieldRef<"Course", 'Boolean'>
     readonly interestDeadline: FieldRef<"Course", 'DateTime'>
     readonly scheduleId: FieldRef<"Course", 'Int'>
-    readonly assignedInstructorId: FieldRef<"Course", 'Int'>
+    readonly assignedInstructorId: FieldRef<"Course", 'String'>
   }
     
 
@@ -5492,19 +5488,17 @@ export namespace Prisma {
   }
 
   export type UserAvgAggregateOutputType = {
-    id: number | null
     gpa: number | null
     creditsCompleted: number | null
   }
 
   export type UserSumAggregateOutputType = {
-    id: number | null
     gpa: number | null
     creditsCompleted: number | null
   }
 
   export type UserMinAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     email: string | null
     password: string | null
@@ -5512,10 +5506,12 @@ export namespace Prisma {
     gpa: number | null
     major: string | null
     creditsCompleted: number | null
+    emailVerified: Date | null
+    image: string | null
   }
 
   export type UserMaxAggregateOutputType = {
-    id: number | null
+    id: string | null
     name: string | null
     email: string | null
     password: string | null
@@ -5523,6 +5519,8 @@ export namespace Prisma {
     gpa: number | null
     major: string | null
     creditsCompleted: number | null
+    emailVerified: Date | null
+    image: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -5534,18 +5532,18 @@ export namespace Prisma {
     gpa: number
     major: number
     creditsCompleted: number
+    emailVerified: number
+    image: number
     _all: number
   }
 
 
   export type UserAvgAggregateInputType = {
-    id?: true
     gpa?: true
     creditsCompleted?: true
   }
 
   export type UserSumAggregateInputType = {
-    id?: true
     gpa?: true
     creditsCompleted?: true
   }
@@ -5559,6 +5557,8 @@ export namespace Prisma {
     gpa?: true
     major?: true
     creditsCompleted?: true
+    emailVerified?: true
+    image?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -5570,6 +5570,8 @@ export namespace Prisma {
     gpa?: true
     major?: true
     creditsCompleted?: true
+    emailVerified?: true
+    image?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -5581,6 +5583,8 @@ export namespace Prisma {
     gpa?: true
     major?: true
     creditsCompleted?: true
+    emailVerified?: true
+    image?: true
     _all?: true
   }
 
@@ -5671,14 +5675,16 @@ export namespace Prisma {
   }
 
   export type UserGroupByOutputType = {
-    id: number
+    id: string
     name: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password: string | null
+    role: $Enums.Role | null
     gpa: number | null
     major: string | null
     creditsCompleted: number | null
+    emailVerified: Date | null
+    image: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -5709,6 +5715,8 @@ export namespace Prisma {
     gpa?: boolean
     major?: boolean
     creditsCompleted?: boolean
+    emailVerified?: boolean
+    image?: boolean
     completedCourses?: boolean | User$completedCoursesArgs<ExtArgs>
     registeredCourses?: boolean | User$registeredCoursesArgs<ExtArgs>
     interestedCourses?: boolean | User$interestedCoursesArgs<ExtArgs>
@@ -5729,6 +5737,8 @@ export namespace Prisma {
     gpa?: boolean
     major?: boolean
     creditsCompleted?: boolean
+    emailVerified?: boolean
+    image?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5740,6 +5750,8 @@ export namespace Prisma {
     gpa?: boolean
     major?: boolean
     creditsCompleted?: boolean
+    emailVerified?: boolean
+    image?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -5751,9 +5763,11 @@ export namespace Prisma {
     gpa?: boolean
     major?: boolean
     creditsCompleted?: boolean
+    emailVerified?: boolean
+    image?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "gpa" | "major" | "creditsCompleted", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "gpa" | "major" | "creditsCompleted" | "emailVerified" | "image", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     completedCourses?: boolean | User$completedCoursesArgs<ExtArgs>
     registeredCourses?: boolean | User$registeredCoursesArgs<ExtArgs>
@@ -5781,14 +5795,16 @@ export namespace Prisma {
       sessions: Prisma.$SessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: number
+      id: string
       name: string | null
       email: string
-      password: string
-      role: $Enums.Role
+      password: string | null
+      role: $Enums.Role | null
       gpa: number | null
       major: string | null
       creditsCompleted: number | null
+      emailVerified: Date | null
+      image: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6220,7 +6236,7 @@ export namespace Prisma {
    * Fields of the User model
    */
   interface UserFieldRefs {
-    readonly id: FieldRef<"User", 'Int'>
+    readonly id: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
@@ -6228,6 +6244,8 @@ export namespace Prisma {
     readonly gpa: FieldRef<"User", 'Float'>
     readonly major: FieldRef<"User", 'String'>
     readonly creditsCompleted: FieldRef<"User", 'Int'>
+    readonly emailVerified: FieldRef<"User", 'DateTime'>
+    readonly image: FieldRef<"User", 'String'>
   }
     
 
@@ -6838,24 +6856,22 @@ export namespace Prisma {
 
   export type ExpertiseAvgAggregateOutputType = {
     id: number | null
-    userId: number | null
   }
 
   export type ExpertiseSumAggregateOutputType = {
     id: number | null
-    userId: number | null
   }
 
   export type ExpertiseMinAggregateOutputType = {
     id: number | null
     value: string | null
-    userId: number | null
+    userId: string | null
   }
 
   export type ExpertiseMaxAggregateOutputType = {
     id: number | null
     value: string | null
-    userId: number | null
+    userId: string | null
   }
 
   export type ExpertiseCountAggregateOutputType = {
@@ -6868,12 +6884,10 @@ export namespace Prisma {
 
   export type ExpertiseAvgAggregateInputType = {
     id?: true
-    userId?: true
   }
 
   export type ExpertiseSumAggregateInputType = {
     id?: true
-    userId?: true
   }
 
   export type ExpertiseMinAggregateInputType = {
@@ -6984,7 +6998,7 @@ export namespace Prisma {
   export type ExpertiseGroupByOutputType = {
     id: number
     value: string
-    userId: number
+    userId: string
     _count: ExpertiseCountAggregateOutputType | null
     _avg: ExpertiseAvgAggregateOutputType | null
     _sum: ExpertiseSumAggregateOutputType | null
@@ -7052,7 +7066,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       value: string
-      userId: number
+      userId: string
     }, ExtArgs["result"]["expertise"]>
     composites: {}
   }
@@ -7479,7 +7493,7 @@ export namespace Prisma {
   interface ExpertiseFieldRefs {
     readonly id: FieldRef<"Expertise", 'Int'>
     readonly value: FieldRef<"Expertise", 'String'>
-    readonly userId: FieldRef<"Expertise", 'Int'>
+    readonly userId: FieldRef<"Expertise", 'String'>
   }
     
 
@@ -7906,24 +7920,22 @@ export namespace Prisma {
 
   export type ResponsibilityAvgAggregateOutputType = {
     id: number | null
-    userId: number | null
   }
 
   export type ResponsibilitySumAggregateOutputType = {
     id: number | null
-    userId: number | null
   }
 
   export type ResponsibilityMinAggregateOutputType = {
     id: number | null
     value: string | null
-    userId: number | null
+    userId: string | null
   }
 
   export type ResponsibilityMaxAggregateOutputType = {
     id: number | null
     value: string | null
-    userId: number | null
+    userId: string | null
   }
 
   export type ResponsibilityCountAggregateOutputType = {
@@ -7936,12 +7948,10 @@ export namespace Prisma {
 
   export type ResponsibilityAvgAggregateInputType = {
     id?: true
-    userId?: true
   }
 
   export type ResponsibilitySumAggregateInputType = {
     id?: true
-    userId?: true
   }
 
   export type ResponsibilityMinAggregateInputType = {
@@ -8052,7 +8062,7 @@ export namespace Prisma {
   export type ResponsibilityGroupByOutputType = {
     id: number
     value: string
-    userId: number
+    userId: string
     _count: ResponsibilityCountAggregateOutputType | null
     _avg: ResponsibilityAvgAggregateOutputType | null
     _sum: ResponsibilitySumAggregateOutputType | null
@@ -8120,7 +8130,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       value: string
-      userId: number
+      userId: string
     }, ExtArgs["result"]["responsibility"]>
     composites: {}
   }
@@ -8547,7 +8557,7 @@ export namespace Prisma {
   interface ResponsibilityFieldRefs {
     readonly id: FieldRef<"Responsibility", 'Int'>
     readonly value: FieldRef<"Responsibility", 'String'>
-    readonly userId: FieldRef<"Responsibility", 'Int'>
+    readonly userId: FieldRef<"Responsibility", 'String'>
   }
     
 
@@ -8974,21 +8984,19 @@ export namespace Prisma {
 
   export type CompletedCourseAvgAggregateOutputType = {
     id: number | null
-    userId: number | null
     crn: number | null
     creditHours: number | null
   }
 
   export type CompletedCourseSumAggregateOutputType = {
     id: number | null
-    userId: number | null
     crn: number | null
     creditHours: number | null
   }
 
   export type CompletedCourseMinAggregateOutputType = {
     id: number | null
-    userId: number | null
+    userId: string | null
     courseId: string | null
     name: string | null
     crn: number | null
@@ -9000,7 +9008,7 @@ export namespace Prisma {
 
   export type CompletedCourseMaxAggregateOutputType = {
     id: number | null
-    userId: number | null
+    userId: string | null
     courseId: string | null
     name: string | null
     crn: number | null
@@ -9026,14 +9034,12 @@ export namespace Prisma {
 
   export type CompletedCourseAvgAggregateInputType = {
     id?: true
-    userId?: true
     crn?: true
     creditHours?: true
   }
 
   export type CompletedCourseSumAggregateInputType = {
     id?: true
-    userId?: true
     crn?: true
     creditHours?: true
   }
@@ -9163,7 +9169,7 @@ export namespace Prisma {
 
   export type CompletedCourseGroupByOutputType = {
     id: number
-    userId: number
+    userId: string
     courseId: string
     name: string
     crn: number
@@ -9261,7 +9267,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      userId: number
+      userId: string
       courseId: string
       name: string
       crn: number
@@ -9694,7 +9700,7 @@ export namespace Prisma {
    */
   interface CompletedCourseFieldRefs {
     readonly id: FieldRef<"CompletedCourse", 'Int'>
-    readonly userId: FieldRef<"CompletedCourse", 'Int'>
+    readonly userId: FieldRef<"CompletedCourse", 'String'>
     readonly courseId: FieldRef<"CompletedCourse", 'String'>
     readonly name: FieldRef<"CompletedCourse", 'String'>
     readonly crn: FieldRef<"CompletedCourse", 'Int'>
@@ -10127,18 +10133,16 @@ export namespace Prisma {
   }
 
   export type AccountAvgAggregateOutputType = {
-    userId: number | null
     expires_at: number | null
   }
 
   export type AccountSumAggregateOutputType = {
-    userId: number | null
     expires_at: number | null
   }
 
   export type AccountMinAggregateOutputType = {
     id: string | null
-    userId: number | null
+    userId: string | null
     type: string | null
     provider: string | null
     providerAccountId: string | null
@@ -10153,7 +10157,7 @@ export namespace Prisma {
 
   export type AccountMaxAggregateOutputType = {
     id: string | null
-    userId: number | null
+    userId: string | null
     type: string | null
     provider: string | null
     providerAccountId: string | null
@@ -10184,12 +10188,10 @@ export namespace Prisma {
 
 
   export type AccountAvgAggregateInputType = {
-    userId?: true
     expires_at?: true
   }
 
   export type AccountSumAggregateInputType = {
-    userId?: true
     expires_at?: true
   }
 
@@ -10327,7 +10329,7 @@ export namespace Prisma {
 
   export type AccountGroupByOutputType = {
     id: string
-    userId: number
+    userId: string
     type: string
     provider: string
     providerAccountId: string
@@ -10440,7 +10442,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: number
+      userId: string
       type: string
       provider: string
       providerAccountId: string
@@ -10876,7 +10878,7 @@ export namespace Prisma {
    */
   interface AccountFieldRefs {
     readonly id: FieldRef<"Account", 'String'>
-    readonly userId: FieldRef<"Account", 'Int'>
+    readonly userId: FieldRef<"Account", 'String'>
     readonly type: FieldRef<"Account", 'String'>
     readonly provider: FieldRef<"Account", 'String'>
     readonly providerAccountId: FieldRef<"Account", 'String'>
@@ -11305,31 +11307,21 @@ export namespace Prisma {
 
   export type AggregateSession = {
     _count: SessionCountAggregateOutputType | null
-    _avg: SessionAvgAggregateOutputType | null
-    _sum: SessionSumAggregateOutputType | null
     _min: SessionMinAggregateOutputType | null
     _max: SessionMaxAggregateOutputType | null
-  }
-
-  export type SessionAvgAggregateOutputType = {
-    userId: number | null
-  }
-
-  export type SessionSumAggregateOutputType = {
-    userId: number | null
   }
 
   export type SessionMinAggregateOutputType = {
     id: string | null
     sessionToken: string | null
-    userId: number | null
+    userId: string | null
     expires: Date | null
   }
 
   export type SessionMaxAggregateOutputType = {
     id: string | null
     sessionToken: string | null
-    userId: number | null
+    userId: string | null
     expires: Date | null
   }
 
@@ -11341,14 +11333,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type SessionAvgAggregateInputType = {
-    userId?: true
-  }
-
-  export type SessionSumAggregateInputType = {
-    userId?: true
-  }
 
   export type SessionMinAggregateInputType = {
     id?: true
@@ -11410,18 +11394,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: SessionAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: SessionSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: SessionMinAggregateInputType
@@ -11452,8 +11424,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: SessionCountAggregateInputType | true
-    _avg?: SessionAvgAggregateInputType
-    _sum?: SessionSumAggregateInputType
     _min?: SessionMinAggregateInputType
     _max?: SessionMaxAggregateInputType
   }
@@ -11461,11 +11431,9 @@ export namespace Prisma {
   export type SessionGroupByOutputType = {
     id: string
     sessionToken: string
-    userId: number
+    userId: string
     expires: Date
     _count: SessionCountAggregateOutputType | null
-    _avg: SessionAvgAggregateOutputType | null
-    _sum: SessionSumAggregateOutputType | null
     _min: SessionMinAggregateOutputType | null
     _max: SessionMaxAggregateOutputType | null
   }
@@ -11534,7 +11502,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       sessionToken: string
-      userId: number
+      userId: string
       expires: Date
     }, ExtArgs["result"]["session"]>
     composites: {}
@@ -11962,7 +11930,7 @@ export namespace Prisma {
   interface SessionFieldRefs {
     readonly id: FieldRef<"Session", 'String'>
     readonly sessionToken: FieldRef<"Session", 'String'>
-    readonly userId: FieldRef<"Session", 'Int'>
+    readonly userId: FieldRef<"Session", 'String'>
     readonly expires: FieldRef<"Session", 'DateTime'>
   }
     
@@ -13403,7 +13371,9 @@ export namespace Prisma {
     role: 'role',
     gpa: 'gpa',
     major: 'major',
-    creditsCompleted: 'creditsCompleted'
+    creditsCompleted: 'creditsCompleted',
+    emailVerified: 'emailVerified',
+    image: 'image'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -13572,7 +13542,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFilter<"Course"> | boolean
     interestDeadline?: DateTimeFilter<"Course"> | Date | string
     scheduleId?: IntFilter<"Course"> | number
-    assignedInstructorId?: IntNullableFilter<"Course"> | number | null
+    assignedInstructorId?: StringNullableFilter<"Course"> | string | null
     schedule?: XOR<ScheduleScalarRelationFilter, ScheduleWhereInput>
     registeredUsers?: UserListRelationFilter
     interestedInstructors?: UserListRelationFilter
@@ -13627,7 +13597,7 @@ export namespace Prisma {
     isPublishedForInstructors?: BoolNullableFilter<"Course"> | boolean | null
     assignmentConfirmed?: BoolFilter<"Course"> | boolean
     interestDeadline?: DateTimeFilter<"Course"> | Date | string
-    assignedInstructorId?: IntNullableFilter<"Course"> | number | null
+    assignedInstructorId?: StringNullableFilter<"Course"> | string | null
     schedule?: XOR<ScheduleScalarRelationFilter, ScheduleWhereInput>
     registeredUsers?: UserListRelationFilter
     interestedInstructors?: UserListRelationFilter
@@ -13681,7 +13651,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolWithAggregatesFilter<"Course"> | boolean
     interestDeadline?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     scheduleId?: IntWithAggregatesFilter<"Course"> | number
-    assignedInstructorId?: IntNullableWithAggregatesFilter<"Course"> | number | null
+    assignedInstructorId?: StringNullableWithAggregatesFilter<"Course"> | string | null
   }
 
   export type ScheduleWhereInput = {
@@ -13785,14 +13755,16 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    id?: IntFilter<"User"> | number
+    id?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
-    role?: EnumRoleFilter<"User"> | $Enums.Role
+    password?: StringNullableFilter<"User"> | string | null
+    role?: EnumRoleNullableFilter<"User"> | $Enums.Role | null
     gpa?: FloatNullableFilter<"User"> | number | null
     major?: StringNullableFilter<"User"> | string | null
     creditsCompleted?: IntNullableFilter<"User"> | number | null
+    emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    image?: StringNullableFilter<"User"> | string | null
     completedCourses?: CompletedCourseListRelationFilter
     registeredCourses?: CourseListRelationFilter
     interestedCourses?: CourseListRelationFilter
@@ -13807,11 +13779,13 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
+    password?: SortOrderInput | SortOrder
+    role?: SortOrderInput | SortOrder
     gpa?: SortOrderInput | SortOrder
     major?: SortOrderInput | SortOrder
     creditsCompleted?: SortOrderInput | SortOrder
+    emailVerified?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     completedCourses?: CompletedCourseOrderByRelationAggregateInput
     registeredCourses?: CourseOrderByRelationAggregateInput
     interestedCourses?: CourseOrderByRelationAggregateInput
@@ -13823,17 +13797,19 @@ export namespace Prisma {
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
+    id?: string
     email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringNullableFilter<"User"> | string | null
-    password?: StringFilter<"User"> | string
-    role?: EnumRoleFilter<"User"> | $Enums.Role
+    password?: StringNullableFilter<"User"> | string | null
+    role?: EnumRoleNullableFilter<"User"> | $Enums.Role | null
     gpa?: FloatNullableFilter<"User"> | number | null
     major?: StringNullableFilter<"User"> | string | null
     creditsCompleted?: IntNullableFilter<"User"> | number | null
+    emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    image?: StringNullableFilter<"User"> | string | null
     completedCourses?: CompletedCourseListRelationFilter
     registeredCourses?: CourseListRelationFilter
     interestedCourses?: CourseListRelationFilter
@@ -13848,11 +13824,13 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
+    password?: SortOrderInput | SortOrder
+    role?: SortOrderInput | SortOrder
     gpa?: SortOrderInput | SortOrder
     major?: SortOrderInput | SortOrder
     creditsCompleted?: SortOrderInput | SortOrder
+    emailVerified?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -13864,14 +13842,16 @@ export namespace Prisma {
     AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"User"> | number
+    id?: StringWithAggregatesFilter<"User"> | string
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringWithAggregatesFilter<"User"> | string
-    password?: StringWithAggregatesFilter<"User"> | string
-    role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    password?: StringNullableWithAggregatesFilter<"User"> | string | null
+    role?: EnumRoleNullableWithAggregatesFilter<"User"> | $Enums.Role | null
     gpa?: FloatNullableWithAggregatesFilter<"User"> | number | null
     major?: StringNullableWithAggregatesFilter<"User"> | string | null
     creditsCompleted?: IntNullableWithAggregatesFilter<"User"> | number | null
+    emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    image?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type ExpertiseWhereInput = {
@@ -13880,7 +13860,7 @@ export namespace Prisma {
     NOT?: ExpertiseWhereInput | ExpertiseWhereInput[]
     id?: IntFilter<"Expertise"> | number
     value?: StringFilter<"Expertise"> | string
-    userId?: IntFilter<"Expertise"> | number
+    userId?: StringFilter<"Expertise"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -13897,7 +13877,7 @@ export namespace Prisma {
     OR?: ExpertiseWhereInput[]
     NOT?: ExpertiseWhereInput | ExpertiseWhereInput[]
     value?: StringFilter<"Expertise"> | string
-    userId?: IntFilter<"Expertise"> | number
+    userId?: StringFilter<"Expertise"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
@@ -13918,7 +13898,7 @@ export namespace Prisma {
     NOT?: ExpertiseScalarWhereWithAggregatesInput | ExpertiseScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Expertise"> | number
     value?: StringWithAggregatesFilter<"Expertise"> | string
-    userId?: IntWithAggregatesFilter<"Expertise"> | number
+    userId?: StringWithAggregatesFilter<"Expertise"> | string
   }
 
   export type ResponsibilityWhereInput = {
@@ -13927,7 +13907,7 @@ export namespace Prisma {
     NOT?: ResponsibilityWhereInput | ResponsibilityWhereInput[]
     id?: IntFilter<"Responsibility"> | number
     value?: StringFilter<"Responsibility"> | string
-    userId?: IntFilter<"Responsibility"> | number
+    userId?: StringFilter<"Responsibility"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -13944,7 +13924,7 @@ export namespace Prisma {
     OR?: ResponsibilityWhereInput[]
     NOT?: ResponsibilityWhereInput | ResponsibilityWhereInput[]
     value?: StringFilter<"Responsibility"> | string
-    userId?: IntFilter<"Responsibility"> | number
+    userId?: StringFilter<"Responsibility"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
@@ -13965,7 +13945,7 @@ export namespace Prisma {
     NOT?: ResponsibilityScalarWhereWithAggregatesInput | ResponsibilityScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Responsibility"> | number
     value?: StringWithAggregatesFilter<"Responsibility"> | string
-    userId?: IntWithAggregatesFilter<"Responsibility"> | number
+    userId?: StringWithAggregatesFilter<"Responsibility"> | string
   }
 
   export type CompletedCourseWhereInput = {
@@ -13973,7 +13953,7 @@ export namespace Prisma {
     OR?: CompletedCourseWhereInput[]
     NOT?: CompletedCourseWhereInput | CompletedCourseWhereInput[]
     id?: IntFilter<"CompletedCourse"> | number
-    userId?: IntFilter<"CompletedCourse"> | number
+    userId?: StringFilter<"CompletedCourse"> | string
     courseId?: StringFilter<"CompletedCourse"> | string
     name?: StringFilter<"CompletedCourse"> | string
     crn?: IntFilter<"CompletedCourse"> | number
@@ -14002,7 +13982,7 @@ export namespace Prisma {
     AND?: CompletedCourseWhereInput | CompletedCourseWhereInput[]
     OR?: CompletedCourseWhereInput[]
     NOT?: CompletedCourseWhereInput | CompletedCourseWhereInput[]
-    userId?: IntFilter<"CompletedCourse"> | number
+    userId?: StringFilter<"CompletedCourse"> | string
     courseId?: StringFilter<"CompletedCourse"> | string
     name?: StringFilter<"CompletedCourse"> | string
     crn?: IntFilter<"CompletedCourse"> | number
@@ -14035,7 +14015,7 @@ export namespace Prisma {
     OR?: CompletedCourseScalarWhereWithAggregatesInput[]
     NOT?: CompletedCourseScalarWhereWithAggregatesInput | CompletedCourseScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"CompletedCourse"> | number
-    userId?: IntWithAggregatesFilter<"CompletedCourse"> | number
+    userId?: StringWithAggregatesFilter<"CompletedCourse"> | string
     courseId?: StringWithAggregatesFilter<"CompletedCourse"> | string
     name?: StringWithAggregatesFilter<"CompletedCourse"> | string
     crn?: IntWithAggregatesFilter<"CompletedCourse"> | number
@@ -14050,7 +14030,7 @@ export namespace Prisma {
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
     id?: StringFilter<"Account"> | string
-    userId?: IntFilter<"Account"> | number
+    userId?: StringFilter<"Account"> | string
     type?: StringFilter<"Account"> | string
     provider?: StringFilter<"Account"> | string
     providerAccountId?: StringFilter<"Account"> | string
@@ -14082,12 +14062,13 @@ export namespace Prisma {
 
   export type AccountWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    type?: string
-    provider?: string
+    provider_providerAccountId?: AccountProviderProviderAccountIdCompoundUniqueInput
     AND?: AccountWhereInput | AccountWhereInput[]
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
-    userId?: IntFilter<"Account"> | number
+    userId?: StringFilter<"Account"> | string
+    type?: StringFilter<"Account"> | string
+    provider?: StringFilter<"Account"> | string
     providerAccountId?: StringFilter<"Account"> | string
     refresh_token?: StringNullableFilter<"Account"> | string | null
     access_token?: StringNullableFilter<"Account"> | string | null
@@ -14097,7 +14078,7 @@ export namespace Prisma {
     id_token?: StringNullableFilter<"Account"> | string | null
     session_state?: StringNullableFilter<"Account"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "type" | "provider">
+  }, "id" | "provider_providerAccountId">
 
   export type AccountOrderByWithAggregationInput = {
     id?: SortOrder
@@ -14124,7 +14105,7 @@ export namespace Prisma {
     OR?: AccountScalarWhereWithAggregatesInput[]
     NOT?: AccountScalarWhereWithAggregatesInput | AccountScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Account"> | string
-    userId?: IntWithAggregatesFilter<"Account"> | number
+    userId?: StringWithAggregatesFilter<"Account"> | string
     type?: StringWithAggregatesFilter<"Account"> | string
     provider?: StringWithAggregatesFilter<"Account"> | string
     providerAccountId?: StringWithAggregatesFilter<"Account"> | string
@@ -14143,7 +14124,7 @@ export namespace Prisma {
     NOT?: SessionWhereInput | SessionWhereInput[]
     id?: StringFilter<"Session"> | string
     sessionToken?: StringFilter<"Session"> | string
-    userId?: IntFilter<"Session"> | number
+    userId?: StringFilter<"Session"> | string
     expires?: DateTimeFilter<"Session"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -14162,7 +14143,7 @@ export namespace Prisma {
     AND?: SessionWhereInput | SessionWhereInput[]
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
-    userId?: IntFilter<"Session"> | number
+    userId?: StringFilter<"Session"> | string
     expires?: DateTimeFilter<"Session"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "sessionToken">
@@ -14173,10 +14154,8 @@ export namespace Prisma {
     userId?: SortOrder
     expires?: SortOrder
     _count?: SessionCountOrderByAggregateInput
-    _avg?: SessionAvgOrderByAggregateInput
     _max?: SessionMaxOrderByAggregateInput
     _min?: SessionMinOrderByAggregateInput
-    _sum?: SessionSumOrderByAggregateInput
   }
 
   export type SessionScalarWhereWithAggregatesInput = {
@@ -14185,7 +14164,7 @@ export namespace Prisma {
     NOT?: SessionScalarWhereWithAggregatesInput | SessionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Session"> | string
     sessionToken?: StringWithAggregatesFilter<"Session"> | string
-    userId?: IntWithAggregatesFilter<"Session"> | number
+    userId?: StringWithAggregatesFilter<"Session"> | string
     expires?: DateTimeWithAggregatesFilter<"Session"> | Date | string
   }
 
@@ -14272,7 +14251,7 @@ export namespace Prisma {
     assignmentConfirmed: boolean
     interestDeadline: Date | string
     scheduleId: number
-    assignedInstructorId?: number | null
+    assignedInstructorId?: string | null
     registeredUsers?: UserUncheckedCreateNestedManyWithoutRegisteredCoursesInput
     interestedInstructors?: UserUncheckedCreateNestedManyWithoutInterestedCoursesInput
     prerequisites?: CourseUncheckedCreateNestedManyWithoutRequiredForInput
@@ -14320,7 +14299,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFieldUpdateOperationsInput | boolean
     interestDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduleId?: IntFieldUpdateOperationsInput | number
-    assignedInstructorId?: NullableIntFieldUpdateOperationsInput | number | null
+    assignedInstructorId?: NullableStringFieldUpdateOperationsInput | string | null
     registeredUsers?: UserUncheckedUpdateManyWithoutRegisteredCoursesNestedInput
     interestedInstructors?: UserUncheckedUpdateManyWithoutInterestedCoursesNestedInput
     prerequisites?: CourseUncheckedUpdateManyWithoutRequiredForNestedInput
@@ -14344,7 +14323,7 @@ export namespace Prisma {
     assignmentConfirmed: boolean
     interestDeadline: Date | string
     scheduleId: number
-    assignedInstructorId?: number | null
+    assignedInstructorId?: string | null
   }
 
   export type CourseUpdateManyMutationInput = {
@@ -14382,7 +14361,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFieldUpdateOperationsInput | boolean
     interestDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduleId?: IntFieldUpdateOperationsInput | number
-    assignedInstructorId?: NullableIntFieldUpdateOperationsInput | number | null
+    assignedInstructorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ScheduleCreateInput = {
@@ -14471,14 +14450,16 @@ export namespace Prisma {
   }
 
   export type UserCreateInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseCreateNestedManyWithoutUserInput
     registeredCourses?: CourseCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseCreateNestedManyWithoutInterestedInstructorsInput
@@ -14490,14 +14471,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseUncheckedCreateNestedManyWithoutUserInput
     registeredCourses?: CourseUncheckedCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseUncheckedCreateNestedManyWithoutInterestedInstructorsInput
@@ -14509,14 +14492,16 @@ export namespace Prisma {
   }
 
   export type UserUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUpdateManyWithoutInterestedInstructorsNestedInput
@@ -14528,14 +14513,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUncheckedUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUncheckedUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUncheckedUpdateManyWithoutInterestedInstructorsNestedInput
@@ -14547,36 +14534,42 @@ export namespace Prisma {
   }
 
   export type UserCreateManyInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ExpertiseCreateInput = {
@@ -14587,7 +14580,7 @@ export namespace Prisma {
   export type ExpertiseUncheckedCreateInput = {
     id?: number
     value: string
-    userId: number
+    userId: string
   }
 
   export type ExpertiseUpdateInput = {
@@ -14598,13 +14591,13 @@ export namespace Prisma {
   export type ExpertiseUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     value?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ExpertiseCreateManyInput = {
     id?: number
     value: string
-    userId: number
+    userId: string
   }
 
   export type ExpertiseUpdateManyMutationInput = {
@@ -14614,7 +14607,7 @@ export namespace Prisma {
   export type ExpertiseUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     value?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ResponsibilityCreateInput = {
@@ -14625,7 +14618,7 @@ export namespace Prisma {
   export type ResponsibilityUncheckedCreateInput = {
     id?: number
     value: string
-    userId: number
+    userId: string
   }
 
   export type ResponsibilityUpdateInput = {
@@ -14636,13 +14629,13 @@ export namespace Prisma {
   export type ResponsibilityUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     value?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ResponsibilityCreateManyInput = {
     id?: number
     value: string
-    userId: number
+    userId: string
   }
 
   export type ResponsibilityUpdateManyMutationInput = {
@@ -14652,7 +14645,7 @@ export namespace Prisma {
   export type ResponsibilityUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     value?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CompletedCourseCreateInput = {
@@ -14668,7 +14661,7 @@ export namespace Prisma {
 
   export type CompletedCourseUncheckedCreateInput = {
     id?: number
-    userId: number
+    userId: string
     courseId: string
     name: string
     crn: number
@@ -14691,7 +14684,7 @@ export namespace Prisma {
 
   export type CompletedCourseUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     crn?: IntFieldUpdateOperationsInput | number
@@ -14703,7 +14696,7 @@ export namespace Prisma {
 
   export type CompletedCourseCreateManyInput = {
     id?: number
-    userId: number
+    userId: string
     courseId: string
     name: string
     crn: number
@@ -14725,7 +14718,7 @@ export namespace Prisma {
 
   export type CompletedCourseUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
     courseId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     crn?: IntFieldUpdateOperationsInput | number
@@ -14752,7 +14745,7 @@ export namespace Prisma {
 
   export type AccountUncheckedCreateInput = {
     id?: string
-    userId: number
+    userId: string
     type: string
     provider: string
     providerAccountId: string
@@ -14782,7 +14775,7 @@ export namespace Prisma {
 
   export type AccountUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     providerAccountId?: StringFieldUpdateOperationsInput | string
@@ -14797,7 +14790,7 @@ export namespace Prisma {
 
   export type AccountCreateManyInput = {
     id?: string
-    userId: number
+    userId: string
     type: string
     provider: string
     providerAccountId: string
@@ -14826,7 +14819,7 @@ export namespace Prisma {
 
   export type AccountUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     providerAccountId?: StringFieldUpdateOperationsInput | string
@@ -14849,7 +14842,7 @@ export namespace Prisma {
   export type SessionUncheckedCreateInput = {
     id?: string
     sessionToken: string
-    userId: number
+    userId: string
     expires: Date | string
   }
 
@@ -14863,14 +14856,14 @@ export namespace Prisma {
   export type SessionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionCreateManyInput = {
     id?: string
     sessionToken: string
-    userId: number
+    userId: string
     expires: Date | string
   }
 
@@ -14883,7 +14876,7 @@ export namespace Prisma {
   export type SessionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14975,15 +14968,18 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type ScheduleScalarRelationFilter = {
@@ -15047,7 +15043,6 @@ export namespace Prisma {
     availableSeats?: SortOrder
     creditHours?: SortOrder
     scheduleId?: SortOrder
-    assignedInstructorId?: SortOrder
   }
 
   export type CourseMaxOrderByAggregateInput = {
@@ -15096,7 +15091,6 @@ export namespace Prisma {
     availableSeats?: SortOrder
     creditHours?: SortOrder
     scheduleId?: SortOrder
-    assignedInstructorId?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -15162,20 +15156,21 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type ScheduleDayListRelationFilter = {
@@ -15264,25 +15259,11 @@ export namespace Prisma {
     _max?: NestedEnumDayFilter<$PrismaModel>
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type EnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[]
-    notIn?: $Enums.Role[]
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  export type EnumRoleNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Role[] | null
+    notIn?: $Enums.Role[] | null
+    not?: NestedEnumRoleNullableFilter<$PrismaModel> | $Enums.Role | null
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -15294,6 +15275,28 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type CompletedCourseListRelationFilter = {
@@ -15355,10 +15358,11 @@ export namespace Prisma {
     gpa?: SortOrder
     major?: SortOrder
     creditsCompleted?: SortOrder
+    emailVerified?: SortOrder
+    image?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
-    id?: SortOrder
     gpa?: SortOrder
     creditsCompleted?: SortOrder
   }
@@ -15372,6 +15376,8 @@ export namespace Prisma {
     gpa?: SortOrder
     major?: SortOrder
     creditsCompleted?: SortOrder
+    emailVerified?: SortOrder
+    image?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -15383,39 +15389,23 @@ export namespace Prisma {
     gpa?: SortOrder
     major?: SortOrder
     creditsCompleted?: SortOrder
+    emailVerified?: SortOrder
+    image?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
-    id?: SortOrder
     gpa?: SortOrder
     creditsCompleted?: SortOrder
   }
 
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+  export type EnumRoleNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Role[] | null
+    notIn?: $Enums.Role[] | null
+    not?: NestedEnumRoleNullableWithAggregatesFilter<$PrismaModel> | $Enums.Role | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[]
-    notIn?: $Enums.Role[]
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
+    _min?: NestedEnumRoleNullableFilter<$PrismaModel>
+    _max?: NestedEnumRoleNullableFilter<$PrismaModel>
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -15434,6 +15424,36 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -15447,7 +15467,6 @@ export namespace Prisma {
 
   export type ExpertiseAvgOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
   }
 
   export type ExpertiseMaxOrderByAggregateInput = {
@@ -15464,7 +15483,6 @@ export namespace Prisma {
 
   export type ExpertiseSumOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
   }
 
   export type ResponsibilityCountOrderByAggregateInput = {
@@ -15475,7 +15493,6 @@ export namespace Prisma {
 
   export type ResponsibilityAvgOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
   }
 
   export type ResponsibilityMaxOrderByAggregateInput = {
@@ -15492,7 +15509,6 @@ export namespace Prisma {
 
   export type ResponsibilitySumOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
   }
 
   export type CompletedCourseCountOrderByAggregateInput = {
@@ -15509,7 +15525,6 @@ export namespace Prisma {
 
   export type CompletedCourseAvgOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     crn?: SortOrder
     creditHours?: SortOrder
   }
@@ -15540,9 +15555,13 @@ export namespace Prisma {
 
   export type CompletedCourseSumOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     crn?: SortOrder
     creditHours?: SortOrder
+  }
+
+  export type AccountProviderProviderAccountIdCompoundUniqueInput = {
+    provider: string
+    providerAccountId: string
   }
 
   export type AccountCountOrderByAggregateInput = {
@@ -15561,7 +15580,6 @@ export namespace Prisma {
   }
 
   export type AccountAvgOrderByAggregateInput = {
-    userId?: SortOrder
     expires_at?: SortOrder
   }
 
@@ -15596,7 +15614,6 @@ export namespace Prisma {
   }
 
   export type AccountSumOrderByAggregateInput = {
-    userId?: SortOrder
     expires_at?: SortOrder
   }
 
@@ -15605,10 +15622,6 @@ export namespace Prisma {
     sessionToken?: SortOrder
     userId?: SortOrder
     expires?: SortOrder
-  }
-
-  export type SessionAvgOrderByAggregateInput = {
-    userId?: SortOrder
   }
 
   export type SessionMaxOrderByAggregateInput = {
@@ -15623,10 +15636,6 @@ export namespace Prisma {
     sessionToken?: SortOrder
     userId?: SortOrder
     expires?: SortOrder
-  }
-
-  export type SessionSumOrderByAggregateInput = {
-    userId?: SortOrder
   }
 
   export type VerificationTokenCountOrderByAggregateInput = {
@@ -15801,12 +15810,8 @@ export namespace Prisma {
     deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type UserUncheckedUpdateManyWithoutRegisteredCoursesNestedInput = {
@@ -16061,12 +16066,8 @@ export namespace Prisma {
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
-  export type EnumRoleFieldUpdateOperationsInput = {
-    set?: $Enums.Role
+  export type NullableEnumRoleFieldUpdateOperationsInput = {
+    set?: $Enums.Role | null
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -16075,6 +16076,18 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type CompletedCourseUpdateManyWithoutUserNestedInput = {
@@ -16413,15 +16426,18 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -16484,6 +16500,17 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -16496,71 +16523,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedEnumDayFilter<$PrismaModel = never> = {
-    equals?: $Enums.Day | EnumDayFieldRefInput<$PrismaModel>
-    in?: $Enums.Day[]
-    notIn?: $Enums.Day[]
-    not?: NestedEnumDayFilter<$PrismaModel> | $Enums.Day
-  }
-
-  export type NestedEnumDayWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Day | EnumDayFieldRefInput<$PrismaModel>
-    in?: $Enums.Day[]
-    notIn?: $Enums.Day[]
-    not?: NestedEnumDayWithAggregatesFilter<$PrismaModel> | $Enums.Day
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumDayFilter<$PrismaModel>
-    _max?: NestedEnumDayFilter<$PrismaModel>
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[]
-    notIn?: $Enums.Role[]
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -16580,14 +16542,60 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[]
-    notIn?: $Enums.Role[]
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+  export type NestedEnumDayFilter<$PrismaModel = never> = {
+    equals?: $Enums.Day | EnumDayFieldRefInput<$PrismaModel>
+    in?: $Enums.Day[]
+    notIn?: $Enums.Day[]
+    not?: NestedEnumDayFilter<$PrismaModel> | $Enums.Day
+  }
+
+  export type NestedEnumDayWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Day | EnumDayFieldRefInput<$PrismaModel>
+    in?: $Enums.Day[]
+    notIn?: $Enums.Day[]
+    not?: NestedEnumDayWithAggregatesFilter<$PrismaModel> | $Enums.Day
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
+    _min?: NestedEnumDayFilter<$PrismaModel>
+    _max?: NestedEnumDayFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRoleNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Role[] | null
+    notIn?: $Enums.Role[] | null
+    not?: NestedEnumRoleNullableFilter<$PrismaModel> | $Enums.Role | null
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumRoleNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Role[] | null
+    notIn?: $Enums.Role[] | null
+    not?: NestedEnumRoleNullableWithAggregatesFilter<$PrismaModel> | $Enums.Role | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumRoleNullableFilter<$PrismaModel>
+    _max?: NestedEnumRoleNullableFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -16604,6 +16612,36 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ScheduleCreateWithoutCourseInput = {
@@ -16625,14 +16663,16 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutRegisteredCoursesInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseCreateNestedManyWithoutUserInput
     interestedCourses?: CourseCreateNestedManyWithoutInterestedInstructorsInput
     assignedCourses?: CourseCreateNestedManyWithoutAssignedToInstructorInput
@@ -16643,14 +16683,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutRegisteredCoursesInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseUncheckedCreateNestedManyWithoutUserInput
     interestedCourses?: CourseUncheckedCreateNestedManyWithoutInterestedInstructorsInput
     assignedCourses?: CourseUncheckedCreateNestedManyWithoutAssignedToInstructorInput
@@ -16666,14 +16708,16 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutInterestedCoursesInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseCreateNestedManyWithoutUserInput
     registeredCourses?: CourseCreateNestedManyWithoutRegisteredUsersInput
     assignedCourses?: CourseCreateNestedManyWithoutAssignedToInstructorInput
@@ -16684,14 +16728,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutInterestedCoursesInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseUncheckedCreateNestedManyWithoutUserInput
     registeredCourses?: CourseUncheckedCreateNestedManyWithoutRegisteredUsersInput
     assignedCourses?: CourseUncheckedCreateNestedManyWithoutAssignedToInstructorInput
@@ -16707,14 +16753,16 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutAssignedCoursesInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseCreateNestedManyWithoutUserInput
     registeredCourses?: CourseCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseCreateNestedManyWithoutInterestedInstructorsInput
@@ -16725,14 +16773,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutAssignedCoursesInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseUncheckedCreateNestedManyWithoutUserInput
     registeredCourses?: CourseUncheckedCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseUncheckedCreateNestedManyWithoutInterestedInstructorsInput
@@ -16787,7 +16837,7 @@ export namespace Prisma {
     assignmentConfirmed: boolean
     interestDeadline: Date | string
     scheduleId: number
-    assignedInstructorId?: number | null
+    assignedInstructorId?: string | null
     registeredUsers?: UserUncheckedCreateNestedManyWithoutRegisteredCoursesInput
     interestedInstructors?: UserUncheckedCreateNestedManyWithoutInterestedCoursesInput
     prerequisites?: CourseUncheckedCreateNestedManyWithoutRequiredForInput
@@ -16838,7 +16888,7 @@ export namespace Prisma {
     assignmentConfirmed: boolean
     interestDeadline: Date | string
     scheduleId: number
-    assignedInstructorId?: number | null
+    assignedInstructorId?: string | null
     registeredUsers?: UserUncheckedCreateNestedManyWithoutRegisteredCoursesInput
     interestedInstructors?: UserUncheckedCreateNestedManyWithoutInterestedCoursesInput
     requiredFor?: CourseUncheckedCreateNestedManyWithoutPrerequisitesInput
@@ -16893,14 +16943,16 @@ export namespace Prisma {
     AND?: UserScalarWhereInput | UserScalarWhereInput[]
     OR?: UserScalarWhereInput[]
     NOT?: UserScalarWhereInput | UserScalarWhereInput[]
-    id?: IntFilter<"User"> | number
+    id?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
-    role?: EnumRoleFilter<"User"> | $Enums.Role
+    password?: StringNullableFilter<"User"> | string | null
+    role?: EnumRoleNullableFilter<"User"> | $Enums.Role | null
     gpa?: FloatNullableFilter<"User"> | number | null
     major?: StringNullableFilter<"User"> | string | null
     creditsCompleted?: IntNullableFilter<"User"> | number | null
+    emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    image?: StringNullableFilter<"User"> | string | null
   }
 
   export type UserUpsertWithWhereUniqueWithoutInterestedCoursesInput = {
@@ -16931,14 +16983,16 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutAssignedCoursesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUpdateManyWithoutInterestedInstructorsNestedInput
@@ -16949,14 +17003,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutAssignedCoursesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUncheckedUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUncheckedUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUncheckedUpdateManyWithoutInterestedInstructorsNestedInput
@@ -17002,7 +17058,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFilter<"Course"> | boolean
     interestDeadline?: DateTimeFilter<"Course"> | Date | string
     scheduleId?: IntFilter<"Course"> | number
-    assignedInstructorId?: IntNullableFilter<"Course"> | number | null
+    assignedInstructorId?: StringNullableFilter<"Course"> | string | null
   }
 
   export type CourseUpsertWithWhereUniqueWithoutPrerequisitesInput = {
@@ -17078,7 +17134,7 @@ export namespace Prisma {
     isPublishedForInstructors?: boolean | null
     assignmentConfirmed: boolean
     interestDeadline: Date | string
-    assignedInstructorId?: number | null
+    assignedInstructorId?: string | null
     registeredUsers?: UserUncheckedCreateNestedManyWithoutRegisteredCoursesInput
     interestedInstructors?: UserUncheckedCreateNestedManyWithoutInterestedCoursesInput
     prerequisites?: CourseUncheckedCreateNestedManyWithoutRequiredForInput
@@ -17165,7 +17221,7 @@ export namespace Prisma {
     isPublishedForInstructors?: NullableBoolFieldUpdateOperationsInput | boolean | null
     assignmentConfirmed?: BoolFieldUpdateOperationsInput | boolean
     interestDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    assignedInstructorId?: NullableIntFieldUpdateOperationsInput | number | null
+    assignedInstructorId?: NullableStringFieldUpdateOperationsInput | string | null
     registeredUsers?: UserUncheckedUpdateManyWithoutRegisteredCoursesNestedInput
     interestedInstructors?: UserUncheckedUpdateManyWithoutInterestedCoursesNestedInput
     prerequisites?: CourseUncheckedUpdateManyWithoutRequiredForNestedInput
@@ -17284,7 +17340,7 @@ export namespace Prisma {
     assignmentConfirmed: boolean
     interestDeadline: Date | string
     scheduleId: number
-    assignedInstructorId?: number | null
+    assignedInstructorId?: string | null
     interestedInstructors?: UserUncheckedCreateNestedManyWithoutInterestedCoursesInput
     prerequisites?: CourseUncheckedCreateNestedManyWithoutRequiredForInput
     requiredFor?: CourseUncheckedCreateNestedManyWithoutPrerequisitesInput
@@ -17335,7 +17391,7 @@ export namespace Prisma {
     assignmentConfirmed: boolean
     interestDeadline: Date | string
     scheduleId: number
-    assignedInstructorId?: number | null
+    assignedInstructorId?: string | null
     registeredUsers?: UserUncheckedCreateNestedManyWithoutRegisteredCoursesInput
     prerequisites?: CourseUncheckedCreateNestedManyWithoutRequiredForInput
     requiredFor?: CourseUncheckedCreateNestedManyWithoutPrerequisitesInput
@@ -17516,7 +17572,7 @@ export namespace Prisma {
     OR?: CompletedCourseScalarWhereInput[]
     NOT?: CompletedCourseScalarWhereInput | CompletedCourseScalarWhereInput[]
     id?: IntFilter<"CompletedCourse"> | number
-    userId?: IntFilter<"CompletedCourse"> | number
+    userId?: StringFilter<"CompletedCourse"> | string
     courseId?: StringFilter<"CompletedCourse"> | string
     name?: StringFilter<"CompletedCourse"> | string
     crn?: IntFilter<"CompletedCourse"> | number
@@ -17596,7 +17652,7 @@ export namespace Prisma {
     NOT?: ExpertiseScalarWhereInput | ExpertiseScalarWhereInput[]
     id?: IntFilter<"Expertise"> | number
     value?: StringFilter<"Expertise"> | string
-    userId?: IntFilter<"Expertise"> | number
+    userId?: StringFilter<"Expertise"> | string
   }
 
   export type ResponsibilityUpsertWithWhereUniqueWithoutUserInput = {
@@ -17621,7 +17677,7 @@ export namespace Prisma {
     NOT?: ResponsibilityScalarWhereInput | ResponsibilityScalarWhereInput[]
     id?: IntFilter<"Responsibility"> | number
     value?: StringFilter<"Responsibility"> | string
-    userId?: IntFilter<"Responsibility"> | number
+    userId?: StringFilter<"Responsibility"> | string
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -17645,7 +17701,7 @@ export namespace Prisma {
     OR?: AccountScalarWhereInput[]
     NOT?: AccountScalarWhereInput | AccountScalarWhereInput[]
     id?: StringFilter<"Account"> | string
-    userId?: IntFilter<"Account"> | number
+    userId?: StringFilter<"Account"> | string
     type?: StringFilter<"Account"> | string
     provider?: StringFilter<"Account"> | string
     providerAccountId?: StringFilter<"Account"> | string
@@ -17680,19 +17736,21 @@ export namespace Prisma {
     NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
     id?: StringFilter<"Session"> | string
     sessionToken?: StringFilter<"Session"> | string
-    userId?: IntFilter<"Session"> | number
+    userId?: StringFilter<"Session"> | string
     expires?: DateTimeFilter<"Session"> | Date | string
   }
 
   export type UserCreateWithoutExpertiseInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseCreateNestedManyWithoutUserInput
     registeredCourses?: CourseCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseCreateNestedManyWithoutInterestedInstructorsInput
@@ -17703,14 +17761,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutExpertiseInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseUncheckedCreateNestedManyWithoutUserInput
     registeredCourses?: CourseUncheckedCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseUncheckedCreateNestedManyWithoutInterestedInstructorsInput
@@ -17737,14 +17797,16 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutExpertiseInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUpdateManyWithoutInterestedInstructorsNestedInput
@@ -17755,14 +17817,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutExpertiseInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUncheckedUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUncheckedUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUncheckedUpdateManyWithoutInterestedInstructorsNestedInput
@@ -17773,14 +17837,16 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutResponsibilitiesInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseCreateNestedManyWithoutUserInput
     registeredCourses?: CourseCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseCreateNestedManyWithoutInterestedInstructorsInput
@@ -17791,14 +17857,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutResponsibilitiesInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseUncheckedCreateNestedManyWithoutUserInput
     registeredCourses?: CourseUncheckedCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseUncheckedCreateNestedManyWithoutInterestedInstructorsInput
@@ -17825,14 +17893,16 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutResponsibilitiesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUpdateManyWithoutInterestedInstructorsNestedInput
@@ -17843,14 +17913,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutResponsibilitiesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUncheckedUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUncheckedUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUncheckedUpdateManyWithoutInterestedInstructorsNestedInput
@@ -17861,14 +17933,16 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutCompletedCoursesInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     registeredCourses?: CourseCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseCreateNestedManyWithoutInterestedInstructorsInput
     assignedCourses?: CourseCreateNestedManyWithoutAssignedToInstructorInput
@@ -17879,14 +17953,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutCompletedCoursesInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     registeredCourses?: CourseUncheckedCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseUncheckedCreateNestedManyWithoutInterestedInstructorsInput
     assignedCourses?: CourseUncheckedCreateNestedManyWithoutAssignedToInstructorInput
@@ -17913,14 +17989,16 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutCompletedCoursesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     registeredCourses?: CourseUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUpdateManyWithoutInterestedInstructorsNestedInput
     assignedCourses?: CourseUpdateManyWithoutAssignedToInstructorNestedInput
@@ -17931,14 +18009,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutCompletedCoursesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     registeredCourses?: CourseUncheckedUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUncheckedUpdateManyWithoutInterestedInstructorsNestedInput
     assignedCourses?: CourseUncheckedUpdateManyWithoutAssignedToInstructorNestedInput
@@ -17949,14 +18029,16 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutAccountsInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseCreateNestedManyWithoutUserInput
     registeredCourses?: CourseCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseCreateNestedManyWithoutInterestedInstructorsInput
@@ -17967,14 +18049,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseUncheckedCreateNestedManyWithoutUserInput
     registeredCourses?: CourseUncheckedCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseUncheckedCreateNestedManyWithoutInterestedInstructorsInput
@@ -18001,14 +18085,16 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutAccountsInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUpdateManyWithoutInterestedInstructorsNestedInput
@@ -18019,14 +18105,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUncheckedUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUncheckedUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUncheckedUpdateManyWithoutInterestedInstructorsNestedInput
@@ -18037,14 +18125,16 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutSessionsInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseCreateNestedManyWithoutUserInput
     registeredCourses?: CourseCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseCreateNestedManyWithoutInterestedInstructorsInput
@@ -18055,14 +18145,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
-    id: number
+    id?: string
     name?: string | null
     email: string
-    password: string
-    role: $Enums.Role
+    password?: string | null
+    role?: $Enums.Role | null
     gpa?: number | null
     major?: string | null
     creditsCompleted?: number | null
+    emailVerified?: Date | string | null
+    image?: string | null
     completedCourses?: CompletedCourseUncheckedCreateNestedManyWithoutUserInput
     registeredCourses?: CourseUncheckedCreateNestedManyWithoutRegisteredUsersInput
     interestedCourses?: CourseUncheckedCreateNestedManyWithoutInterestedInstructorsInput
@@ -18089,14 +18181,16 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutSessionsInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUpdateManyWithoutInterestedInstructorsNestedInput
@@ -18107,14 +18201,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUncheckedUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUncheckedUpdateManyWithoutRegisteredUsersNestedInput
     interestedCourses?: CourseUncheckedUpdateManyWithoutInterestedInstructorsNestedInput
@@ -18125,14 +18221,16 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutRegisteredCoursesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUpdateManyWithoutUserNestedInput
     interestedCourses?: CourseUpdateManyWithoutInterestedInstructorsNestedInput
     assignedCourses?: CourseUpdateManyWithoutAssignedToInstructorNestedInput
@@ -18143,14 +18241,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutRegisteredCoursesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUncheckedUpdateManyWithoutUserNestedInput
     interestedCourses?: CourseUncheckedUpdateManyWithoutInterestedInstructorsNestedInput
     assignedCourses?: CourseUncheckedUpdateManyWithoutAssignedToInstructorNestedInput
@@ -18161,25 +18261,29 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateManyWithoutRegisteredCoursesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUpdateWithoutInterestedCoursesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUpdateManyWithoutRegisteredUsersNestedInput
     assignedCourses?: CourseUpdateManyWithoutAssignedToInstructorNestedInput
@@ -18190,14 +18294,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutInterestedCoursesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     completedCourses?: CompletedCourseUncheckedUpdateManyWithoutUserNestedInput
     registeredCourses?: CourseUncheckedUpdateManyWithoutRegisteredUsersNestedInput
     assignedCourses?: CourseUncheckedUpdateManyWithoutAssignedToInstructorNestedInput
@@ -18208,14 +18314,16 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateManyWithoutInterestedCoursesInput = {
-    id?: IntFieldUpdateOperationsInput | number
+    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableEnumRoleFieldUpdateOperationsInput | $Enums.Role | null
     gpa?: NullableFloatFieldUpdateOperationsInput | number | null
     major?: NullableStringFieldUpdateOperationsInput | string | null
     creditsCompleted?: NullableIntFieldUpdateOperationsInput | number | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CourseUpdateWithoutRequiredForInput = {
@@ -18258,7 +18366,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFieldUpdateOperationsInput | boolean
     interestDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduleId?: IntFieldUpdateOperationsInput | number
-    assignedInstructorId?: NullableIntFieldUpdateOperationsInput | number | null
+    assignedInstructorId?: NullableStringFieldUpdateOperationsInput | string | null
     registeredUsers?: UserUncheckedUpdateManyWithoutRegisteredCoursesNestedInput
     interestedInstructors?: UserUncheckedUpdateManyWithoutInterestedCoursesNestedInput
     prerequisites?: CourseUncheckedUpdateManyWithoutRequiredForNestedInput
@@ -18281,7 +18389,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFieldUpdateOperationsInput | boolean
     interestDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduleId?: IntFieldUpdateOperationsInput | number
-    assignedInstructorId?: NullableIntFieldUpdateOperationsInput | number | null
+    assignedInstructorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CourseUpdateWithoutPrerequisitesInput = {
@@ -18324,7 +18432,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFieldUpdateOperationsInput | boolean
     interestDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduleId?: IntFieldUpdateOperationsInput | number
-    assignedInstructorId?: NullableIntFieldUpdateOperationsInput | number | null
+    assignedInstructorId?: NullableStringFieldUpdateOperationsInput | string | null
     registeredUsers?: UserUncheckedUpdateManyWithoutRegisteredCoursesNestedInput
     interestedInstructors?: UserUncheckedUpdateManyWithoutInterestedCoursesNestedInput
     requiredFor?: CourseUncheckedUpdateManyWithoutPrerequisitesNestedInput
@@ -18347,7 +18455,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFieldUpdateOperationsInput | boolean
     interestDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduleId?: IntFieldUpdateOperationsInput | number
-    assignedInstructorId?: NullableIntFieldUpdateOperationsInput | number | null
+    assignedInstructorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ScheduleDayCreateManyScheduleInput = {
@@ -18501,7 +18609,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFieldUpdateOperationsInput | boolean
     interestDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduleId?: IntFieldUpdateOperationsInput | number
-    assignedInstructorId?: NullableIntFieldUpdateOperationsInput | number | null
+    assignedInstructorId?: NullableStringFieldUpdateOperationsInput | string | null
     interestedInstructors?: UserUncheckedUpdateManyWithoutInterestedCoursesNestedInput
     prerequisites?: CourseUncheckedUpdateManyWithoutRequiredForNestedInput
     requiredFor?: CourseUncheckedUpdateManyWithoutPrerequisitesNestedInput
@@ -18524,7 +18632,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFieldUpdateOperationsInput | boolean
     interestDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduleId?: IntFieldUpdateOperationsInput | number
-    assignedInstructorId?: NullableIntFieldUpdateOperationsInput | number | null
+    assignedInstructorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CourseUpdateWithoutInterestedInstructorsInput = {
@@ -18567,7 +18675,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFieldUpdateOperationsInput | boolean
     interestDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduleId?: IntFieldUpdateOperationsInput | number
-    assignedInstructorId?: NullableIntFieldUpdateOperationsInput | number | null
+    assignedInstructorId?: NullableStringFieldUpdateOperationsInput | string | null
     registeredUsers?: UserUncheckedUpdateManyWithoutRegisteredCoursesNestedInput
     prerequisites?: CourseUncheckedUpdateManyWithoutRequiredForNestedInput
     requiredFor?: CourseUncheckedUpdateManyWithoutPrerequisitesNestedInput
@@ -18590,7 +18698,7 @@ export namespace Prisma {
     assignmentConfirmed?: BoolFieldUpdateOperationsInput | boolean
     interestDeadline?: DateTimeFieldUpdateOperationsInput | Date | string
     scheduleId?: IntFieldUpdateOperationsInput | number
-    assignedInstructorId?: NullableIntFieldUpdateOperationsInput | number | null
+    assignedInstructorId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CourseUpdateWithoutAssignedToInstructorInput = {
