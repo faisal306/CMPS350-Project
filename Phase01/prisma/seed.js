@@ -3,6 +3,15 @@ const fs = require('fs').promises;
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.completedCourse.deleteMany();
+  await prisma.expertise.deleteMany();
+  await prisma.responsibility.deleteMany();
+  await prisma.course.deleteMany();
+  await prisma.scheduleDay.deleteMany();
+  await prisma.schedule.deleteMany();
+  await prisma.user.deleteMany();
+
+
   const coursesData = JSON.parse(await fs.readFile('app/data/courses.json', 'utf-8'));
   const usersData = JSON.parse(await fs.readFile('app/data/users.json', 'utf-8'));
 
@@ -44,6 +53,8 @@ async function main() {
   }
 
   for (const user of usersData) {
+    const emailExists = await prisma.user.findUnique({ where: { email: user.email } });
+    if (emailExists) continue;
     const baseUser = await prisma.user.create({
       data: {
         id: user.id,

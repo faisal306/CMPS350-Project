@@ -4,7 +4,7 @@
 const searchBtn = document.querySelector('#apply-filters');
 
 async function loadCoursesForAdmin() {
-        
+
     const data = await fetch('api/courses');
     const courses = await data.json();
 
@@ -15,7 +15,7 @@ async function loadCoursesForAdmin() {
         if (c.category) {
             categories.add(c.category);
         }
-        
+
 
     });
 
@@ -24,7 +24,7 @@ async function loadCoursesForAdmin() {
     dropdown.innerHTML = '<option value="">Select Category</option>';
 
 
-                        // here i will convert the set to an array
+    // here i will convert the set to an array
     const sortedCategories = Array.from(categories);
     for (var i = 0; i < sortedCategories.length; i++) {
         var category = sortedCategories[i];
@@ -47,20 +47,20 @@ async function approveCourse(courseCRN) {
             },
             body: JSON.stringify({ approved: true })
         });
-        
-        
+
+
 
         const result = await response.json();
-        
+
         if (result.success) {
             showNotification('Course approved successfully', 'success');
             loadCourses();
         } else {
             showNotification(result.message || 'Failed to approve course', 'error');
         }
-        
-        
-        
+
+
+
     } catch (error) {
         console.error('Error approving course:', error);
         showNotification('Error approving course. Please try again.', 'error');
@@ -112,9 +112,9 @@ const pendDiv = document.querySelector('#pending-courses');
 const approvedDiv = document.querySelector("#approved-courses");
 
 // When the page open load both courses
-document.addEventListener("DOMContentLoaded", async function(){
-    if(!permittedUser()){
-        
+document.addEventListener("DOMContentLoaded", async function () {
+    if (!permittedUser()) {
+
         document.body.innerHTML = `
         <h1>You do not have permission to view this page. Please <a href="login.html">log in</a> with admin privliges.</h1>
         `;
@@ -122,14 +122,14 @@ document.addEventListener("DOMContentLoaded", async function(){
     }
 
     // load all functions
-    
+
     setupTabs();
     loadCourses();
     loadCoursesForAdmin();
     loadWeeklySchedule();
 
 
-    
+
     // Add all event listeners only after elements are visable
     document.getElementById('department-filter').addEventListener('change', filterCoursesByCategory);
     searchBtn.addEventListener('click', searchCoursesByName);
@@ -143,20 +143,20 @@ document.addEventListener("DOMContentLoaded", async function(){
     // load the data
 
     loadCoursesForPrerequisites();
- 
+
     setupCreateCourseForm();
- 
+
     loadInstructors();
 
     loadCoursesForPublication();
 
     const currentuser = document.getElementById("student-email");
-    if(localStorage.uid){
+    if (localStorage.uid) {
         const response = await fetch('api/users');
         const users = await response.json();
         const user = users.find(u => u.id == localStorage.uid);
-        currentuser.innerHTML = 
-        `
+        currentuser.innerHTML =
+            `
             ${user.email} 
         `
 
@@ -174,46 +174,46 @@ document.addEventListener("DOMContentLoaded", async function(){
     }
 });
 
-function permittedUser(){
+function permittedUser() {
     const role = localStorage.userRole;
-    if(role == "admin") return true;
+    if (role == "admin") return true;
     return false;
 }
 
 // to load pending courses
 async function loadCourses() {
-    
+
 
     try {
 
-        
+
         // Get the courses list table body
         const coursesListTable = document.getElementById('courses-list');
         if (!coursesListTable) {
             console.error("Could not find courses-list element");
             return;
         }
-        
+
 
 
         // Clear existing content
         coursesListTable.innerHTML = '<tr><td colspan="8">Loading courses...</td></tr>';
-        
+
 
         // get the courses
         const response = await fetch('/api/courses');
         if (!response.ok) {
             throw new Error('Failed to fetch courses');
         }
-        
+
 
         const courses = await response.json();
-        
 
-        
+
+
         // Clear the  message
         coursesListTable.innerHTML = '';
-        
+
 
 
 
@@ -224,13 +224,13 @@ async function loadCourses() {
         }
 
 
-        
+
         // Display each course
         courses.forEach(course => {
             // Determine the status text and class
             let statusText = '';
             let statusClass = '';
-            
+
 
 
             if (!course.adminApprove) {
@@ -246,13 +246,13 @@ async function loadCourses() {
                 statusText = 'Approved';
                 statusClass = 'status-approved';
             }
-            
+
 
 
             // Create row
             const row = document.createElement('tr');
 
-        
+
 
             row.innerHTML = `
                 <td>${course.crn}</td>
@@ -263,32 +263,32 @@ async function loadCourses() {
                 <td>${course.instructor || 'Not Assigned'}</td>
                 <td><span class="status-label ${statusClass}">${statusText}</span></td>
                 <td class="action-buttons">
-                    ${!course.adminApprove ? 
-                        // if the admin approve is false then show the approve button if not show the disapprove button
-                        `<button class="btn-action btn-approve" onclick="approveCourse('${course.crn}')">Approve</button>` : 
-                        `<button class="btn-action btn-reject" onclick="disApproveCourse('${course.crn}')">Disapprove</button>`
-                    }
+                    ${!course.adminApprove ?
+                    // if the admin approve is false then show the approve button if not show the disapprove button
+                    `<button class="btn-action btn-approve" onclick="approveCourse('${course.crn}')">Approve</button>` :
+                    `<button class="btn-action btn-reject" onclick="disApproveCourse('${course.crn}')">Disapprove</button>`
+                }
                     <button class="btn-action btn-view" onclick="showCourseDetails('${course.crn}')">View</button>
                     <button class="btn-action btn-edit" onclick="editCourse('${course.crn}')">Edit</button>
-                    ${!course.instructor ? 
-                        `<button class="btn-action btn-assign" onclick="assignInstructor('${course.crn}')">Assign Instructor</button>` 
-                        : ''
-                    }
-                    ${course.adminApprove ? 
-                        // if the admin approve is true show the button for close or open
+                    ${!course.instructor ?
+                    `<button class="btn-action btn-assign" onclick="assignInstructor('${course.crn}')">Assign Instructor</button>`
+                    : ''
+                }
+                    ${course.adminApprove ?
+                    // if the admin approve is true show the button for close or open
 
-                        // if the course is open for registration show close else open in the button label
-                        `<button class="btn-action btn-toggle" onclick="toggleRegistration('${course.crn}', ${!course.openForRegistration})">
+                    // if the course is open for registration show close else open in the button label
+                    `<button class="btn-action btn-toggle" onclick="toggleRegistration('${course.crn}', ${!course.openForRegistration})">
                             ${course.openForRegistration ? 'Close' : 'Open'} Registration
                             
                         </button>` : ''
-                    }
+                }
                 </td>
             `;
             coursesListTable.appendChild(row);
         });
     } catch (error) {
-        
+
         showNotification('Failed to load courses', 'error');
     }
 
@@ -311,15 +311,15 @@ async function approveCourse(courseCRN) {
             },
             body: JSON.stringify({ approved: true })
         });
-        
+
         const result = await response.json();
-        
+
         if (result.success) {
             showNotification('Course approved successfully', 'success');
         } else {
             showNotification(result.message || 'Failed to approve course', 'error');
         }
-        
+
         // Reload the course list
         loadCourses();
     } catch (error) {
@@ -349,12 +349,12 @@ function searchCoursesByName() {
 
         const courseName = courseNameCell.textContent.toLowerCase();
 
-                        // indexOf(searchName) means that the substring searchTerm is found 
-                        // starting at the very first character of courseName
+        // indexOf(searchName) means that the substring searchTerm is found 
+        // starting at the very first character of courseName
 
-                        //example, if courseName is "Web Development" and searchTerm is "Web", 
-                        // then courseName.indexOf("Web") returns 0, so the condition is true.
-                        
+        //example, if courseName is "Web Development" and searchTerm is "Web", 
+        // then courseName.indexOf("Web") returns 0, so the condition is true.
+
 
         if (!searchName || courseName.indexOf(searchName) === 0) {
             row.style.display = '';
@@ -378,15 +378,15 @@ async function disApproveCourse(courseCRN) {
             },
             body: JSON.stringify({ approved: false })
         });
-        
+
         const result = await response.json();
-        
+
         if (result.success) {
             showNotification('Course disapproved successfully', 'success');
         } else {
             showNotification(result.message || 'Failed to disapprove course', 'error');
         }
-        
+
         loadCourses();
     } catch (error) {
         console.error('Error disapproving course:', error);
@@ -397,7 +397,7 @@ async function disApproveCourse(courseCRN) {
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    if(!permittedUser()) {
+    if (!permittedUser()) {
         document.body.innerHTML = `
                     <h1>You do not have permission to view this page. Please <a href="login.html">log in</a> as an admin.</h1>
         `;
@@ -406,226 +406,226 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 });
 
-    function setupTabs() {
+function setupTabs() {
 
-        const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabButtons = document.querySelectorAll('.tab-btn');
 
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Deactivate all tabs and tab contents
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Deactivate all tabs and tab contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
 
-                // Activate the clicked tab and related content
-                button.classList.add('active');
-                // get the custom data attribute
-                const tabId = button.dataset.tab;
-                document.getElementById(tabId).classList.add('active');
-
-
-                // to load the courses when the user click on publish courses
-
-                if (tabId === 'course-publication-tab') {
-                    loadCoursesForPublication();
-                }
-
-            });
-        });
-
-    }
-
-    // this method will load all courses 
-    async function loadCoursesForPrerequisites() {
-        try {
-            const res = await fetch('/api/courses');
-            const courses = await res.json();
-
-            const container = document.getElementById('prerequisites-container');
-            container.innerHTML = ''; // Clear old options
-
-            courses.forEach(course => {
-                const checkboxItem = document.createElement('div');
-                checkboxItem.className = 'checkbox-item';
-                
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.id = `prereq-${course.id}`;
-                checkbox.value = course.id;
-                checkbox.name = 'prerequisites';
-                
-                const label = document.createElement('label');
-                label.htmlFor = `prereq-${course.id}`;
-                label.textContent = `${course.name} (${course.id})`;
-                
-                // Handler for the entire div
-                checkboxItem.onclick = (e) => {
-                    // Only toggle if clicking the div or label, not the checkbox itself
-                    if (e.target === checkboxItem || e.target === label) {
-                        e.preventDefault(); // Prevent any default behavior
-                        checkbox.checked = !checkbox.checked; // Toggle checkbox
-                    }
-                };
-                
-                checkboxItem.appendChild(checkbox);
-                checkboxItem.appendChild(label);
-                container.appendChild(checkboxItem);
-            });
-        } catch (err) {
-            console.error('Could not load courses:', err);
-            showNotification('Failed to load prerequisites', 'error');
-        }
-    }
-
-    // this method will load the instructors by getting the users and then check the role of each one to be
-    // instrctor
-    async function loadInstructors() {
-        try {
-            const res = await fetch('/api/users');
-            const users = await res.json();
-    
-            // Only keep users who are instructors
-            const instructors = users.filter(user => user.role === 'instructor');
-    
-            const dropdown = document.getElementById('course-instructor');
-            dropdown.innerHTML = '<option value="">Select Instructor (optional)</option>';
-    
-            instructors.forEach(inst => {
-                const option = document.createElement('option');
-                option.value = inst.name;
-                option.textContent = `${inst.name}`;
-                dropdown.appendChild(option);
-            });
-        } catch (err) {
-            console.error('Could not load instructors:', err);
-            showNotification('Failed to load instructors', 'error');
-        }
-    }
-
-    // if the admin create a course 
-
-    function setupCreateCourseForm() {
-        const form = document.getElementById('create-course-form');
-    
-        form.addEventListener('submit', async (e) => {
-
-            // to stop the page from reloading
-            e.preventDefault(); 
-    
-            
-            const id = document.getElementById('course-id').value.trim().toUpperCase();
-
-            const crn = document.getElementById('course-crn').value.trim();
+            // Activate the clicked tab and related content
+            button.classList.add('active');
+            // get the custom data attribute
+            const tabId = button.dataset.tab;
+            document.getElementById(tabId).classList.add('active');
 
 
-            const name = document.getElementById('course-name').value.trim();
+            // to load the courses when the user click on publish courses
 
-
-            const category = document.getElementById('course-category').value.trim();
-
-            const description = document.getElementById('course-description').value.trim();
-
-
-            // Get all selected prerequisites
-            const prereqDropdown = document.getElementById('course-prerequisites');
-
-
-
-            
-            const creditHours = Number(document.getElementById('course-credits').value);
-            const totalSeats = Number(document.getElementById('course-seats').value);
-            const instructorId = document.getElementById('course-instructor').value;
-    
-
-            
-            
-
-            const selectedOptions = prereqDropdown.selectedOptions;
-
-            const selectedArray = [...selectedOptions];
-
-
-            // get the value from each selected array by going for each option
-            const prerequisites = selectedArray.map(option => option.value);
-            
-
-    
-            // Build the course object to send to the server
-            const newCourse = {
-                id,
-                crn,
-                name,
-                category,
-                totalSeats,
-                creditHours,
-                availableSeats: totalSeats,
-                adminApprove: false,
-                openForRegistration: false,
-                registeredStudents: [],
-                hasStarted: false,
-                // if there is no instructor make it undefined
-                instructor: instructorId || undefined,
-                description: description || undefined,
-                // if there is add the prerequisites if not empty array
-                prerequisites: prerequisites.length > 0 ? prerequisites : [],
-                
-            };
-    
-            try {
-                const res = await fetch('/api/courses', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(newCourse)
-                });
-    
-
-                const result = await res.json();
-    
-                // if there is a result
-                if (result.success) {
-                    showNotification('Course created successfully!', 'success');
-                    // clear the form
-                    form.reset(); 
-    
-                    // Refresh 
-                    loadCourses();
-
-
-    
-                    // Switch
-
-                    const managementTabButton = document.querySelector('[data-tab="course-management-tab"]');
-                    // as if it is a click
-                    managementTabButton.click();
-
-
-                } else {
-                    showNotification(result.message || 'Failed to create course', 'error');
-                }
-            } catch (err) {
-                console.error('Error submitting course:', err);
-                showNotification('Error creating course. Please try again.', 'error');
+            if (tabId === 'course-publication-tab') {
+                loadCoursesForPublication();
             }
+
         });
+    });
+
+}
+
+// this method will load all courses 
+async function loadCoursesForPrerequisites() {
+    try {
+        const res = await fetch('/api/courses');
+        const courses = await res.json();
+
+        const container = document.getElementById('prerequisites-container');
+        container.innerHTML = ''; // Clear old options
+
+        courses.forEach(course => {
+            const checkboxItem = document.createElement('div');
+            checkboxItem.className = 'checkbox-item';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `prereq-${course.id}`;
+            checkbox.value = course.id;
+            checkbox.name = 'prerequisites';
+
+            const label = document.createElement('label');
+            label.htmlFor = `prereq-${course.id}`;
+            label.textContent = `${course.name} (${course.id})`;
+
+            // Handler for the entire div
+            checkboxItem.onclick = (e) => {
+                // Only toggle if clicking the div or label, not the checkbox itself
+                if (e.target === checkboxItem || e.target === label) {
+                    e.preventDefault(); // Prevent any default behavior
+                    checkbox.checked = !checkbox.checked; // Toggle checkbox
+                }
+            };
+
+            checkboxItem.appendChild(checkbox);
+            checkboxItem.appendChild(label);
+            container.appendChild(checkboxItem);
+        });
+    } catch (err) {
+        console.error('Could not load courses:', err);
+        showNotification('Failed to load prerequisites', 'error');
     }
+}
+
+// this method will load the instructors by getting the users and then check the role of each one to be
+// instrctor
+async function loadInstructors() {
+    try {
+        const res = await fetch('/api/users');
+        const users = await res.json();
+
+        // Only keep users who are instructors
+        const instructors = users.filter(user => user.role === 'instructor');
+
+        const dropdown = document.getElementById('course-instructor');
+        dropdown.innerHTML = '<option value="">Select Instructor (optional)</option>';
+
+        instructors.forEach(inst => {
+            const option = document.createElement('option');
+            option.value = inst.name;
+            option.textContent = `${inst.name}`;
+            dropdown.appendChild(option);
+        });
+    } catch (err) {
+        console.error('Could not load instructors:', err);
+        showNotification('Failed to load instructors', 'error');
+    }
+}
+
+// if the admin create a course 
+
+function setupCreateCourseForm() {
+    const form = document.getElementById('create-course-form');
+
+    form.addEventListener('submit', async (e) => {
+
+        // to stop the page from reloading
+        e.preventDefault();
+
+
+        const id = document.getElementById('course-id').value.trim().toUpperCase();
+
+        const crn = document.getElementById('course-crn').value.trim();
+
+
+        const name = document.getElementById('course-name').value.trim();
+
+
+        const category = document.getElementById('course-category').value.trim();
+
+        const description = document.getElementById('course-description').value.trim();
+
+
+        // Get all selected prerequisites
+        const prereqDropdown = document.getElementById('course-prerequisites');
+
+
+
+
+        const creditHours = Number(document.getElementById('course-credits').value);
+        const totalSeats = Number(document.getElementById('course-seats').value);
+        const instructorId = document.getElementById('course-instructor').value;
+
+
+
+
+
+        const selectedOptions = prereqDropdown.selectedOptions;
+
+        const selectedArray = [...selectedOptions];
+
+
+        // get the value from each selected array by going for each option
+        const prerequisites = selectedArray.map(option => option.value);
+
+
+
+        // Build the course object to send to the server
+        const newCourse = {
+            id,
+            crn,
+            name,
+            category,
+            totalSeats,
+            creditHours,
+            availableSeats: totalSeats,
+            adminApprove: false,
+            openForRegistration: false,
+            registeredStudents: [],
+            hasStarted: false,
+            // if there is no instructor make it undefined
+            instructor: instructorId || undefined,
+            description: description || undefined,
+            // if there is add the prerequisites if not empty array
+            prerequisites: prerequisites.length > 0 ? prerequisites : [],
+
+        };
+
+        try {
+            const res = await fetch('/api/courses', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newCourse)
+            });
+
+
+            const result = await res.json();
+
+            // if there is a result
+            if (result.success) {
+                showNotification('Course created successfully!', 'success');
+                // clear the form
+                form.reset();
+
+                // Refresh 
+                loadCourses();
+
+
+
+                // Switch
+
+                const managementTabButton = document.querySelector('[data-tab="course-management-tab"]');
+                // as if it is a click
+                managementTabButton.click();
+
+
+            } else {
+                showNotification(result.message || 'Failed to create course', 'error');
+            }
+        } catch (err) {
+            console.error('Error submitting course:', err);
+            showNotification('Error creating course. Please try again.', 'error');
+        }
+    });
+}
 
 
 async function loadCoursesForPublication() {
 
-        const response = await fetch('/api/courses');
-        const courses = await response.json();
-        
-        const publishCoursesList = document.getElementById('publish-courses-list');
+    const response = await fetch('/api/courses');
+    const courses = await response.json();
 
-        // clear all previous 
-        publishCoursesList.innerHTML = '';
-        
-        courses.forEach(course => {
-            const row = document.createElement('tr');
-            const isPublished = course.isPublishedForInstructors;
-            
-            row.innerHTML = `
+    const publishCoursesList = document.getElementById('publish-courses-list');
+
+    // clear all previous 
+    publishCoursesList.innerHTML = '';
+
+    courses.forEach(course => {
+        const row = document.createElement('tr');
+        const isPublished = course.isPublishedForInstructors;
+
+        row.innerHTML = `
                 <td><input type="checkbox" class="course-select" data-crn="${course.crn}"></td>
                 <td>${course.id}</td>
                 <td>${course.name}</td>
@@ -640,23 +640,23 @@ async function loadCoursesForPublication() {
                     </button>
                 </td>
             `;
-            
-            publishCoursesList.appendChild(row);
-        });
+
+        publishCoursesList.appendChild(row);
+    });
 }
 
 
 // Function to set deadline for selected courses
 document.getElementById('apply-deadline').addEventListener('click', async () => {
     const deadline = document.getElementById('interest-deadline').value;
-    
+
     // get all checkboxes 
     const checkboxes = document.querySelectorAll('.course-select:checked');
 
     let selectedCourses = [];
 
     // loop on them 
-    checkboxes.forEach(function(checkbox) {
+    checkboxes.forEach(function (checkbox) {
         // get the courses that are selected by the user
         selectedCourses.push(checkbox.getAttribute('data-crn'));
     });
@@ -667,27 +667,27 @@ document.getElementById('apply-deadline').addEventListener('click', async () => 
         showNotification('Please select at least one course', 'error');
         return;
     }
-    
 
 
-    
-        const response = await fetch('/api/courses', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            // convert to JSON
-            body: JSON.stringify({ 
-                courses: selectedCourses,
-                deadline: new Date(deadline).toISOString()
-            })
-        });
 
 
-        const result = await response.json();
-        if (result.success) {
+    const response = await fetch('/api/courses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // convert to JSON
+        body: JSON.stringify({
+            courses: selectedCourses,
+            deadline: new Date(deadline).toISOString()
+        })
+    });
 
-            loadCoursesForPublication();
-        } 
-        
+
+    const result = await response.json();
+    if (result.success) {
+
+        loadCoursesForPublication();
+    }
+
 });
 
 
@@ -700,7 +700,7 @@ async function togglePublishStatus(crn, publish) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ publish })
         });
-        
+
         const result = await response.json();
         if (result.success) {
             showNotification(`Course ${publish ? 'published' : 'unpublished'} successfully`, 'success');
@@ -714,20 +714,20 @@ async function togglePublishStatus(crn, publish) {
     }
 }
 
-    // this is a notification 
+// this is a notification 
 
-    function showNotification(message, type) {
-        const notificationBox = document.getElementById('notification-area');
-        notificationBox.textContent = message;
-        notificationBox.className = `notification ${type}`;
-        notificationBox.classList.remove('hidden');
-    
+function showNotification(message, type) {
+    const notificationBox = document.getElementById('notification-area');
+    notificationBox.textContent = message;
+    notificationBox.className = `notification ${type}`;
+    notificationBox.classList.remove('hidden');
 
 
-        // 5000 = 5s
-        setTimeout(() => {
-            notificationBox.classList.add('hidden');
-        }, 5000);
+
+    // 5000 = 5s
+    setTimeout(() => {
+        notificationBox.classList.add('hidden');
+    }, 5000);
 
 }
 
@@ -746,7 +746,7 @@ function filterCoursesByStatus() {
 
         // skip if no cells, start from 0
 
-        if(!row.cells) return;
+        if (!row.cells) return;
 
         // get column 7
 
@@ -832,7 +832,7 @@ function setupDayTabs() {
             // Remove active class from all tabs and contents
             tabs.forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
-            
+
             // Add active class to clicked tab and corresponding content
             tab.classList.add('active');
             document.getElementById(tab.dataset.day).classList.add('active');
@@ -845,7 +845,7 @@ async function populateSchedule() {
         const response = await fetch('/api/courses');
         const courses = await response.json();
         const activeCourses = courses.filter(course => course.hasStarted);
-        
+
         // Create a map for each day's courses
         const dayMaps = {
             'Sunday': [],
@@ -888,7 +888,7 @@ async function populateSchedule() {
     }
 }
 
-function logOut(){
+function logOut() {
     // Clear all local storage
     localStorage.clear();
 
@@ -923,7 +923,7 @@ async function showCourseDetails(crn) {
     try {
         const response = await fetch(`/api/courses/${crn}`);
         const course = await response.json();
-        
+
         const modalContent = document.getElementById('modal-course-details');
         modalContent.innerHTML = `
             <div class="course-detail-grid">
@@ -969,7 +969,7 @@ async function showCourseDetails(crn) {
                 </div>
             </div>
         `;
-        
+
         showModal('course-details-modal');
     } catch (error) {
         console.error('Error loading course details:', error);
@@ -981,7 +981,7 @@ async function editCourse(crn) {
     try {
         const response = await fetch(`/api/courses/${crn}`);
         const course = await response.json();
-        
+
         const form = document.getElementById('edit-course-form');
         form.innerHTML = `
             <input type="hidden" id="edit-crn" value="${course.crn}">
@@ -1006,9 +1006,9 @@ async function editCourse(crn) {
                 <textarea id="edit-description" rows="4">${course.description || ''}</textarea>
             </div>
         `;
-        
+
         showModal('edit-course-modal');
-        
+
         // Add save handler
         document.getElementById('save-course-changes').onclick = async () => {
             const updatedCourse = {
@@ -1019,14 +1019,14 @@ async function editCourse(crn) {
                 totalSeats: Number(document.getElementById('edit-seats').value),
                 description: document.getElementById('edit-description').value
             };
-            
+
             try {
                 const updateResponse = await fetch(`/api/courses/${crn}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(updatedCourse)
                 });
-                
+
                 if (updateResponse.ok) {
                     showNotification('Course updated successfully', 'success');
                     hideModal('edit-course-modal');
@@ -1051,10 +1051,10 @@ async function assignInstructor(crn) {
             fetch(`/api/courses/${crn}`),
             fetch('/api/users?role=instructor')
         ]);
-        
+
         const course = await courseResponse.json();
         const instructors = await instructorsResponse.json();
-        
+
         const modalContent = document.getElementById('modal-instructor-assignment');
         modalContent.innerHTML = `
             <div class="course-info">
@@ -1065,15 +1065,15 @@ async function assignInstructor(crn) {
                 <label for="instructor-select">Select Instructor:</label>
                 <select id="instructor-select" required>
                     <option value="">Choose an instructor</option>
-                    ${instructors.map(instructor => 
-                        `<option value="${instructor.id}">${instructor.name}</option>`
-                    ).join('')}
+                    ${instructors.map(instructor =>
+            `<option value="${instructor.id}">${instructor.name}</option>`
+        ).join('')}
                 </select>
             </div>
         `;
-        
+
         showModal('assign-instructor-modal');
-        
+
         // Add confirm handler
         document.getElementById('confirm-instructor-assignment').onclick = async () => {
             const instructorId = document.getElementById('instructor-select').value;
@@ -1081,14 +1081,14 @@ async function assignInstructor(crn) {
                 showNotification('Please select an instructor', 'error');
                 return;
             }
-            
+
             try {
                 const updateResponse = await fetch(`/api/courses/${crn}/assign-instructor`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ instructorId })
                 });
-                
+
                 if (updateResponse.ok) {
                     showNotification('Instructor assigned successfully', 'success');
                     hideModal('assign-instructor-modal');
@@ -1111,13 +1111,13 @@ async function loadInstructorAssignments() {
     try {
         const response = await fetch('/api/courses');
         const courses = await response.json();
-        
+
         const courseList = document.getElementById('course-instructor-list');
         courseList.innerHTML = ''; // Clear existing content
         courses.forEach(course => {
             const courseElement = document.createElement('div');
             courseElement.className = 'course-item';
-            
+
             courseElement.innerHTML = `
                 <div class="course-header" onclick="toggleInstructorList('${course.crn}')">
                     <div>
@@ -1132,7 +1132,7 @@ async function loadInstructorAssignments() {
                     ${renderInstructorList(course)}
                 </div>
             `;
-            
+
             courseList.appendChild(courseElement);
         });
     } catch (error) {
@@ -1145,8 +1145,8 @@ function renderInstructorList(course) {
     if (!course.interestedInstructors?.length) {
         return '<div class="no-instructors">No interested instructors</div>';
     }
-    
-    console.log(course.interestedInstructors);  
+
+    console.log(course.interestedInstructors);
     return `
         <div class="instructor-list">
             ${course.interestedInstructors.map(instructor => `
@@ -1172,20 +1172,20 @@ async function assignInstructorToCourse(crn, instructorName) {
     try {
         // Show a loading message
         showNotification('Assigning instructor...', 'info');
-        
+
         const response = await fetch(`/api/courses/${crn}/assign-instructor`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 instructor: instructorName,
-                clearInterested: true 
+                clearInterested: true
             })
         });
-        
+
         const result = await response.json();
-        
+
         if (response.ok && result.success) {
             showNotification(`Instructor ${instructorName} assigned successfully`, 'success');
             // Refresh the instructor assignment list
@@ -1201,9 +1201,129 @@ async function assignInstructorToCourse(crn, instructorName) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // ...existing code...
     setupModalClosers();
     const instructorTab = document.querySelector('[data-tab="instructor-tab"]');
     instructorTab.addEventListener('click', loadInstructorAssignments);
 });
+
+
+async function loadStatistics() {
+    const container = document.getElementById('statistics-content');
+    container.innerHTML = '<p>Loading...</p>';
+
+    try {
+        const res = await fetch('/api/statistics');
+        if (!res.ok) throw new Error('Failed to fetch');
+        const stats = await res.json();
+        container.innerHTML = '';
+
+        // Total Students
+        container.innerHTML += `<div class="stat-box"><strong>Total Students:</strong> ${stats.totalStudents}</div>`;
+
+        // GPA Distribution
+        container.innerHTML += `
+      <div class="stat-box">
+        <h3>GPA Distribution</h3>
+        <ul>
+          ${Object.entries(stats.gpaDistribution).map(([range, count]) =>
+            `<li>${range}: ${count}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+
+        // Students per Category
+        container.innerHTML += `
+      <div class="stat-box">
+        <h3>Students Per Category</h3>
+        <ul>
+          ${Object.entries(stats.studentsPerCategory).map(([cat, count]) =>
+            `<li>${cat}: ${count}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+
+        // Students per Course (with IDs shown)
+        container.innerHTML += `
+      <div class="stat-box">
+        <h3>Students Per Course</h3>
+        <ul>
+          ${stats.studentsPerCourse.map(c =>
+            `<li>
+              <strong>${c.name} (${c.crn})</strong>: ${c.registeredUsers.length} students<br>
+            </li>`).join('')}
+        </ul>
+      </div>
+    `;
+
+        // Top Courses
+        container.innerHTML += `
+      <div class="stat-box">
+        <h3>Top 3 Courses</h3>
+        <ol>
+          ${stats.topCourses.map(course =>
+            `<li>${course.name} (${course.count} students)</li>`).join('')}
+        </ol>
+      </div>
+    `;
+
+        // Failure Rate
+        container.innerHTML += `
+      <div class="stat-box">
+        <h3>Failure Rate per Course</h3>
+        <table class="stat-table">
+          <tr><th>Course</th><th>Failure Rate</th></tr>
+          ${Object.entries(stats.failureRatePerCourse).map(([name, rate]) =>
+            `<tr><td>${name}</td><td>${rate}</td></tr>`).join('')}
+        </table>
+      </div>
+    `;
+
+        // Fully Approved Courses
+        container.innerHTML += `<div class="stat-box"><strong>Fully Approved Courses:</strong> ${stats.fullyApprovedCourses}</div>`;
+
+        // Courses per Instructor
+        container.innerHTML += `
+      <div class="stat-box">
+        <h3>Courses Per Instructor</h3>
+        <ul>
+          ${stats.coursesPerInstructor.map(instr =>
+            `<li>${instr.name}: ${instr.count}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+
+        // Students per Major
+        container.innerHTML += `
+      <div class="stat-box">
+        <h3>Students Per Major</h3>
+        <ul>
+          ${stats.studentsPerMajor.map(m =>
+            `<li>${m.major}: ${m.count}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+
+        // Empty Courses
+        container.innerHTML += `
+            <div class="stat-box">
+                <h3>Empty Courses (No Registered Students)</h3>
+                <ul>
+                ${stats.emptyCourses && stats.emptyCourses.length > 0
+                ? stats.emptyCourses.map(c => `<li>${c.name} (${c.crn})</li>`).join('')
+                : '<li>No empty courses found</li>'
+            }
+                </ul>
+            </div>
+            `;
+
+    } catch (err) {
+        console.error('Error loading statistics:', err);
+        container.innerHTML = `<p class="error">❌ Failed to load statistics.</p>`;
+    }
+}
+
+
+document.querySelector('.tab-btn[data-tab="statistics-tab"]')
+    ?.addEventListener('click', loadStatistics);

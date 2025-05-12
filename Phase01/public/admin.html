@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles/admin.css">
 </head>
-<body> 
-    
+
+<body>
+
     <header>
 
         <nav>
@@ -22,7 +25,7 @@
                 <img src="./images/user-icon.png" alt="User Icon" class="user-icon">
                 <span id="student-email">admin@example.com</span>
                 <button class="logout-btn" onclick="logOut()">Logout</button>
-            </div> 
+            </div>
         </nav>
         <hr>
 
@@ -42,6 +45,7 @@
             <button class="tab-btn" data-tab="schedule-tab">Weekly Schedule</button>
             <button class="tab-btn" data-tab="enrollment-tab">Enrollment Approval</button>
             <button class="tab-btn" data-tab="course-publication-tab">Publish Courses</button>
+            <button class="tab-btn" data-tab="statistics-tab">Statistics</button>
 
         </div>
 
@@ -50,7 +54,7 @@
             <!-- Course Management Tab -->
             <section id="course-management-tab" class="tab-pane active">
                 <h2>Course Management</h2>
-                
+
                 <!-- Search and filter controls -->
                 <div class="search-container">
                     <div class="search-inputs">
@@ -71,7 +75,7 @@
                     </div>
                     <button id="apply-filters" class="btn-primary">Search</button>
                 </div>
-                
+
                 <!-- Courses table -->
                 <div class="courses-table-container">
                     <table class="courses-table">
@@ -100,43 +104,43 @@
             <!-- Create Course Tab -->
             <section id="create-course-tab" class="tab-pane">
                 <h2>Create New Course</h2>
-                
+
                 <form id="create-course-form" class="admin-form">
                     <div class="form-group">
                         <label for="course-crn">Course ID: </label>
                         <input type="text" id="course-id" placeholder="e.g., CMPS350" required>
                     </div>
-                    
-                    
+
+
                     <div class="form-group">
                         <label for="course-department">CRN (Must be unique): </label>
                         <input type="number" id="course-crn" placeholder="e.g., XXXX" required>
                     </div>
-                    
+
 
                     <div class="form-group">
                         <label for="course-name">Course Name: </label>
                         <input type="text" id="course-name" placeholder="e.g., Web Development" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="course-category">Category: </label>
                         <input type="text" id="course-category" placeholder="e.g., Programming" required>
                     </div>
 
-                    
-                    
+
+
 
                     <div class="form-group">
                         <label for="course-credits">Credit Hours: </label>
                         <input type="number" id="course-credits" min="1" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="course-seats">Total Seats: </label>
                         <input type="number" id="course-seats" min="1" max="100" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="course-instructor">Instructor</label>
                         <select id="course-instructor">
@@ -144,19 +148,19 @@
                             <!-- Will be populated -->
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="course-description">Course Description: </label>
                         <textarea id="course-description" rows="4" placeholder="Course description..."></textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="course-prerequisites">Prerequisites (Optional):</label>
                         <div id="prerequisites-container" class="checkbox-group">
                             <!-- Checkboxes will be populated here -->
                         </div>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="submit" class="btn-primary">Create Course</button>
                         <button type="reset" class="btn-secondary">Reset Form</button>
@@ -167,7 +171,7 @@
             <!-- Instructor Assignment Tab -->
             <section id="instructor-tab" class="tab-pane">
                 <h2>Instructor Assignment</h2>
-                
+
                 <!-- Search and filter for courses -->
                 <div class="search-container">
                     <div class="search-inputs">
@@ -178,7 +182,7 @@
                     </div>
                     <button id="apply-course-filters" class="btn-primary">Search</button>
                 </div>
-                
+
                 <!-- Course list with interested instructors -->
                 <div class="course-instructor-list" id="course-instructor-list">
                     <!-- Will be populated dynamically -->
@@ -194,7 +198,7 @@
             <!-- Enrollment Approval Tab -->
             <section id="enrollment-tab" class="tab-pane">
                 <h2>Enrollment Approval</h2>
-                
+
                 <!-- Filter for pending enrollments -->
                 <div class="search-container">
                     <div class="search-inputs">
@@ -206,7 +210,7 @@
                     </div>
                     <button id="apply-enrollment-filters" class="btn-primary">Search</button>
                 </div>
-                
+
                 <!-- Pending enrollments table -->
                 <div class="courses-table-container">
                     <table class="courses-table">
@@ -230,18 +234,18 @@
 
             <section id="course-publication-tab" class="tab-pane">
                 <h2>Publish Courses for Instructor Interest</h2>
-                
+
                 <div class="search-container">
                     <div class="search-inputs">
                         <input type="text" id="publish-course-search" placeholder="Search by course name...">
                         <select id="publish-department-filter">
                             <option value="">All Categories</option>
-                      <!-- Will be populated dynamically -->
+                            <!-- Will be populated dynamically -->
                         </select>
-                </div>
+                    </div>
                     <button id="apply-publish-filters" class="btn-primary">Search</button>
                 </div>
-                
+
                 <div class="publication-settings">
                     <h3>Set Interest Deadline</h3>
                     <div class="form-group">
@@ -250,29 +254,37 @@
                     </div>
                     <button id="apply-deadline" class="btn-primary">Apply Deadline to Selected</button>
                 </div>
-                
+
                 <div class="courses-table-container">
                     <table class="courses-table">
                         <thead>
-                        <tr>
-                            <th><input type="checkbox" id="select-all-courses"></th>
-                            <th>Course ID</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Status</th>
-                            <th>Interest Deadline</th>
-                            <th>Interested Instructors</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="publish-courses-list">
-                        <!-- Will be populated with courses -->
-                    </tbody>
+                            <tr>
+                                <th><input type="checkbox" id="select-all-courses"></th>
+                                <th>Course ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Interest Deadline</th>
+                                <th>Interested Instructors</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="publish-courses-list">
+                            <!-- Will be populated with courses -->
+                        </tbody>
                     </table>
                 </div>
 
 
 
+            </section>
+
+            <!-- Statistics Tab -->
+            <section id="statistics-tab" class="tab-pane">
+                <h2>📊 System Statistics</h2>
+                <div id="statistics-content" class="admin-form">
+                    <p>Loading statistics...</p>
+                </div>
             </section>
 
         </div>
@@ -330,4 +342,5 @@
 
     <script src="script/admin.js"></script>
 </body>
+
 </html>
