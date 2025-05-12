@@ -5,6 +5,7 @@ import { prisma } from '../../actions/statistics-actions';
 
 
 export default NextAuth({
+    
     // a translator between NextAuth and the database and you do not have to write SQL
     adapter: PrismaAdapter(prisma),
 
